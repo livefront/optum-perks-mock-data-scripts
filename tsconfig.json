@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "NodeNext",
+    "lib": ["ES2015"],
+    "esModuleInterop": true,
+    "moduleResolution": "NodeNext",
     "outDir": "./dist"
   }
 }

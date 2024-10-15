@@ -9,7 +9,7 @@ const outputPath = path.join(__dirname, "../src/mockoonFile.json");
 
 jsonData.routes.forEach((route) => {
   if (route.endpoint === "conditions") {
-    route.responses[0] = response;
+    route.responses[0].body = JSON.stringify(response, null, 2);
   }
 });
 

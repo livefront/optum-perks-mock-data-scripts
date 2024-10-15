@@ -27,10 +27,11 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@dtsgenerator/replace-namespace", "virtual:d25349c469df0c473b88a73f6423e1c8290231a966899a4026d50531dc99d9f4e9d1cca281077dea8a7950091ce4b210b82479f35daf0ed46e3c2a24ae531d2b#npm:1.7.0"],\
+          ["@faker-js/faker", "npm:9.0.3"],\
           ["@mockoon/cli", "npm:8.4.0"],\
           ["dtsgenerator", "npm:3.19.2"],\
           ["ts-node", "virtual:d25349c469df0c473b88a73f6423e1c8290231a966899a4026d50531dc99d9f4e9d1cca281077dea8a7950091ce4b210b82479f35daf0ed46e3c2a24ae531d2b#npm:10.9.2"],\
-          ["tslib", "npm:2.7.0"],\
+          ["tslib", "npm:2.8.0"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=5adc0c"],\
           ["yaml", "npm:2.6.0"]\
         ],\
@@ -142,7 +143,7 @@ const RAW_RUNTIME_STATE =
           ["@types/dtsgenerator", null],\
           ["@types/tslib", null],\
           ["dtsgenerator", "npm:3.19.2"],\
-          ["tslib", "npm:2.7.0"]\
+          ["tslib", "npm:2.8.0"]\
         ],\
         "packagePeers": [\
           "@types/dtsgenerator",\
@@ -158,6 +159,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/@faker-js-faker-npm-8.4.1-dde75d9856-10c0.zip/node_modules/@faker-js/faker/",\
         "packageDependencies": [\
           ["@faker-js/faker", "npm:8.4.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:9.0.3", {\
+        "packageLocation": "../../.yarn/berry/cache/@faker-js-faker-npm-9.0.3-1dd84ffd7b-10c0.zip/node_modules/@faker-js/faker/",\
+        "packageDependencies": [\
+          ["@faker-js/faker", "npm:9.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -569,7 +577,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["ajv", "npm:8.17.1"],\
           ["fast-deep-equal", "npm:3.1.3"],\
-          ["fast-uri", "npm:3.0.2"],\
+          ["fast-uri", "npm:3.0.3"],\
           ["json-schema-traverse", "npm:1.0.0"],\
           ["require-from-string", "npm:2.0.2"]\
         ],\
@@ -1210,7 +1218,7 @@ const RAW_RUNTIME_STATE =
           ["http-proxy-agent", "npm:7.0.2"],\
           ["https-proxy-agent", "npm:7.0.5"],\
           ["js-yaml", "npm:4.1.0"],\
-          ["tslib", "npm:2.7.0"],\
+          ["tslib", "npm:2.8.0"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=5adc0c"]\
         ],\
         "linkType": "HARD"\
@@ -1424,10 +1432,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fast-uri", [\
-      ["npm:3.0.2", {\
-        "packageLocation": "../../.yarn/berry/cache/fast-uri-npm-3.0.2-d822390ead-10c0.zip/node_modules/fast-uri/",\
+      ["npm:3.0.3", {\
+        "packageLocation": "../../.yarn/berry/cache/fast-uri-npm-3.0.3-0874072625-10c0.zip/node_modules/fast-uri/",\
         "packageDependencies": [\
-          ["fast-uri", "npm:3.0.2"]\
+          ["fast-uri", "npm:3.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2285,10 +2293,11 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["nest-js-mock-server", "workspace:."],\
           ["@dtsgenerator/replace-namespace", "virtual:d25349c469df0c473b88a73f6423e1c8290231a966899a4026d50531dc99d9f4e9d1cca281077dea8a7950091ce4b210b82479f35daf0ed46e3c2a24ae531d2b#npm:1.7.0"],\
+          ["@faker-js/faker", "npm:9.0.3"],\
           ["@mockoon/cli", "npm:8.4.0"],\
           ["dtsgenerator", "npm:3.19.2"],\
           ["ts-node", "virtual:d25349c469df0c473b88a73f6423e1c8290231a966899a4026d50531dc99d9f4e9d1cca281077dea8a7950091ce4b210b82479f35daf0ed46e3c2a24ae531d2b#npm:10.9.2"],\
-          ["tslib", "npm:2.7.0"],\
+          ["tslib", "npm:2.8.0"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=5adc0c"],\
           ["yaml", "npm:2.6.0"]\
         ],\
@@ -2586,7 +2595,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/rxjs-npm-7.8.1-41c443a75b-10c0.zip/node_modules/rxjs/",\
         "packageDependencies": [\
           ["rxjs", "npm:7.8.1"],\
-          ["tslib", "npm:2.7.0"]\
+          ["tslib", "npm:2.8.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2990,10 +2999,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.7.0", {\
-        "packageLocation": "../../.yarn/berry/cache/tslib-npm-2.7.0-21668f5c21-10c0.zip/node_modules/tslib/",\
+      ["npm:2.8.0", {\
+        "packageLocation": "../../.yarn/berry/cache/tslib-npm-2.8.0-6ce3ffdd05-10c0.zip/node_modules/tslib/",\
         "packageDependencies": [\
-          ["tslib", "npm:2.7.0"]\
+          ["tslib", "npm:2.8.0"]\
         ],\
         "linkType": "HARD"\
       }]\
