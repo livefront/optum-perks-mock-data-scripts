@@ -1,0 +1,21 @@
+{
+  "name": "nest-js-mock-server",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "api-types": "node ./scripts/apiTypes.js && echo 'Types generated in ./src/api-types.d.ts'",
+    "write-data": "ts-node ./scripts/addMockDataToJson.js"
+  },
+  "devDependencies": {
+    "@dtsgenerator/replace-namespace": "^1.5.1",
+    "dtsgenerator": "^3.15.0",
+    "tslib": "^2.7.0",
+    "yaml": "^2.6.0"
+  },
+  "dependencies": {
+    "@mockoon/cli": "^8.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
