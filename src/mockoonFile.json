@@ -4,7 +4,7 @@
   "name": "Optum Perks Online Care API Spec",
   "endpointPrefix": "api/v1",
   "latency": 0,
-  "port": 3004,
+  "port": 3005,
   "hostname": "",
   "folders": [],
   "routes": [
@@ -261,35 +261,30 @@
       "method": "get",
       "endpoint": "conditions",
       "responses": [
-        [
-          {
-            "name": "Cars",
-            "fabricId": 1234,
-            "conditions": [
-              {
-                "label": "1",
-                "name": "Mustang",
-                "primaryDescription": "",
-                "primaryImagePath": "",
-                "urlSlug": ""
-              },
-              {
-                "label": "1",
-                "name": "Focus",
-                "primaryDescription": "",
-                "primaryImagePath": "",
-                "urlSlug": ""
-              },
-              {
-                "label": "1",
-                "name": "Taurus",
-                "primaryDescription": "",
-                "primaryImagePath": "",
-                "urlSlug": ""
-              }
-            ]
-          }
-        ],
+        {
+          "uuid": "82f5a642-595c-4724-ac54-a81aed3432de",
+          "body": "[\n  {\n    \"name\": \"Cars\",\n    \"fabricId\": 1234,\n    \"conditions\": [\n      {\n        \"label\": \"0\",\n        \"name\": \"Ricotta Stuffed Ravioli\",\n        \"primaryDescription\": \"Our juicy rabbit, slow-cooked to perfection, accompanied by steamed capers and a rich, savory gravy.\",\n        \"primaryImagePath\": \"\",\n        \"urlSlug\": \"\"\n      },\n      {\n        \"label\": \"1\",\n        \"name\": \"Tiramisù\",\n        \"primaryDescription\": \"Hearty honeydew melon and salmon stew, slow-cooked with thyme and leeks for a comforting, flavorful meal.\",\n        \"primaryImagePath\": \"\",\n        \"urlSlug\": \"\"\n      },\n      {\n        \"label\": \"2\",\n        \"name\": \"Chilli Con Carne\",\n        \"primaryDescription\": \"A classic pie filled with delicious quail and fresh marjoram, baked in a fluffy pastry crust and topped with a golden-brown lattice.\",\n        \"primaryImagePath\": \"\",\n        \"urlSlug\": \"\"\n      },\n      {\n        \"label\": \"3\",\n        \"name\": \"Pineapple Pie\",\n        \"primaryDescription\": \"A heartwarming Buddhist soup, featuring fresh margarine and an aromatic blend of traditional spices.\",\n        \"primaryImagePath\": \"\",\n        \"urlSlug\": \"\"\n      },\n      {\n        \"label\": \"4\",\n        \"name\": \"Asparagus Salad\",\n        \"primaryDescription\": \"Fresh rice syrup with a pinch of rosemary, topped by a caramelized mandarin with whipped cream\",\n        \"primaryImagePath\": \"\",\n        \"urlSlug\": \"\"\n      },\n      {\n        \"label\": \"5\",\n        \"name\": \"Kangaroo Steak\",\n        \"primaryDescription\": \"A robust juicy stew featuring Eritrean flavors, loaded with sour meat, smoky vegetables, and a sour, zesty broth.\",\n        \"primaryImagePath\": \"\",\n        \"urlSlug\": \"\"\n      },\n      {\n        \"label\": \"6\",\n        \"name\": \"Peking Duck\",\n        \"primaryDescription\": \"Our crunchy lamb, slow-cooked to perfection, accompanied by steamed eggplant and a rich, savory gravy.\",\n        \"primaryImagePath\": \"\",\n        \"urlSlug\": \"\"\n      },\n      {\n        \"label\": \"7\",\n        \"name\": \"Katsu Curry\",\n        \"primaryDescription\": \"Fresh mixed greens tossed with lemon grass-rubbed lamb, capers, and a light dressing.\",\n        \"primaryImagePath\": \"\",\n        \"urlSlug\": \"\"\n      }\n    ]\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
         {
           "uuid": "cb27a3c7-b4ba-40e4-98cd-daf237f7c52b",
           "body": "{\n  \"status\": {{faker 'number.int' max=99999}},\n  \"message\": \"\"\n}",
