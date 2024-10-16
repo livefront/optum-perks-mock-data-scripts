@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Autism Spectrum Disorder",
-    "description": "A developmental disorder that affects communication and behavior.",
-    "ctaButton": "Questionnaire for Autism Spectrum Disorder",
-    "label": "Autism Spectrum Disorder",
-    "urlSlug": "Autism Spectrum Disorder",
-    "name": "Autism Spectrum Disorder",
-    "commonName": "Autism Spectrum Disorder"
+    "heading": "Find treatment for Chronic Kidney Disease",
+    "description": "A condition characterized by a gradual loss of kidney function over time.",
+    "ctaButton": "Questionnaire for Chronic Kidney Disease",
+    "label": "chronic-kidney-disease",
+    "urlSlug": "chronic-kidney-disease",
+    "name": "Chronic Kidney Disease",
+    "commonName": "Chronic Kidney Disease"
   },
   "treatmentOptions": [
     {

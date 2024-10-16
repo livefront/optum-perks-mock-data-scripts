@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Chronic Fatigue Syndrome",
-    "description": "A complex disorder characterized by extreme fatigue that doesn’t improve with rest.",
-    "ctaButton": "Questionnaire for Chronic Fatigue Syndrome",
-    "label": "Chronic Fatigue Syndrome",
-    "urlSlug": "Chronic Fatigue Syndrome",
-    "name": "Chronic Fatigue Syndrome",
-    "commonName": "Chronic Fatigue Syndrome"
+    "heading": "Find treatment for Thyroid Disorders",
+    "description": "A condition that affects the thyroid gland's ability to produce hormones properly.",
+    "ctaButton": "Questionnaire for Thyroid Disorders",
+    "label": "thyroid-disorders",
+    "urlSlug": "thyroid-disorders",
+    "name": "Thyroid Disorders",
+    "commonName": "Thyroid Disorders"
   },
   "treatmentOptions": [
     {

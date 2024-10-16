@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Diabetes Mellitus",
-    "description": "A group of diseases that result in high blood sugar (too much glucose in the blood).",
-    "ctaButton": "Questionnaire for Diabetes Mellitus",
-    "label": "Diabetes Mellitus",
-    "urlSlug": "Diabetes Mellitus",
-    "name": "Diabetes Mellitus",
-    "commonName": "Diabetes Mellitus"
+    "heading": "Find treatment for Heart Disease",
+    "description": "A range of conditions that affect the heart, including coronary artery disease and heart rhythm problems.",
+    "ctaButton": "Questionnaire for Heart Disease",
+    "label": "heart-disease",
+    "urlSlug": "heart-disease",
+    "name": "Heart Disease",
+    "commonName": "Heart Disease"
   },
   "treatmentOptions": [
     {

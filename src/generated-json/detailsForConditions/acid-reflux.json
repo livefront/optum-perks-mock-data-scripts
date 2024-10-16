@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Anemia",
-    "description": "A condition in which you lack enough healthy red blood cells to carry adequate oxygen to your body's tissues.",
-    "ctaButton": "Questionnaire for Anemia",
-    "label": "anemia",
-    "urlSlug": "anemia",
-    "name": "Anemia",
-    "commonName": "Anemia"
+    "heading": "Find treatment for Acid Reflux",
+    "description": "A condition in which stomach acid frequently flows back into the esophagus.",
+    "ctaButton": "Questionnaire for Acid Reflux",
+    "label": "acid-reflux",
+    "urlSlug": "acid-reflux",
+    "name": "Acid Reflux",
+    "commonName": "Acid Reflux"
   },
   "treatmentOptions": [
     {

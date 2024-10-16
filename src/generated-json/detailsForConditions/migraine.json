@@ -3,8 +3,8 @@
     "heading": "Find treatment for Migraine",
     "description": "A type of headache characterized by severe pain, often accompanied by nausea and sensitivity to light.",
     "ctaButton": "Questionnaire for Migraine",
-    "label": "Migraine",
-    "urlSlug": "Migraine",
+    "label": "migraine",
+    "urlSlug": "migraine",
     "name": "Migraine",
     "commonName": "Migraine"
   },

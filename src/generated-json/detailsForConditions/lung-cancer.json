@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Ulcerative Colitis",
-    "description": "A chronic inflammatory bowel disease that causes inflammation and ulcers in the digestive tract.",
-    "ctaButton": "Questionnaire for Ulcerative Colitis",
-    "label": "Ulcerative Colitis",
-    "urlSlug": "Ulcerative Colitis",
-    "name": "Ulcerative Colitis",
-    "commonName": "Ulcerative Colitis"
+    "heading": "Find treatment for Lung Cancer",
+    "description": "A type of cancer that begins in the lungs.",
+    "ctaButton": "Questionnaire for Lung Cancer",
+    "label": "lung-cancer",
+    "urlSlug": "lung-cancer",
+    "name": "Lung Cancer",
+    "commonName": "Lung Cancer"
   },
   "treatmentOptions": [
     {

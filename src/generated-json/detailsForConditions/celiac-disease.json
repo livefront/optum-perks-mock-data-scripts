@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Sleep Apnea",
-    "description": "A serious sleep disorder in which breathing repeatedly stops and starts.",
-    "ctaButton": "Questionnaire for Sleep Apnea",
-    "label": "Sleep Apnea",
-    "urlSlug": "Sleep Apnea",
-    "name": "Sleep Apnea",
-    "commonName": "Sleep Apnea"
+    "heading": "Find treatment for Celiac Disease",
+    "description": "An immune reaction to eating gluten, a protein found in wheat, barley, and rye.",
+    "ctaButton": "Questionnaire for Celiac Disease",
+    "label": "celiac-disease",
+    "urlSlug": "celiac-disease",
+    "name": "Celiac Disease",
+    "commonName": "Celiac Disease"
   },
   "treatmentOptions": [
     {

@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Heart Disease",
-    "description": "A range of conditions that affect the heart, including coronary artery disease and heart rhythm problems.",
-    "ctaButton": "Questionnaire for Heart Disease",
-    "label": "Heart Disease",
-    "urlSlug": "Heart Disease",
-    "name": "Heart Disease",
-    "commonName": "Heart Disease"
+    "heading": "Find treatment for Generalized Anxiety Disorder",
+    "description": "A condition characterized by excessive, uncontrollable worry about everyday issues.",
+    "ctaButton": "Questionnaire for Generalized Anxiety Disorder",
+    "label": "generalized-anxiety-disorder",
+    "urlSlug": "generalized-anxiety-disorder",
+    "name": "Generalized Anxiety Disorder",
+    "commonName": "Generalized Anxiety Disorder"
   },
   "treatmentOptions": [
     {

@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Acid Reflux",
-    "description": "A condition in which stomach acid frequently flows back into the esophagus.",
-    "ctaButton": "Questionnaire for Acid Reflux",
-    "label": "Acid Reflux",
-    "urlSlug": "Acid Reflux",
-    "name": "Acid Reflux",
-    "commonName": "Acid Reflux"
+    "heading": "Find treatment for Speech Disorders",
+    "description": "A communication disorder that affects a person's ability to speak clearly.",
+    "ctaButton": "Questionnaire for Speech Disorders",
+    "label": "speech-disorders",
+    "urlSlug": "speech-disorders",
+    "name": "Speech Disorders",
+    "commonName": "Speech Disorders"
   },
   "treatmentOptions": [
     {

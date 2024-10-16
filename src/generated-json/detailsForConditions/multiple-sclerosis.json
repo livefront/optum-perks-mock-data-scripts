@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Allergic Rhinitis",
-    "description": "An allergic reaction that causes sneezing, runny nose, and itchy eyes.",
-    "ctaButton": "Questionnaire for Allergic Rhinitis",
-    "label": "Allergic Rhinitis",
-    "urlSlug": "Allergic Rhinitis",
-    "name": "Allergic Rhinitis",
-    "commonName": "Allergic Rhinitis"
+    "heading": "Find treatment for Multiple Sclerosis",
+    "description": "A disease that affects the central nervous system, disrupting communication between the brain and the body.",
+    "ctaButton": "Questionnaire for Multiple Sclerosis",
+    "label": "multiple-sclerosis",
+    "urlSlug": "multiple-sclerosis",
+    "name": "Multiple Sclerosis",
+    "commonName": "Multiple Sclerosis"
   },
   "treatmentOptions": [
     {

@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Hearing Loss",
-    "description": "A partial or total inability to hear.",
-    "ctaButton": "Questionnaire for Hearing Loss",
-    "label": "Hearing Loss",
-    "urlSlug": "Hearing Loss",
-    "name": "Hearing Loss",
-    "commonName": "Hearing Loss"
+    "heading": "Find treatment for Allergic Rhinitis",
+    "description": "An allergic reaction that causes sneezing, runny nose, and itchy eyes.",
+    "ctaButton": "Questionnaire for Allergic Rhinitis",
+    "label": "allergic-rhinitis",
+    "urlSlug": "allergic-rhinitis",
+    "name": "Allergic Rhinitis",
+    "commonName": "Allergic Rhinitis"
   },
   "treatmentOptions": [
     {

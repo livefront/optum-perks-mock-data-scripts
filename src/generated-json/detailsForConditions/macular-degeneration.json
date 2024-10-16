@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Multiple Sclerosis",
-    "description": "A disease that affects the central nervous system, disrupting communication between the brain and the body.",
-    "ctaButton": "Questionnaire for Multiple Sclerosis",
-    "label": "Multiple Sclerosis",
-    "urlSlug": "Multiple Sclerosis",
-    "name": "Multiple Sclerosis",
-    "commonName": "Multiple Sclerosis"
+    "heading": "Find treatment for Macular Degeneration",
+    "description": "An eye disease that gradually destroys the retina, leading to vision loss.",
+    "ctaButton": "Questionnaire for Macular Degeneration",
+    "label": "macular-degeneration",
+    "urlSlug": "macular-degeneration",
+    "name": "Macular Degeneration",
+    "commonName": "Macular Degeneration"
   },
   "treatmentOptions": [
     {

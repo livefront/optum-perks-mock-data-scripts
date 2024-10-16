@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Bipolar Disorder",
-    "description": "A mental health condition that causes extreme mood swings, including emotional highs and lows.",
-    "ctaButton": "Questionnaire for Bipolar Disorder",
-    "label": "Bipolar Disorder",
-    "urlSlug": "Bipolar Disorder",
-    "name": "Bipolar Disorder",
-    "commonName": "Bipolar Disorder"
+    "heading": "Find treatment for Chronic Fatigue Syndrome",
+    "description": "A complex disorder characterized by extreme fatigue that doesn’t improve with rest.",
+    "ctaButton": "Questionnaire for Chronic Fatigue Syndrome",
+    "label": "chronic-fatigue-syndrome",
+    "urlSlug": "chronic-fatigue-syndrome",
+    "name": "Chronic Fatigue Syndrome",
+    "commonName": "Chronic Fatigue Syndrome"
   },
   "treatmentOptions": [
     {
