@@ -11,9 +11,6 @@ const {
   toExpressDynamicEndpoint,
 } = require("./utils/toExpressDynamicEndpoint");
 
-// Specify the path to the output JSON file
-const outputPath = path.join(__dirname, "../src/mockoonFile.json");
-
 const detailsForAllConditions = generateDetailsForAllConditions();
 const conditionDetailsOutputPath = (conditionName) =>
   path.join(
@@ -22,19 +19,21 @@ const conditionDetailsOutputPath = (conditionName) =>
   );
 detailsForAllConditions.forEach((conditionDetail) => {
   const fileName = toCamelCase(conditionDetail.conditionDetails.name, " ");
+  const conditionOutputPath = conditionDetailsOutputPath(fileName);
   fs.writeFile(
-    conditionDetailsOutputPath(fileName),
+    conditionOutputPath,
     JSON.stringify(conditionDetail, null, 2),
     (err) => {
       if (err) {
         console.error("Error writing JSON file:", err);
       } else {
-        console.log("JSON file has been saved:", outputPath);
+        console.log("JSON file has been saved:", conditionOutputPath);
       }
     }
   );
 });
 
+// Update the data in the JSON file to use the mock data and syntax we need
 jsonData.routes.forEach((route) => {
   if (route.endpoint.includes("{")) {
     route.endpoint = toExpressDynamicEndpoint(route.endpoint);
@@ -49,7 +48,10 @@ jsonData.routes.forEach((route) => {
   }
 });
 
-// Write the object to a JSON file
+// Specify the path to the output JSON file that will be given to Mockoon
+const outputPath = path.join(__dirname, "../src/mockoonFile.json");
+
+// Write the modified object to the output path
 fs.writeFile(outputPath, JSON.stringify(jsonData, null, 2), (err) => {
   if (err) {
     console.error("Error writing JSON file:", err);
