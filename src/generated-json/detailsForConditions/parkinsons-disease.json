@@ -4,7 +4,7 @@
     "description": "A progressive nervous system disorder that affects movement.",
     "ctaButton": "Questionnaire for Parkinson's Disease",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Parkinson's Disease"
     },

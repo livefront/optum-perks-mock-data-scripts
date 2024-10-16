@@ -4,7 +4,7 @@
     "description": "A group of eye conditions that damage the optic nerve, often due to high eye pressure.",
     "ctaButton": "Questionnaire for Glaucoma",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Glaucoma"
     },

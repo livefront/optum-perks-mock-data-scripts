@@ -4,7 +4,7 @@
     "description": "A general term for a decline in mental ability severe enough to interfere with daily life.",
     "ctaButton": "Questionnaire for Dementia",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Dementia"
     },

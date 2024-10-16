@@ -4,7 +4,7 @@
     "description": "A condition in which bones become weak and brittle.",
     "ctaButton": "Questionnaire for Osteoporosis",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Osteoporosis"
     },

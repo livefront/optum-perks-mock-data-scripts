@@ -4,7 +4,7 @@
     "description": "An infection that inflames the air sacs in one or both lungs, which may fill with fluid.",
     "ctaButton": "Questionnaire for Pneumonia",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Pneumonia"
     },

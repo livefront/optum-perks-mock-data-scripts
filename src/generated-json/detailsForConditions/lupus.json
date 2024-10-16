@@ -4,7 +4,7 @@
     "description": "An autoimmune disease that can affect multiple organ systems, causing inflammation and damage.",
     "ctaButton": "Questionnaire for Lupus",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Lupus"
     },

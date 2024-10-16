@@ -4,7 +4,7 @@
     "description": "A condition in which you lack enough healthy red blood cells to carry adequate oxygen to your body's tissues.",
     "ctaButton": "Questionnaire for Anemia",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Anemia"
     },

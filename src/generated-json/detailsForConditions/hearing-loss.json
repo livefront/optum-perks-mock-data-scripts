@@ -4,7 +4,7 @@
     "description": "A partial or total inability to hear.",
     "ctaButton": "Questionnaire for Hearing Loss",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Hearing Loss"
     },

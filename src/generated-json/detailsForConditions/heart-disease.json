@@ -4,7 +4,7 @@
     "description": "A range of conditions that affect the heart, including coronary artery disease and heart rhythm problems.",
     "ctaButton": "Questionnaire for Heart Disease",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Heart Disease"
     },

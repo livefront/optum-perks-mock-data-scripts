@@ -4,7 +4,7 @@
     "description": "A mental health condition triggered by experiencing or witnessing a traumatic event.",
     "ctaButton": "Questionnaire for Post-Traumatic Stress Disorder (PTSD)",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Post-Traumatic Stress Disorder (PTSD)"
     },

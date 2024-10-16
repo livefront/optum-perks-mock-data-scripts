@@ -4,7 +4,7 @@
     "description": "A group of lung diseases that block airflow and make it difficult to breathe.",
     "ctaButton": "Questionnaire for Chronic Obstructive Pulmonary Disease (COPD)",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Chronic Obstructive Pulmonary Disease (COPD)"
     },

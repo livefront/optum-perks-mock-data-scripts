@@ -4,7 +4,7 @@
     "description": "A serious sleep disorder in which breathing repeatedly stops and starts.",
     "ctaButton": "Questionnaire for Sleep Apnea",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Sleep Apnea"
     },

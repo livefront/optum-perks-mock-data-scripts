@@ -4,7 +4,7 @@
     "description": "A condition that affects the thyroid gland's ability to produce hormones properly.",
     "ctaButton": "Questionnaire for Thyroid Disorders",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Thyroid Disorders"
     },

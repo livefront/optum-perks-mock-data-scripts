@@ -4,7 +4,7 @@
     "description": "A virus that attacks the immune system, leading to AIDS if not treated.",
     "ctaButton": "Questionnaire for HIV/AIDS",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for HIV/AIDS"
     },

@@ -4,7 +4,7 @@
     "description": "A type of cancer that forms in the cells of the breasts.",
     "ctaButton": "Questionnaire for Breast Cancer",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Breast Cancer"
     },

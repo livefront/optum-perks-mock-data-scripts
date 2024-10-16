@@ -4,7 +4,7 @@
     "description": "A condition characterized by excessive, uncontrollable worry about everyday issues.",
     "ctaButton": "Questionnaire for Generalized Anxiety Disorder",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Generalized Anxiety Disorder"
     },

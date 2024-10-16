@@ -4,7 +4,7 @@
     "description": "A disease that affects the central nervous system, disrupting communication between the brain and the body.",
     "ctaButton": "Questionnaire for Multiple Sclerosis",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Multiple Sclerosis"
     },

@@ -4,7 +4,7 @@
     "description": "A communication disorder that affects a person's ability to speak clearly.",
     "ctaButton": "Questionnaire for Speech Disorders",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Speech Disorders"
     },
