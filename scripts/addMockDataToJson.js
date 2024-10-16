@@ -3,7 +3,6 @@ const path = require("path");
 
 const { response } = require("../src/conditionListByCategoryResponse");
 const {
-  condition,
   generateDetailsForAllConditions,
 } = require("../src/responses/conditions/condition-legacy");
 const jsonData = require("../src/mockoonFile.json");
