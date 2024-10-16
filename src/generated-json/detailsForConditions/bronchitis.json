@@ -4,7 +4,7 @@
     "description": "An inflammation of the lining of the bronchial tubes, causing cough and mucus production.",
     "ctaButton": "Questionnaire for Bronchitis",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Bronchitis"
     },

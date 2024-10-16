@@ -4,7 +4,7 @@
     "description": "A group of autoimmune diseases that cause the skin and connective tissues to harden and tighten.",
     "ctaButton": "Questionnaire for Scleroderma",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Scleroderma"
     },

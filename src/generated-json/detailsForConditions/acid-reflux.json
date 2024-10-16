@@ -4,7 +4,7 @@
     "description": "A condition in which stomach acid frequently flows back into the esophagus.",
     "ctaButton": "Questionnaire for Acid Reflux",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Acid Reflux"
     },

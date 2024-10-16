@@ -4,7 +4,7 @@
     "description": "A developmental disorder that affects communication and behavior.",
     "ctaButton": "Questionnaire for Autism Spectrum Disorder",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Autism Spectrum Disorder"
     },

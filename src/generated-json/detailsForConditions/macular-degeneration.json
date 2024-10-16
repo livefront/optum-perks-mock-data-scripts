@@ -4,7 +4,7 @@
     "description": "An eye disease that gradually destroys the retina, leading to vision loss.",
     "ctaButton": "Questionnaire for Macular Degeneration",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Macular Degeneration"
     },

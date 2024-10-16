@@ -4,7 +4,7 @@
     "description": "An immune reaction to eating gluten, a protein found in wheat, barley, and rye.",
     "ctaButton": "Questionnaire for Celiac Disease",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Celiac Disease"
     },

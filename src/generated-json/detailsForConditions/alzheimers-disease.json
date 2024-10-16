@@ -4,7 +4,7 @@
     "description": "A progressive disease that destroys memory and other important mental functions.",
     "ctaButton": "Questionnaire for Alzheimer's Disease",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Alzheimer's Disease"
     },

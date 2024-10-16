@@ -4,7 +4,7 @@
     "description": "A chronic inflammatory bowel disease that causes inflammation and ulcers in the digestive tract.",
     "ctaButton": "Questionnaire for Ulcerative Colitis",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Ulcerative Colitis"
     },

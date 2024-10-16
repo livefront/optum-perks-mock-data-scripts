@@ -4,7 +4,7 @@
     "description": "A serious mental disorder that affects how a person thinks, feels, and behaves.",
     "ctaButton": "Questionnaire for Schizophrenia",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Schizophrenia"
     },

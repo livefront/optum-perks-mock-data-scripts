@@ -4,7 +4,7 @@
     "description": "A type of cancer that forms in the skin cells.",
     "ctaButton": "Questionnaire for Skin Cancer",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Skin Cancer"
     },

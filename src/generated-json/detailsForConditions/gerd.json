@@ -4,7 +4,7 @@
     "description": "A more severe form of acid reflux, causing frequent heartburn and damage to the esophagus.",
     "ctaButton": "Questionnaire for Gastroesophageal Reflux Disease (GERD)",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Gastroesophageal Reflux Disease (GERD)"
     },

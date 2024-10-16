@@ -4,7 +4,7 @@
     "description": "A neurodevelopmental disorder characterized by difficulty paying attention, hyperactivity, and impulsiveness.",
     "ctaButton": "Questionnaire for Attention-Deficit/Hyperactivity Disorder (ADHD)",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Attention-Deficit/Hyperactivity Disorder (ADHD)"
     },

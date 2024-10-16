@@ -4,7 +4,7 @@
     "description": "An inflammation or swelling of the tissue lining the sinuses.",
     "ctaButton": "Questionnaire for Sinusitis",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Sinusitis"
     },

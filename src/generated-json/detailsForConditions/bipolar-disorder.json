@@ -4,7 +4,7 @@
     "description": "A mental health condition that causes extreme mood swings, including emotional highs and lows.",
     "ctaButton": "Questionnaire for Bipolar Disorder",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Bipolar Disorder"
     },

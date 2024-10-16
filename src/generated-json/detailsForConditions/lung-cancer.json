@@ -4,7 +4,7 @@
     "description": "A type of cancer that begins in the lungs.",
     "ctaButton": "Questionnaire for Lung Cancer",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Lung Cancer"
     },

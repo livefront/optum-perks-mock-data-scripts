@@ -4,7 +4,7 @@
     "description": "A type of inflammatory bowel disease that causes inflammation of the digestive tract.",
     "ctaButton": "Questionnaire for Crohn's Disease",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Crohn's Disease"
     },

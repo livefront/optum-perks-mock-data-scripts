@@ -4,7 +4,7 @@
     "description": "A neurological disorder characterized by recurrent seizures.",
     "ctaButton": "Questionnaire for Epilepsy",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Epilepsy"
     },

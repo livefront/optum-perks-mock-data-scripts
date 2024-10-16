@@ -4,7 +4,7 @@
     "description": "A skin condition that causes red, itchy scaly patches, often on the elbows, knees, scalp, and lower back.",
     "ctaButton": "Questionnaire for Psoriasis",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Psoriasis"
     },

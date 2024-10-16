@@ -4,7 +4,7 @@
     "description": "A condition that makes the skin red, inflamed, and itchy.",
     "ctaButton": "Questionnaire for Eczema",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Eczema"
     },

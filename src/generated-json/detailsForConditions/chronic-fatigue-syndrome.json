@@ -4,7 +4,7 @@
     "description": "A complex disorder characterized by extreme fatigue that doesn’t improve with rest.",
     "ctaButton": "Questionnaire for Chronic Fatigue Syndrome",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Chronic Fatigue Syndrome"
     },

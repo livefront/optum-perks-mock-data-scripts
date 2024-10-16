@@ -4,7 +4,7 @@
     "description": "A common disorder affecting the large intestine, causing cramping, abdominal pain, bloating, gas, and diarrhea or constipation.",
     "ctaButton": "Questionnaire for Irritable Bowel Syndrome (IBS)",
     "icon": {
-      "imageUrl": "www.example.com",
+      "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Irritable Bowel Syndrome (IBS)"
     },
