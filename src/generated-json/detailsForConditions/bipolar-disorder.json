@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Crohn's Disease",
-    "description": "A type of inflammatory bowel disease that causes inflammation of the digestive tract.",
-    "ctaButton": "Questionnaire for Crohn's Disease",
-    "label": "Crohn's Disease",
-    "urlSlug": "Crohn's Disease",
-    "name": "Crohn's Disease",
-    "commonName": "Crohn's Disease"
+    "heading": "Find treatment for Bipolar Disorder",
+    "description": "A mental health condition that causes extreme mood swings, including emotional highs and lows.",
+    "ctaButton": "Questionnaire for Bipolar Disorder",
+    "label": "bipolar-disorder",
+    "urlSlug": "bipolar-disorder",
+    "name": "Bipolar Disorder",
+    "commonName": "Bipolar Disorder"
   },
   "treatmentOptions": [
     {

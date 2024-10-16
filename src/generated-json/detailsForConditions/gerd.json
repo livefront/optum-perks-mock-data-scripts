@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Breast Cancer",
-    "description": "A type of cancer that forms in the cells of the breasts.",
-    "ctaButton": "Questionnaire for Breast Cancer",
-    "label": "Breast Cancer",
-    "urlSlug": "Breast Cancer",
-    "name": "Breast Cancer",
-    "commonName": "Breast Cancer"
+    "heading": "Find treatment for Gastroesophageal Reflux Disease (GERD)",
+    "description": "A more severe form of acid reflux, causing frequent heartburn and damage to the esophagus.",
+    "ctaButton": "Questionnaire for Gastroesophageal Reflux Disease (GERD)",
+    "label": "gerd",
+    "urlSlug": "gerd",
+    "name": "Gastroesophageal Reflux Disease (GERD)",
+    "commonName": "Gastroesophageal Reflux Disease (GERD)"
   },
   "treatmentOptions": [
     {

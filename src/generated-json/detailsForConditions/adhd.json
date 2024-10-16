@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Irritable Bowel Syndrome (IBS)",
-    "description": "A common disorder affecting the large intestine, causing cramping, abdominal pain, bloating, gas, and diarrhea or constipation.",
-    "ctaButton": "Questionnaire for Irritable Bowel Syndrome (IBS)",
-    "label": "Irritable Bowel Syndrome (IBS)",
-    "urlSlug": "Irritable Bowel Syndrome (IBS)",
-    "name": "Irritable Bowel Syndrome (IBS)",
-    "commonName": "Irritable Bowel Syndrome (IBS)"
+    "heading": "Find treatment for Attention-Deficit/Hyperactivity Disorder (ADHD)",
+    "description": "A neurodevelopmental disorder characterized by difficulty paying attention, hyperactivity, and impulsiveness.",
+    "ctaButton": "Questionnaire for Attention-Deficit/Hyperactivity Disorder (ADHD)",
+    "label": "adhd",
+    "urlSlug": "adhd",
+    "name": "Attention-Deficit/Hyperactivity Disorder (ADHD)",
+    "commonName": "Attention-Deficit/Hyperactivity Disorder (ADHD)"
   },
   "treatmentOptions": [
     {

@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Generalized Anxiety Disorder",
-    "description": "A condition characterized by excessive, uncontrollable worry about everyday issues.",
-    "ctaButton": "Questionnaire for Generalized Anxiety Disorder",
-    "label": "Generalized Anxiety Disorder",
-    "urlSlug": "Generalized Anxiety Disorder",
-    "name": "Generalized Anxiety Disorder",
-    "commonName": "Generalized Anxiety Disorder"
+    "heading": "Find treatment for Sleep Apnea",
+    "description": "A serious sleep disorder in which breathing repeatedly stops and starts.",
+    "ctaButton": "Questionnaire for Sleep Apnea",
+    "label": "sleep-apnea",
+    "urlSlug": "sleep-apnea",
+    "name": "Sleep Apnea",
+    "commonName": "Sleep Apnea"
   },
   "treatmentOptions": [
     {

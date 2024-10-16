@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Speech Disorders",
-    "description": "A communication disorder that affects a person's ability to speak clearly.",
-    "ctaButton": "Questionnaire for Speech Disorders",
-    "label": "Speech Disorders",
-    "urlSlug": "Speech Disorders",
-    "name": "Speech Disorders",
-    "commonName": "Speech Disorders"
+    "heading": "Find treatment for Hearing Loss",
+    "description": "A partial or total inability to hear.",
+    "ctaButton": "Questionnaire for Hearing Loss",
+    "label": "hearing-loss",
+    "urlSlug": "hearing-loss",
+    "name": "Hearing Loss",
+    "commonName": "Hearing Loss"
   },
   "treatmentOptions": [
     {

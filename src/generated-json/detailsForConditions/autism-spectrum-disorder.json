@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Lung Cancer",
-    "description": "A type of cancer that begins in the lungs.",
-    "ctaButton": "Questionnaire for Lung Cancer",
-    "label": "Lung Cancer",
-    "urlSlug": "Lung Cancer",
-    "name": "Lung Cancer",
-    "commonName": "Lung Cancer"
+    "heading": "Find treatment for Autism Spectrum Disorder",
+    "description": "A developmental disorder that affects communication and behavior.",
+    "ctaButton": "Questionnaire for Autism Spectrum Disorder",
+    "label": "autism-spectrum-disorder",
+    "urlSlug": "autism-spectrum-disorder",
+    "name": "Autism Spectrum Disorder",
+    "commonName": "Autism Spectrum Disorder"
   },
   "treatmentOptions": [
     {

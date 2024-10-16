@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Celiac Disease",
-    "description": "An immune reaction to eating gluten, a protein found in wheat, barley, and rye.",
-    "ctaButton": "Questionnaire for Celiac Disease",
-    "label": "Celiac Disease",
-    "urlSlug": "Celiac Disease",
-    "name": "Celiac Disease",
-    "commonName": "Celiac Disease"
+    "heading": "Find treatment for Parkinson's Disease",
+    "description": "A progressive nervous system disorder that affects movement.",
+    "ctaButton": "Questionnaire for Parkinson's Disease",
+    "label": "parkinsons-disease",
+    "urlSlug": "parkinsons-disease",
+    "name": "Parkinson's Disease",
+    "commonName": "Parkinson's Disease"
   },
   "treatmentOptions": [
     {

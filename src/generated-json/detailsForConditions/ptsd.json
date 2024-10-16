@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Anemia",
-    "description": "A condition in which you lack enough healthy red blood cells to carry adequate oxygen to your body's tissues.",
-    "ctaButton": "Questionnaire for Anemia",
-    "label": "anemia",
-    "urlSlug": "anemia",
-    "name": "Anemia",
-    "commonName": "Anemia"
+    "heading": "Find treatment for Post-Traumatic Stress Disorder (PTSD)",
+    "description": "A mental health condition triggered by experiencing or witnessing a traumatic event.",
+    "ctaButton": "Questionnaire for Post-Traumatic Stress Disorder (PTSD)",
+    "label": "ptsd",
+    "urlSlug": "ptsd",
+    "name": "Post-Traumatic Stress Disorder (PTSD)",
+    "commonName": "Post-Traumatic Stress Disorder (PTSD)"
   },
   "treatmentOptions": [
     {

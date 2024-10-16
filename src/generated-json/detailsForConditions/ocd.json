@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Post-Traumatic Stress Disorder (PTSD)",
-    "description": "A mental health condition triggered by experiencing or witnessing a traumatic event.",
-    "ctaButton": "Questionnaire for Post-Traumatic Stress Disorder (PTSD)",
-    "label": "Post-Traumatic Stress Disorder (PTSD)",
-    "urlSlug": "Post-Traumatic Stress Disorder (PTSD)",
-    "name": "Post-Traumatic Stress Disorder (PTSD)",
-    "commonName": "Post-Traumatic Stress Disorder (PTSD)"
+    "heading": "Find treatment for Obsessive-Compulsive Disorder (OCD)",
+    "description": "A mental health disorder characterized by persistent, unwanted thoughts (obsessions) and repetitive behaviors (compulsions).",
+    "ctaButton": "Questionnaire for Obsessive-Compulsive Disorder (OCD)",
+    "label": "ocd",
+    "urlSlug": "ocd",
+    "name": "Obsessive-Compulsive Disorder (OCD)",
+    "commonName": "Obsessive-Compulsive Disorder (OCD)"
   },
   "treatmentOptions": [
     {

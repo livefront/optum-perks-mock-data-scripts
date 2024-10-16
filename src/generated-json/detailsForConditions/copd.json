@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Skin Cancer",
-    "description": "A type of cancer that forms in the skin cells.",
-    "ctaButton": "Questionnaire for Skin Cancer",
-    "label": "Skin Cancer",
-    "urlSlug": "Skin Cancer",
-    "name": "Skin Cancer",
-    "commonName": "Skin Cancer"
+    "heading": "Find treatment for Chronic Obstructive Pulmonary Disease (COPD)",
+    "description": "A group of lung diseases that block airflow and make it difficult to breathe.",
+    "ctaButton": "Questionnaire for Chronic Obstructive Pulmonary Disease (COPD)",
+    "label": "copd",
+    "urlSlug": "copd",
+    "name": "Chronic Obstructive Pulmonary Disease (COPD)",
+    "commonName": "Chronic Obstructive Pulmonary Disease (COPD)"
   },
   "treatmentOptions": [
     {

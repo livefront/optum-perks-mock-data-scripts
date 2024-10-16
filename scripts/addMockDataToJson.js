@@ -6,7 +6,6 @@ const {
   generateDetailsForAllConditions,
 } = require("../src/responses/conditions/condition-legacy");
 const jsonData = require("../src/mockoonFile.json");
-const { toCamelCase } = require("../src/utils/toCamelCase");
 const {
   toExpressDynamicEndpoint,
 } = require("../src/utils/toExpressDynamicEndpoint");
@@ -18,8 +17,9 @@ const conditionDetailsOutputPath = (conditionName) =>
     `../src/generated-json/detailsForConditions/${conditionName}.json`
   );
 detailsForAllConditions.forEach((conditionDetail) => {
-  const fileName = toCamelCase(conditionDetail.conditionDetails.name, " ");
-  const conditionOutputPath = conditionDetailsOutputPath(fileName);
+  const conditionOutputPath = conditionDetailsOutputPath(
+    conditionDetail.conditionDetails.urlSlug
+  );
   fs.writeFile(
     conditionOutputPath,
     JSON.stringify(conditionDetail, null, 2),

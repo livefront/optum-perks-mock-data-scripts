@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Macular Degeneration",
-    "description": "An eye disease that gradually destroys the retina, leading to vision loss.",
-    "ctaButton": "Questionnaire for Macular Degeneration",
-    "label": "Macular Degeneration",
-    "urlSlug": "Macular Degeneration",
-    "name": "Macular Degeneration",
-    "commonName": "Macular Degeneration"
+    "heading": "Find treatment for Diabetes Mellitus",
+    "description": "A group of diseases that result in high blood sugar (too much glucose in the blood).",
+    "ctaButton": "Questionnaire for Diabetes Mellitus",
+    "label": "diabetes-mellitus",
+    "urlSlug": "diabetes-mellitus",
+    "name": "Diabetes Mellitus",
+    "commonName": "Diabetes Mellitus"
   },
   "treatmentOptions": [
     {

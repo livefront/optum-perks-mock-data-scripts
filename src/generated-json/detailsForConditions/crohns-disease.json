@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Chronic Kidney Disease",
-    "description": "A condition characterized by a gradual loss of kidney function over time.",
-    "ctaButton": "Questionnaire for Chronic Kidney Disease",
-    "label": "Chronic Kidney Disease",
-    "urlSlug": "Chronic Kidney Disease",
-    "name": "Chronic Kidney Disease",
-    "commonName": "Chronic Kidney Disease"
+    "heading": "Find treatment for Crohn's Disease",
+    "description": "A type of inflammatory bowel disease that causes inflammation of the digestive tract.",
+    "ctaButton": "Questionnaire for Crohn's Disease",
+    "label": "crohns-disease",
+    "urlSlug": "crohns-disease",
+    "name": "Crohn's Disease",
+    "commonName": "Crohn's Disease"
   },
   "treatmentOptions": [
     {

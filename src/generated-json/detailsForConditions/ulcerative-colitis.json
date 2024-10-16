@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Thyroid Disorders",
-    "description": "A condition that affects the thyroid gland's ability to produce hormones properly.",
-    "ctaButton": "Questionnaire for Thyroid Disorders",
-    "label": "Thyroid Disorders",
-    "urlSlug": "Thyroid Disorders",
-    "name": "Thyroid Disorders",
-    "commonName": "Thyroid Disorders"
+    "heading": "Find treatment for Ulcerative Colitis",
+    "description": "A chronic inflammatory bowel disease that causes inflammation and ulcers in the digestive tract.",
+    "ctaButton": "Questionnaire for Ulcerative Colitis",
+    "label": "ulcerative-colitis",
+    "urlSlug": "ulcerative-colitis",
+    "name": "Ulcerative Colitis",
+    "commonName": "Ulcerative Colitis"
   },
   "treatmentOptions": [
     {

@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Alzheimer's Disease",
-    "description": "A progressive disease that destroys memory and other important mental functions.",
-    "ctaButton": "Questionnaire for Alzheimer's Disease",
-    "label": "Alzheimer's Disease",
-    "urlSlug": "Alzheimer's Disease",
-    "name": "Alzheimer's Disease",
-    "commonName": "Alzheimer's Disease"
+    "heading": "Find treatment for Major Depressive Disorder",
+    "description": "A mood disorder that causes a persistent feeling of sadness and loss of interest.",
+    "ctaButton": "Questionnaire for Major Depressive Disorder",
+    "label": "major-depressive-disorder",
+    "urlSlug": "major-depressive-disorder",
+    "name": "Major Depressive Disorder",
+    "commonName": "Major Depressive Disorder"
   },
   "treatmentOptions": [
     {

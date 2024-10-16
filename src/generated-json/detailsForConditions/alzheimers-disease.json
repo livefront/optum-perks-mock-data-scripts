@@ -1,12 +1,12 @@
 {
   "conditionDetails": {
-    "heading": "Find treatment for Parkinson's Disease",
-    "description": "A progressive nervous system disorder that affects movement.",
-    "ctaButton": "Questionnaire for Parkinson's Disease",
-    "label": "Parkinson's Disease",
-    "urlSlug": "Parkinson's Disease",
-    "name": "Parkinson's Disease",
-    "commonName": "Parkinson's Disease"
+    "heading": "Find treatment for Alzheimer's Disease",
+    "description": "A progressive disease that destroys memory and other important mental functions.",
+    "ctaButton": "Questionnaire for Alzheimer's Disease",
+    "label": "alzheimers-disease",
+    "urlSlug": "alzheimers-disease",
+    "name": "Alzheimer's Disease",
+    "commonName": "Alzheimer's Disease"
   },
   "treatmentOptions": [
     {
