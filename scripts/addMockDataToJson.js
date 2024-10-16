@@ -6,10 +6,10 @@ const {
   generateDetailsForAllConditions,
 } = require("../src/responses/conditions/condition-legacy");
 const jsonData = require("../src/mockoonFile.json");
-const { toCamelCase } = require("./utils/toCamelCase");
+const { toCamelCase } = require("../src/utils/toCamelCase");
 const {
   toExpressDynamicEndpoint,
-} = require("./utils/toExpressDynamicEndpoint");
+} = require("../src/utils/toExpressDynamicEndpoint");
 
 const detailsForAllConditions = generateDetailsForAllConditions();
 const conditionDetailsOutputPath = (conditionName) =>
