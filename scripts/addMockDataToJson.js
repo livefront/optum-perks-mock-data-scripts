@@ -6,22 +6,10 @@ const {
   generateDetailsForAllConditions,
 } = require("../src/responses/conditions/condition-legacy");
 const jsonData = require("../src/mockoonFile.json");
-const { default: conditions } = require("../src/mock-data/conditions");
+const { toCamelCase } = require("./utils/toCamelCase");
 
 // Specify the path to the output JSON file
 const outputPath = path.join(__dirname, "../src/mockoonFile.json");
-
-function toCamelCase(str) {
-  return str
-    .split(" ")
-    .map((word, index) => {
-      if (index === 0) {
-        return word.toLowerCase(); // First word in lowercase
-      }
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); // Capitalize the first letter of subsequent words
-    })
-    .join("");
-}
 
 const detailsForAllConditions = generateDetailsForAllConditions();
 const conditionDetailsOutputPath = (conditionName) =>
