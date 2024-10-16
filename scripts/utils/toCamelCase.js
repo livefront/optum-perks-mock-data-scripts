@@ -1,6 +1,6 @@
-function toCamelCase(str) {
+function toCamelCase(str, splitOn) {
   return str
-    .split(" ")
+    .split(splitOn)
     .map((word, index) => {
       if (index === 0) {
         return word.toLowerCase(); // First word in lowercase

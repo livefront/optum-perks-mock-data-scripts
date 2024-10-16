@@ -7,6 +7,9 @@ const {
 } = require("../src/responses/conditions/condition-legacy");
 const jsonData = require("../src/mockoonFile.json");
 const { toCamelCase } = require("./utils/toCamelCase");
+const {
+  toExpressDynamicEndpoint,
+} = require("./utils/toExpressDynamicEndpoint");
 
 // Specify the path to the output JSON file
 const outputPath = path.join(__dirname, "../src/mockoonFile.json");
@@ -18,7 +21,7 @@ const conditionDetailsOutputPath = (conditionName) =>
     `../src/generated-json/detailsForConditions/${conditionName}.json`
   );
 detailsForAllConditions.forEach((conditionDetail) => {
-  const fileName = toCamelCase(conditionDetail.conditionDetails.name);
+  const fileName = toCamelCase(conditionDetail.conditionDetails.name, " ");
   fs.writeFile(
     conditionDetailsOutputPath(fileName),
     JSON.stringify(conditionDetail, null, 2),
@@ -33,6 +36,9 @@ detailsForAllConditions.forEach((conditionDetail) => {
 });
 
 jsonData.routes.forEach((route) => {
+  if (route.endpoint.includes("{")) {
+    route.endpoint = toExpressDynamicEndpoint(route.endpoint);
+  }
   if (route.endpoint === "conditions") {
     route.responses[0].body = JSON.stringify(response, null, 2);
   } else if (route.endpoint === "conditions/:conditionLegacy") {

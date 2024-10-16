@@ -95,7 +95,7 @@
       "type": "http",
       "documentation": "Get the details of a account",
       "method": "get",
-      "endpoint": "accounts/{account-id}",
+      "endpoint": "accounts/:accountId",
       "responses": [
         {
           "uuid": "97c14607-6318-4d8e-af29-b62c82fa2758",
@@ -177,7 +177,7 @@
       "type": "http",
       "documentation": "Update the details of a account",
       "method": "put",
-      "endpoint": "accounts/{account-id}",
+      "endpoint": "accounts/:accountId",
       "responses": [
         {
           "uuid": "8a0b04a7-45f0-4e03-a721-c3861289d2da",
@@ -435,7 +435,7 @@
       "type": "http",
       "documentation": "Get the details of a condition using the Fabric Label.\n",
       "method": "get",
-      "endpoint": "conditions/labels/{condition-label}",
+      "endpoint": "conditions/labels/:conditionLabel",
       "responses": [
         {
           "uuid": "441f9d63-07bb-4802-938e-139023f977b1",
@@ -553,7 +553,7 @@
       "type": "http",
       "documentation": "Get the details of a health condition using url-slug.\n",
       "method": "get",
-      "endpoint": "conditions/url-slugs/{url-slug}",
+      "endpoint": "conditions/url-slugs/:urlSlug",
       "responses": [
         {
           "uuid": "e7da069c-5d15-40fa-8f67-5fb555b7c47d",
@@ -1013,7 +1013,7 @@
       "type": "http",
       "documentation": "Current guest visit interaction",
       "method": "get",
-      "endpoint": "guest-visits/{visit-id}/interaction",
+      "endpoint": "guest-visits/:visitId/interaction",
       "responses": [
         {
           "uuid": "f7daa17a-a52c-4ae6-a6fc-7830a514d870",
@@ -1191,7 +1191,7 @@
       "type": "http",
       "documentation": "Next guest visit interaction",
       "method": "post",
-      "endpoint": "guest-visits/{visit-id}/interaction",
+      "endpoint": "guest-visits/:visitId/interaction",
       "responses": [
         {
           "uuid": "ab9d41f1-c619-46fd-963b-bb9ac730e64a",
@@ -1369,7 +1369,7 @@
       "type": "http",
       "documentation": "Create Image",
       "method": "post",
-      "endpoint": "guest-visits/{visit-id}/create-image",
+      "endpoint": "guest-visits/:visitId/create-image",
       "responses": [
         {
           "uuid": "77e01d78-103c-42a5-b8b2-82c71a10d883",
@@ -1427,7 +1427,7 @@
       "type": "http",
       "documentation": "Delete Image",
       "method": "delete",
-      "endpoint": "guest-visits/{visit-id}/remove-image",
+      "endpoint": "guest-visits/:visitId/remove-image",
       "responses": [
         {
           "uuid": "5c9806f6-555e-4a16-bde4-a4b8b333b183",
@@ -2041,7 +2041,7 @@
       "type": "http",
       "documentation": "Fetch Stripe payment intent by piSecret",
       "method": "get",
-      "endpoint": "payments/{pi-secret}",
+      "endpoint": "payments/:piSecret",
       "responses": [
         {
           "uuid": "9270440d-f39a-4367-bdb1-36963c9371fa",
@@ -2123,7 +2123,7 @@
       "type": "http",
       "documentation": "Verify promo code with stripe and return discount if available",
       "method": "get",
-      "endpoint": "payments/promo-codes/{promo-code}",
+      "endpoint": "payments/promo-codes/:promoCode",
       "responses": [
         {
           "uuid": "c021a886-d671-42d6-93bb-605252340557",
@@ -2369,7 +2369,7 @@
       "type": "http",
       "documentation": "Update a payment method hash",
       "method": "put",
-      "endpoint": "payment-methods/{patient-method-name}",
+      "endpoint": "payment-methods/:patientMethodName",
       "responses": [
         {
           "uuid": "046470d5-cce1-4f55-9641-e90fa046136d",
@@ -2451,7 +2451,7 @@
       "type": "http",
       "documentation": "Fetch a specific Stripe payment methods for this account",
       "method": "get",
-      "endpoint": "payment-methods/{patient-method-name}",
+      "endpoint": "payment-methods/:patientMethodName",
       "responses": [
         {
           "uuid": "b34a09a2-9a33-477d-94ab-466f9e709db1",
@@ -2533,7 +2533,7 @@
       "type": "http",
       "documentation": "Get the details of the available pharmacies for a treatment plan (visit)",
       "method": "get",
-      "endpoint": "pharmacies/{visit-id}",
+      "endpoint": "pharmacies/:visitId",
       "responses": [
         {
           "uuid": "3ad82755-12a7-498c-9c62-51e6cafcfa27",
@@ -2615,7 +2615,7 @@
       "type": "http",
       "documentation": "Select a pharmacy to send the prescription and discounts",
       "method": "put",
-      "endpoint": "pharmacies/{pharmacy-id}/prescriptions/{visit-id}",
+      "endpoint": "pharmacies/:pharmacyId/prescriptions/:visitId",
       "responses": [
         {
           "uuid": "6ebd5622-8f85-4b72-be95-27b757110c51",
@@ -3209,7 +3209,7 @@
       "type": "http",
       "documentation": "Get treatment plan",
       "method": "get",
-      "endpoint": "treatment-plans/{visit-id}",
+      "endpoint": "treatment-plans/:visitId",
       "responses": [
         {
           "uuid": "b82a918f-16cf-4b89-a673-aa6f3b368d97",
@@ -3291,7 +3291,7 @@
       "type": "http",
       "documentation": "Get treatment plan report",
       "method": "get",
-      "endpoint": "treatment-plans/{visit-id}/report",
+      "endpoint": "treatment-plans/:visitId/report",
       "responses": [
         {
           "uuid": "6930e8aa-66cf-4130-953a-861d080b5ad3",
@@ -3373,7 +3373,7 @@
       "type": "http",
       "documentation": "Post comment/question on treatment plan",
       "method": "post",
-      "endpoint": "treatment-plans/{visit-id}/comments",
+      "endpoint": "treatment-plans/:visitId/comments",
       "responses": [
         {
           "uuid": "5dc85835-5ff6-4d2d-906e-ffb1f4df7dbf",
@@ -3431,7 +3431,7 @@
       "type": "http",
       "documentation": "Get treatment plan success message",
       "method": "get",
-      "endpoint": "treatment-plans/contents/data/{patient-name}",
+      "endpoint": "treatment-plans/contents/data/:patientName",
       "responses": [
         {
           "uuid": "cbf05ccc-8c07-4e72-a0c4-c58c028dcd0b",
@@ -3513,7 +3513,7 @@
       "type": "http",
       "documentation": "Download school or work notes for a treatment plan",
       "method": "get",
-      "endpoint": "treatment-plans/{visit-id}/school-work-notes/download",
+      "endpoint": "treatment-plans/:visitId/school-work-notes/download",
       "responses": [
         {
           "uuid": "c88fb277-113b-4604-86aa-e0cc5d9808f4",
@@ -3657,7 +3657,7 @@
       "type": "http",
       "documentation": "Current visit interaction",
       "method": "get",
-      "endpoint": "visits/{visit-id}/interaction",
+      "endpoint": "visits/:visitId/interaction",
       "responses": [
         {
           "uuid": "d56df0cf-0a5b-4a22-8c9f-06fd2ad22afc",
@@ -3835,7 +3835,7 @@
       "type": "http",
       "documentation": "Next visit interaction",
       "method": "post",
-      "endpoint": "visits/{visit-id}/interaction",
+      "endpoint": "visits/:visitId/interaction",
       "responses": [
         {
           "uuid": "42a40d01-05eb-4c0b-b624-f483009db483",
@@ -4013,7 +4013,7 @@
       "type": "http",
       "documentation": "Create Image",
       "method": "post",
-      "endpoint": "visits/{visit-id}/create-image",
+      "endpoint": "visits/:visitId/create-image",
       "responses": [
         {
           "uuid": "4fd541c6-286f-46eb-bb65-10907661098d",
@@ -4071,7 +4071,7 @@
       "type": "http",
       "documentation": "Delete Image",
       "method": "delete",
-      "endpoint": "visits/{visit-id}/remove-image",
+      "endpoint": "visits/:visitId/remove-image",
       "responses": [
         {
           "uuid": "97b97518-1889-43a3-b0aa-5cb2533f5f50",
