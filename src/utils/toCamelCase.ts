@@ -1,4 +1,4 @@
-function toCamelCase(str, splitOn) {
+export function toCamelCase(str: string, splitOn: string) {
   return str
     .split(splitOn)
     .map((word, index) => {
@@ -9,5 +9,3 @@ function toCamelCase(str, splitOn) {
     })
     .join("");
 }
-
-module.exports = { toCamelCase };
