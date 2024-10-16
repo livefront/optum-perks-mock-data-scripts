@@ -3,6 +3,11 @@
     "heading": "Find treatment for Parkinson's Disease",
     "description": "A progressive nervous system disorder that affects movement.",
     "ctaButton": "Questionnaire for Parkinson's Disease",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Parkinson's Disease"
+    },
     "label": "parkinsons-disease",
     "urlSlug": "parkinsons-disease",
     "name": "Parkinson's Disease",

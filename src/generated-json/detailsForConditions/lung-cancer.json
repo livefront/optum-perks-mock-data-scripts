@@ -3,6 +3,11 @@
     "heading": "Find treatment for Lung Cancer",
     "description": "A type of cancer that begins in the lungs.",
     "ctaButton": "Questionnaire for Lung Cancer",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Lung Cancer"
+    },
     "label": "lung-cancer",
     "urlSlug": "lung-cancer",
     "name": "Lung Cancer",

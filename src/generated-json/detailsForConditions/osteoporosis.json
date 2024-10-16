@@ -3,6 +3,11 @@
     "heading": "Find treatment for Osteoporosis",
     "description": "A condition in which bones become weak and brittle.",
     "ctaButton": "Questionnaire for Osteoporosis",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Osteoporosis"
+    },
     "label": "osteoporosis",
     "urlSlug": "osteoporosis",
     "name": "Osteoporosis",

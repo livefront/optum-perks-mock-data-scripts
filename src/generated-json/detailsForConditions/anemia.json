@@ -3,6 +3,11 @@
     "heading": "Find treatment for Anemia",
     "description": "A condition in which you lack enough healthy red blood cells to carry adequate oxygen to your body's tissues.",
     "ctaButton": "Questionnaire for Anemia",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Anemia"
+    },
     "label": "anemia",
     "urlSlug": "anemia",
     "name": "Anemia",

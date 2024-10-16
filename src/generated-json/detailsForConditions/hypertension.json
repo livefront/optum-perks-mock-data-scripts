@@ -3,6 +3,11 @@
     "heading": "Find treatment for Hypertension",
     "description": "A condition in which the blood pressure in the arteries is persistently elevated.",
     "ctaButton": "Questionnaire for Hypertension",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Hypertension"
+    },
     "label": "hypertension",
     "urlSlug": "hypertension",
     "name": "Hypertension",

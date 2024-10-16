@@ -3,6 +3,11 @@
     "heading": "Find treatment for Macular Degeneration",
     "description": "An eye disease that gradually destroys the retina, leading to vision loss.",
     "ctaButton": "Questionnaire for Macular Degeneration",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Macular Degeneration"
+    },
     "label": "macular-degeneration",
     "urlSlug": "macular-degeneration",
     "name": "Macular Degeneration",

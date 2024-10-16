@@ -3,6 +3,11 @@
     "heading": "Find treatment for Sleep Apnea",
     "description": "A serious sleep disorder in which breathing repeatedly stops and starts.",
     "ctaButton": "Questionnaire for Sleep Apnea",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Sleep Apnea"
+    },
     "label": "sleep-apnea",
     "urlSlug": "sleep-apnea",
     "name": "Sleep Apnea",

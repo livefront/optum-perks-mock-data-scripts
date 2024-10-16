@@ -3,6 +3,11 @@
     "heading": "Find treatment for Attention-Deficit/Hyperactivity Disorder (ADHD)",
     "description": "A neurodevelopmental disorder characterized by difficulty paying attention, hyperactivity, and impulsiveness.",
     "ctaButton": "Questionnaire for Attention-Deficit/Hyperactivity Disorder (ADHD)",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Attention-Deficit/Hyperactivity Disorder (ADHD)"
+    },
     "label": "adhd",
     "urlSlug": "adhd",
     "name": "Attention-Deficit/Hyperactivity Disorder (ADHD)",

@@ -3,6 +3,11 @@
     "heading": "Find treatment for Chronic Kidney Disease",
     "description": "A condition characterized by a gradual loss of kidney function over time.",
     "ctaButton": "Questionnaire for Chronic Kidney Disease",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Chronic Kidney Disease"
+    },
     "label": "chronic-kidney-disease",
     "urlSlug": "chronic-kidney-disease",
     "name": "Chronic Kidney Disease",

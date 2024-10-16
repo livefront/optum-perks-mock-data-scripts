@@ -3,6 +3,11 @@
     "heading": "Find treatment for Scleroderma",
     "description": "A group of autoimmune diseases that cause the skin and connective tissues to harden and tighten.",
     "ctaButton": "Questionnaire for Scleroderma",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Scleroderma"
+    },
     "label": "scleroderma",
     "urlSlug": "scleroderma",
     "name": "Scleroderma",

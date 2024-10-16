@@ -3,6 +3,11 @@
     "heading": "Find treatment for Eczema",
     "description": "A condition that makes the skin red, inflamed, and itchy.",
     "ctaButton": "Questionnaire for Eczema",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Eczema"
+    },
     "label": "eczema",
     "urlSlug": "eczema",
     "name": "Eczema",

@@ -3,6 +3,11 @@
     "heading": "Find treatment for Post-Traumatic Stress Disorder (PTSD)",
     "description": "A mental health condition triggered by experiencing or witnessing a traumatic event.",
     "ctaButton": "Questionnaire for Post-Traumatic Stress Disorder (PTSD)",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Post-Traumatic Stress Disorder (PTSD)"
+    },
     "label": "ptsd",
     "urlSlug": "ptsd",
     "name": "Post-Traumatic Stress Disorder (PTSD)",

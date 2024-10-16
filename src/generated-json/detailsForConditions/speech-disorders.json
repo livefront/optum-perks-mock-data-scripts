@@ -3,6 +3,11 @@
     "heading": "Find treatment for Speech Disorders",
     "description": "A communication disorder that affects a person's ability to speak clearly.",
     "ctaButton": "Questionnaire for Speech Disorders",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Speech Disorders"
+    },
     "label": "speech-disorders",
     "urlSlug": "speech-disorders",
     "name": "Speech Disorders",

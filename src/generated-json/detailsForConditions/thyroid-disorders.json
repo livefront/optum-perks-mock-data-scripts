@@ -3,6 +3,11 @@
     "heading": "Find treatment for Thyroid Disorders",
     "description": "A condition that affects the thyroid gland's ability to produce hormones properly.",
     "ctaButton": "Questionnaire for Thyroid Disorders",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Thyroid Disorders"
+    },
     "label": "thyroid-disorders",
     "urlSlug": "thyroid-disorders",
     "name": "Thyroid Disorders",

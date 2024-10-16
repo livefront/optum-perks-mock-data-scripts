@@ -3,6 +3,11 @@
     "heading": "Find treatment for Chronic Obstructive Pulmonary Disease (COPD)",
     "description": "A group of lung diseases that block airflow and make it difficult to breathe.",
     "ctaButton": "Questionnaire for Chronic Obstructive Pulmonary Disease (COPD)",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Chronic Obstructive Pulmonary Disease (COPD)"
+    },
     "label": "copd",
     "urlSlug": "copd",
     "name": "Chronic Obstructive Pulmonary Disease (COPD)",

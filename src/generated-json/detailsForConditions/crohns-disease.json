@@ -3,6 +3,11 @@
     "heading": "Find treatment for Crohn's Disease",
     "description": "A type of inflammatory bowel disease that causes inflammation of the digestive tract.",
     "ctaButton": "Questionnaire for Crohn's Disease",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Crohn's Disease"
+    },
     "label": "crohns-disease",
     "urlSlug": "crohns-disease",
     "name": "Crohn's Disease",
