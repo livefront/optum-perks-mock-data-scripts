@@ -3,6 +3,11 @@
     "heading": "Find treatment for Asthma",
     "description": "A respiratory condition marked by spasms in the bronchi of the lungs, causing difficulty in breathing.",
     "ctaButton": "Questionnaire for Asthma",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Asthma"
+    },
     "label": "asthma",
     "urlSlug": "asthma",
     "name": "Asthma",

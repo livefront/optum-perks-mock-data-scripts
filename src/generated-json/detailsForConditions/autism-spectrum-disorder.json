@@ -3,6 +3,11 @@
     "heading": "Find treatment for Autism Spectrum Disorder",
     "description": "A developmental disorder that affects communication and behavior.",
     "ctaButton": "Questionnaire for Autism Spectrum Disorder",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Autism Spectrum Disorder"
+    },
     "label": "autism-spectrum-disorder",
     "urlSlug": "autism-spectrum-disorder",
     "name": "Autism Spectrum Disorder",

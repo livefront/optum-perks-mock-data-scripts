@@ -3,6 +3,11 @@
     "heading": "Find treatment for Pneumonia",
     "description": "An infection that inflames the air sacs in one or both lungs, which may fill with fluid.",
     "ctaButton": "Questionnaire for Pneumonia",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Pneumonia"
+    },
     "label": "pneumonia",
     "urlSlug": "pneumonia",
     "name": "Pneumonia",

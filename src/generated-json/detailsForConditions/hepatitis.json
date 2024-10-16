@@ -3,6 +3,11 @@
     "heading": "Find treatment for Hepatitis",
     "description": "An inflammation of the liver, often caused by viral infections.",
     "ctaButton": "Questionnaire for Hepatitis",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Hepatitis"
+    },
     "label": "hepatitis",
     "urlSlug": "hepatitis",
     "name": "Hepatitis",

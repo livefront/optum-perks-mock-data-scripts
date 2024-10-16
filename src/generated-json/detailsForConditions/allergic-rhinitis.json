@@ -3,6 +3,11 @@
     "heading": "Find treatment for Allergic Rhinitis",
     "description": "An allergic reaction that causes sneezing, runny nose, and itchy eyes.",
     "ctaButton": "Questionnaire for Allergic Rhinitis",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Allergic Rhinitis"
+    },
     "label": "allergic-rhinitis",
     "urlSlug": "allergic-rhinitis",
     "name": "Allergic Rhinitis",

@@ -3,6 +3,11 @@
     "heading": "Find treatment for Alzheimer's Disease",
     "description": "A progressive disease that destroys memory and other important mental functions.",
     "ctaButton": "Questionnaire for Alzheimer's Disease",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Alzheimer's Disease"
+    },
     "label": "alzheimers-disease",
     "urlSlug": "alzheimers-disease",
     "name": "Alzheimer's Disease",

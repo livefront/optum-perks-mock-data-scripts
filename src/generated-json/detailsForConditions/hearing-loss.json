@@ -3,6 +3,11 @@
     "heading": "Find treatment for Hearing Loss",
     "description": "A partial or total inability to hear.",
     "ctaButton": "Questionnaire for Hearing Loss",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Hearing Loss"
+    },
     "label": "hearing-loss",
     "urlSlug": "hearing-loss",
     "name": "Hearing Loss",

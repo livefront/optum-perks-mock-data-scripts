@@ -3,6 +3,11 @@
     "heading": "Find treatment for Glaucoma",
     "description": "A group of eye conditions that damage the optic nerve, often due to high eye pressure.",
     "ctaButton": "Questionnaire for Glaucoma",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Glaucoma"
+    },
     "label": "glaucoma",
     "urlSlug": "glaucoma",
     "name": "Glaucoma",

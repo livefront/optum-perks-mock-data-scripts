@@ -3,6 +3,11 @@
     "heading": "Find treatment for Chronic Fatigue Syndrome",
     "description": "A complex disorder characterized by extreme fatigue that doesn’t improve with rest.",
     "ctaButton": "Questionnaire for Chronic Fatigue Syndrome",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Chronic Fatigue Syndrome"
+    },
     "label": "chronic-fatigue-syndrome",
     "urlSlug": "chronic-fatigue-syndrome",
     "name": "Chronic Fatigue Syndrome",

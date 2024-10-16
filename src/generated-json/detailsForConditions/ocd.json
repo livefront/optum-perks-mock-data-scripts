@@ -3,6 +3,11 @@
     "heading": "Find treatment for Obsessive-Compulsive Disorder (OCD)",
     "description": "A mental health disorder characterized by persistent, unwanted thoughts (obsessions) and repetitive behaviors (compulsions).",
     "ctaButton": "Questionnaire for Obsessive-Compulsive Disorder (OCD)",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Obsessive-Compulsive Disorder (OCD)"
+    },
     "label": "ocd",
     "urlSlug": "ocd",
     "name": "Obsessive-Compulsive Disorder (OCD)",

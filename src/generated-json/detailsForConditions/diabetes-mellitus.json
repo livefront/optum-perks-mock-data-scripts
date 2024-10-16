@@ -3,6 +3,11 @@
     "heading": "Find treatment for Diabetes Mellitus",
     "description": "A group of diseases that result in high blood sugar (too much glucose in the blood).",
     "ctaButton": "Questionnaire for Diabetes Mellitus",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Diabetes Mellitus"
+    },
     "label": "diabetes-mellitus",
     "urlSlug": "diabetes-mellitus",
     "name": "Diabetes Mellitus",

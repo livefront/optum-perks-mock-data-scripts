@@ -3,6 +3,11 @@
     "heading": "Find treatment for Heart Disease",
     "description": "A range of conditions that affect the heart, including coronary artery disease and heart rhythm problems.",
     "ctaButton": "Questionnaire for Heart Disease",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Heart Disease"
+    },
     "label": "heart-disease",
     "urlSlug": "heart-disease",
     "name": "Heart Disease",

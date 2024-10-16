@@ -3,6 +3,11 @@
     "heading": "Find treatment for Acid Reflux",
     "description": "A condition in which stomach acid frequently flows back into the esophagus.",
     "ctaButton": "Questionnaire for Acid Reflux",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Acid Reflux"
+    },
     "label": "acid-reflux",
     "urlSlug": "acid-reflux",
     "name": "Acid Reflux",

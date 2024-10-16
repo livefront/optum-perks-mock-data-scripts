@@ -3,6 +3,11 @@
     "heading": "Find treatment for Arthritis",
     "description": "Inflammation of one or more joints, causing pain and stiffness.",
     "ctaButton": "Questionnaire for Arthritis",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Arthritis"
+    },
     "label": "arthritis",
     "urlSlug": "arthritis",
     "name": "Arthritis",

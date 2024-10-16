@@ -3,6 +3,11 @@
     "heading": "Find treatment for Schizophrenia",
     "description": "A serious mental disorder that affects how a person thinks, feels, and behaves.",
     "ctaButton": "Questionnaire for Schizophrenia",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Schizophrenia"
+    },
     "label": "schizophrenia",
     "urlSlug": "schizophrenia",
     "name": "Schizophrenia",

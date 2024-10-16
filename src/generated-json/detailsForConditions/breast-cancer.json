@@ -3,6 +3,11 @@
     "heading": "Find treatment for Breast Cancer",
     "description": "A type of cancer that forms in the cells of the breasts.",
     "ctaButton": "Questionnaire for Breast Cancer",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Breast Cancer"
+    },
     "label": "breast-cancer",
     "urlSlug": "breast-cancer",
     "name": "Breast Cancer",

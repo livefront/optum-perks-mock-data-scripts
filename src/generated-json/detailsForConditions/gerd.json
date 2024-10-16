@@ -3,6 +3,11 @@
     "heading": "Find treatment for Gastroesophageal Reflux Disease (GERD)",
     "description": "A more severe form of acid reflux, causing frequent heartburn and damage to the esophagus.",
     "ctaButton": "Questionnaire for Gastroesophageal Reflux Disease (GERD)",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Gastroesophageal Reflux Disease (GERD)"
+    },
     "label": "gerd",
     "urlSlug": "gerd",
     "name": "Gastroesophageal Reflux Disease (GERD)",

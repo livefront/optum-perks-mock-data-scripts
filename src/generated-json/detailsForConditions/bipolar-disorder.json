@@ -3,6 +3,11 @@
     "heading": "Find treatment for Bipolar Disorder",
     "description": "A mental health condition that causes extreme mood swings, including emotional highs and lows.",
     "ctaButton": "Questionnaire for Bipolar Disorder",
+    "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Bipolar Disorder"
+    },
     "label": "bipolar-disorder",
     "urlSlug": "bipolar-disorder",
     "name": "Bipolar Disorder",
