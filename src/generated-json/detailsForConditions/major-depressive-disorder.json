@@ -4,7 +4,7 @@
     "description": "A mood disorder that causes a persistent feeling of sadness and loss of interest.",
     "ctaButton": "Questionnaire for Major Depressive Disorder",
     "icon": {
-      "imageUrl": "/non-existent-image.png",
+      "imageUrl": "www.example.com",
       "darkModeImageUrl": "",
       "altText": "here image for Major Depressive Disorder"
     },

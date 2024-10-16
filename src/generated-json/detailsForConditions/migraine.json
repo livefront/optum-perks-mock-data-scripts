@@ -4,6 +4,11 @@
     "description": "A type of headache characterized by severe pain, often accompanied by nausea and sensitivity to light.",
     "ctaButton": "Questionnaire for Migraine",
     "icon": {
+      "imageUrl": "www.example.com",
+      "darkModeImageUrl": "",
+      "altText": "here image for Migraine"
+    },
+    "icon": {
       "imageUrl": "/non-existent-image.png",
       "darkModeImageUrl": "",
       "altText": "here image for Migraine"
