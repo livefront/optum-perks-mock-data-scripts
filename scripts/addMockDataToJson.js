@@ -3,6 +3,13 @@ const path = require("path");
 
 const { response } = require("../src/conditionListByCategoryResponse");
 const {
+  getInteraction,
+} = require("../src/responses/guest-visits/getInteraction");
+const {
+  postInteraction,
+} = require("../src/responses/guest-visits/postInteraction");
+const { eligibility } = require("../src/responses/guest-visits/eligibility");
+const {
   generateDetailsForAllConditions,
 } = require("../src/responses/conditions/condition-legacy");
 const jsonData = require("../src/mockoonFile.json");
@@ -45,6 +52,28 @@ jsonData.routes.forEach((route) => {
     route.responses[0].bodyType = "FILE";
     route.responses[0].filePath =
       "./generated-json/detailsForConditions/{{urlParam 'conditionLegacy'}}.json";
+  } else if (
+    route.endpoint === "guest-visits/:visitId/interaction" &&
+    route.method === "get"
+  ) {
+    route.responses[0].body = JSON.stringify(getInteraction, null, 2);
+  } else if (
+    route.endpoint === "guest-visits/:visitId/interaction" &&
+    route.method === "post"
+  ) {
+    route.responses[0].body = JSON.stringify(postInteraction, null, 2);
+  } else if (route.endpoint === "guest-visits/eligibility") {
+    route.responses[0].body = JSON.stringify(eligibility, null, 2);
+  } else if (route.endpoint === "guest-visits") {
+    const currentHeaders = route.responses[0].headers;
+    const headersWithSessionToken = [
+      ...currentHeaders,
+      {
+        key: "session-token",
+        value: "12345678",
+      },
+    ];
+    route.responses[0].headers = headersWithSessionToken;
   }
 });
 

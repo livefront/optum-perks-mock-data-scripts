@@ -37,6 +37,11 @@ export const generateDetailsForAllConditions =
         heading: `Find treatment for ${condition.name}`,
         description: condition.description,
         ctaButton: `Questionnaire for ${condition.name}`,
+        icon: {
+          imageUrl: "/non-existent-image.png",
+          darkModeImageUrl: "",
+          altText: `here image for ${condition.name}`,
+        },
         label: condition.urlSlug,
         urlSlug: condition.urlSlug,
         name: condition.name,
