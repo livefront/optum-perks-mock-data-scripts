@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const { response } = require("../src/conditionListByCategoryResponse");
+const { condition } = require("../src/responses/conditions/condition-legacy");
 const jsonData = require("../src/mockoonFile.json");
 
 // Specify the path to the output JSON file
@@ -10,6 +11,8 @@ const outputPath = path.join(__dirname, "../src/mockoonFile.json");
 jsonData.routes.forEach((route) => {
   if (route.endpoint === "conditions") {
     route.responses[0].body = JSON.stringify(response, null, 2);
+  } else if (route.endpoint === "conditions/:conditionLegacy") {
+    route.responses[0].body = JSON.stringify(condition, null, 2);
   }
 });
 
