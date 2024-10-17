@@ -6,7 +6,8 @@ const {
   getInteraction,
 } = require("../src/responses/guest-visits/getInteraction");
 const {
-  postInteraction,
+  postInteractionOne,
+  postInteractionTwo,
 } = require("../src/responses/guest-visits/postInteraction");
 const { eligibility } = require("../src/responses/guest-visits/eligibility");
 const {
@@ -61,11 +62,43 @@ jsonData.routes.forEach((route) => {
     route.endpoint === "guest-visits/:visitId/interaction" &&
     route.method === "post"
   ) {
-    route.responses[0].body = JSON.stringify(postInteraction, null, 2);
+    const responseThatLeadsToRegister = route.responses[0];
+    const generalResponse = route.responses[1];
+    if (responseThatLeadsToRegister.rules.length === 0) {
+      responseThatLeadsToRegister.rules = [
+        {
+          target: "request_number",
+          modifier: "",
+          value: "2",
+          invert: false,
+          operator: "equals",
+        },
+      ];
+    }
+    responseThatLeadsToRegister.body = JSON.stringify(
+      postInteractionTwo,
+      null,
+      2
+    );
+    generalResponse.body = JSON.stringify(postInteractionOne, null, 2);
+    if (generalResponse.rules.length === 0) {
+      generalResponse.rules = [
+        {
+          target: "request_number",
+          modifier: "",
+          value: "1",
+          invert: false,
+          operator: "equals",
+        },
+      ];
+    }
   } else if (route.endpoint === "guest-visits/eligibility") {
     route.responses[0].body = JSON.stringify(eligibility, null, 2);
   } else if (route.endpoint === "guest-visits") {
     const currentHeaders = route.responses[0].headers;
+    const sessionTokenExists = currentHeaders.find(
+      (header) => header.key === "session-token"
+    );
     const headersWithSessionToken = [
       ...currentHeaders,
       {
@@ -73,7 +106,9 @@ jsonData.routes.forEach((route) => {
         value: "12345678",
       },
     ];
-    route.responses[0].headers = headersWithSessionToken;
+    route.responses[0].headers = sessionTokenExists
+      ? currentHeaders
+      : headersWithSessionToken;
   }
 });
 
