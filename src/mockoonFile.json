@@ -889,10 +889,6 @@
             {
               "key": "session-token",
               "value": "12345678"
-            },
-            {
-              "key": "session-token",
-              "value": "12345678"
             }
           ],
           "bodyType": "INLINE",
@@ -1217,7 +1213,15 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "request_number",
+              "modifier": "",
+              "value": "2",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -1227,7 +1231,7 @@
         },
         {
           "uuid": "e0500244-12c4-4c21-8d70-cca03fb0c4d8",
-          "body": "{\n  \"stateName\": \"clinical_interview\",\n  \"title\": \"Interview Question\",\n  \"progressBar\": {\n    \"accountSetup\": {\n      \"index\": 1,\n      \"name\": \"Account Setup\"\n    },\n    \"eligibility\": {\n      \"index\": 2,\n      \"name\": \"Eligibility\"\n    },\n    \"doctorReview\": {\n      \"index\": 4,\n      \"name\": \"Provider Review\"\n    },\n    \"interview\": {\n      \"index\": 3,\n      \"name\": \"Interview\"\n    },\n    \"payment\": {\n      \"index\": 5,\n      \"name\": \"Payment\"\n    },\n    \"personalInformation\": {\n      \"index\": 6,\n      \"name\": \"Personal Information\"\n    }\n  },\n  \"content\": [\n    {\n      \"contentType\": \"select_input\",\n      \"contentName\": \"q775\",\n      \"contentLabel\": \"<p>Almost done! Photos of the affected area of the skin are required to diagnose and treat you.</p><p><b>Can photos be taken and uploaded at this time?</b></p>\",\n      \"options\": [\n        {\n          \"optionLabel\": \"Yes\",\n          \"optionValue\": \"yes\"\n        },\n        {\n          \"optionLabel\": \"No\",\n          \"optionValue\": \"no\"\n        }\n      ],\n      \"required\": true\n    }\n  ],\n  \"errorDescriptions\": {\n    \"medicationsAddError\": \"There was an error adding your medication.\",\n    \"medicationsDeleteError\": \"There was an error deleting your medication.\",\n    \"medicationsDiscontinuedError\": \"There was an error discontinuing your medication.\",\n    \"medicationsGetError\": \"There was an error getting a list of your medications.\"\n  },\n  \"progress\": {\n    \"clinical_interview\": {\n      \"percentage\": 28.4\n    }\n  },\n  \"actions\": {\n    \"continue\": {\n      \"actionLabel\": \"Continue\"\n    },\n    \"goBack\": {\n      \"actionLabel\": \"Back\"\n    }\n  }\n}",
+          "body": "{\n  \"heading\": \"Thanks, just a few more things!\",\n  \"title\": \"Thanks, just a few more things!\",\n  \"progressBar\": {\n    \"accountSetup\": {\n      \"index\": 1,\n      \"name\": \"Account Setup\"\n    },\n    \"eligibility\": {\n      \"index\": 2,\n      \"name\": \"Eligibility\"\n    },\n    \"doctorReview\": {\n      \"index\": 4,\n      \"name\": \"Provider Review\"\n    },\n    \"interview\": {\n      \"index\": 3,\n      \"name\": \"Interview\"\n    },\n    \"payment\": {\n      \"index\": 5,\n      \"name\": \"Payment\"\n    },\n    \"personalInformation\": {\n      \"index\": 6,\n      \"name\": \"Personal Information\"\n    }\n  },\n  \"content\": [\n    {\n      \"contentLabel\": \"Favorite candy\",\n      \"contentName\": \"favoriteCandy\",\n      \"contentType\": \"freeTextInput\",\n      \"maxLength\": 50,\n      \"required\": true,\n      \"options\": []\n    },\n    {\n      \"contentLabel\": \"Sex Assigned at Birth\",\n      \"contentName\": \"gender\",\n      \"contentType\": \"selectInput\",\n      \"required\": true,\n      \"options\": [\n        {\n          \"optionLabel\": \"Female\",\n          \"optionValue\": \"female\"\n        },\n        {\n          \"optionLabel\": \"Male\",\n          \"optionValue\": \"male\"\n        }\n      ]\n    }\n  ],\n  \"progress\": {\n    \"current\": {\n      \"percentage\": 0.5\n    }\n  },\n  \"actions\": {\n    \"continue\": {\n      \"actionLabel\": \"Continue\"\n    },\n    \"goBack\": {\n      \"actionLabel\": \"Back\"\n    }\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "clinical_interview",
@@ -1241,7 +1245,15 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "request_number",
+              "modifier": "",
+              "value": "1",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
