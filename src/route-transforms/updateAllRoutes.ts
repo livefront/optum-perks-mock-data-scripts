@@ -7,29 +7,32 @@ import { addMockDataGuestVisitEligibility } from "./add-mock-data-to-route/guest
 import { addMockDataGuestVisits } from "./add-mock-data-to-route/guestVisits";
 import { addMockDataPostGuestVisitInteraction } from "./add-mock-data-to-route/postGuestVisitInteraction";
 
+/** Updates each route's config (if necessary) and adds type safe mock data. */
 export const updateAllRoutes = () => {
   mockServerData.routes.forEach((route) => {
+    // Update OpenAPI dynamic routes to Express.js dynamic routes
     if (route.endpoint.includes("{")) {
       route.endpoint = toExpressDynamicEndpoint(route.endpoint);
     }
-    if (route.endpoint === "conditions") {
-      addMockDataToConditions(route);
-    } else if (route.endpoint === "conditions/:conditionLegacy") {
-      addMockDataToCondition(route);
-    } else if (
-      route.endpoint === "guest-visits/:visitId/interaction" &&
-      route.method === "get"
-    ) {
-      addMockDataGetGuestVisitInteraction(route);
-    } else if (
-      route.endpoint === "guest-visits/:visitId/interaction" &&
-      route.method === "post"
-    ) {
-      addMockDataPostGuestVisitInteraction(route);
-    } else if (route.endpoint === "guest-visits/eligibility") {
-      addMockDataGuestVisitEligibility(route);
-    } else if (route.endpoint === "guest-visits") {
-      addMockDataGuestVisits(route);
+    // Add appropriate mock data and route config to each endpoint
+    switch (route.endpoint) {
+      case "conditions":
+        addMockDataToConditions(route);
+        break;
+      case "conditions/:conditionLegacy":
+        addMockDataToCondition(route);
+        break;
+      case "guest-visits/:visitId/interaction":
+        route.method === "get"
+          ? addMockDataGetGuestVisitInteraction(route)
+          : addMockDataPostGuestVisitInteraction(route);
+        break;
+      case "guest-visits/eligibility":
+        addMockDataGuestVisitEligibility(route);
+        break;
+      case "guest-visits":
+        addMockDataGuestVisits(route);
+        break;
     }
   });
 };
