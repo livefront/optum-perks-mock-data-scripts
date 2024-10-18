@@ -39,6 +39,14 @@ export const getInteraction: OCApi.Schemas.Interaction & { heading: string } = {
       options: [],
     },
     {
+      contentLabel: "Upload an image",
+      contentName: "imageOfCondition",
+      contentType: "imageUpload",
+      maxCount: 3,
+      required: true,
+      options: [],
+    },
+    {
       contentLabel: "Are you allergic to anything?",
       contentName: "allergies",
       contentType: "selectInput",
