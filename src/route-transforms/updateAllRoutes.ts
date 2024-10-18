@@ -1,14 +1,17 @@
 import mockServerData from "../mockoonFile.json";
+import { allowAllHeaderTypes } from "../utils/allowAllHeaderTypes";
 import { toExpressDynamicEndpoint } from "../utils/toExpressDynamicEndpoint";
 import { addMockDataToCondition } from "./add-mock-data-to-route/conditionLegacy";
 import { addMockDataToConditions } from "./add-mock-data-to-route/conditions";
 import { addMockDataGetGuestVisitInteraction } from "./add-mock-data-to-route/getGuestVisitInteraction";
+import { addMockDataGuestVisitCreateImage } from "./add-mock-data-to-route/guestVisitCreateImage";
 import { addMockDataGuestVisitEligibility } from "./add-mock-data-to-route/guestVisitEligibility";
 import { addMockDataGuestVisits } from "./add-mock-data-to-route/guestVisits";
 import { addMockDataPostGuestVisitInteraction } from "./add-mock-data-to-route/postGuestVisitInteraction";
 
 /** Updates each route's config (if necessary) and adds type safe mock data. */
 export const updateAllRoutes = () => {
+  allowAllHeaderTypes(mockServerData);
   mockServerData.routes.forEach((route) => {
     // Update OpenAPI dynamic routes to Express.js dynamic routes
     if (route.endpoint.includes("{")) {
@@ -29,6 +32,9 @@ export const updateAllRoutes = () => {
         break;
       case "guest-visits/eligibility":
         addMockDataGuestVisitEligibility(route);
+        break;
+      case "guest-visits/:visitId/create-image":
+        addMockDataGuestVisitCreateImage(route);
         break;
       case "guest-visits":
         addMockDataGuestVisits(route);

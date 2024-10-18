@@ -1021,7 +1021,7 @@
       "responses": [
         {
           "uuid": "f7daa17a-a52c-4ae6-a6fc-7830a514d870",
-          "body": "{\n  \"heading\": \"Thanks, just a few more things!\",\n  \"title\": \"Thanks, just a few more things!\",\n  \"progressBar\": {\n    \"accountSetup\": {\n      \"index\": 1,\n      \"name\": \"Account Setup\"\n    },\n    \"eligibility\": {\n      \"index\": 2,\n      \"name\": \"Eligibility\"\n    },\n    \"doctorReview\": {\n      \"index\": 4,\n      \"name\": \"Provider Review\"\n    },\n    \"interview\": {\n      \"index\": 3,\n      \"name\": \"Interview\"\n    },\n    \"payment\": {\n      \"index\": 5,\n      \"name\": \"Payment\"\n    },\n    \"personalInformation\": {\n      \"index\": 6,\n      \"name\": \"Personal Information\"\n    }\n  },\n  \"content\": [\n    {\n      \"contentLabel\": \"List your current prescriptions\",\n      \"contentName\": \"currentPrescriptions\",\n      \"contentType\": \"freeTextInput\",\n      \"maxLength\": 50,\n      \"required\": true,\n      \"options\": []\n    },\n    {\n      \"contentLabel\": \"Are you allergic to anything?\",\n      \"contentName\": \"allergies\",\n      \"contentType\": \"selectInput\",\n      \"required\": true,\n      \"options\": [\n        {\n          \"optionLabel\": \"No\",\n          \"optionValue\": \"no\"\n        },\n        {\n          \"optionLabel\": \"Yes\",\n          \"optionValue\": \"yes\"\n        }\n      ]\n    }\n  ],\n  \"progress\": {\n    \"current\": {\n      \"percentage\": 0.5\n    }\n  },\n  \"actions\": {\n    \"continue\": {\n      \"actionLabel\": \"Continue\"\n    },\n    \"goBack\": {\n      \"actionLabel\": \"Back\"\n    }\n  }\n}",
+          "body": "{\n  \"heading\": \"Thanks, just a few more things!\",\n  \"title\": \"Thanks, just a few more things!\",\n  \"progressBar\": {\n    \"accountSetup\": {\n      \"index\": 1,\n      \"name\": \"Account Setup\"\n    },\n    \"eligibility\": {\n      \"index\": 2,\n      \"name\": \"Eligibility\"\n    },\n    \"doctorReview\": {\n      \"index\": 4,\n      \"name\": \"Provider Review\"\n    },\n    \"interview\": {\n      \"index\": 3,\n      \"name\": \"Interview\"\n    },\n    \"payment\": {\n      \"index\": 5,\n      \"name\": \"Payment\"\n    },\n    \"personalInformation\": {\n      \"index\": 6,\n      \"name\": \"Personal Information\"\n    }\n  },\n  \"content\": [\n    {\n      \"contentLabel\": \"List your current prescriptions\",\n      \"contentName\": \"currentPrescriptions\",\n      \"contentType\": \"freeTextInput\",\n      \"maxLength\": 50,\n      \"required\": true,\n      \"options\": []\n    },\n    {\n      \"contentLabel\": \"Upload an image\",\n      \"contentName\": \"imageOfCondition\",\n      \"contentType\": \"imageUpload\",\n      \"maxCount\": 3,\n      \"required\": true,\n      \"options\": []\n    },\n    {\n      \"contentLabel\": \"Are you allergic to anything?\",\n      \"contentName\": \"allergies\",\n      \"contentType\": \"selectInput\",\n      \"required\": true,\n      \"options\": [\n        {\n          \"optionLabel\": \"No\",\n          \"optionValue\": \"no\"\n        },\n        {\n          \"optionLabel\": \"Yes\",\n          \"optionValue\": \"yes\"\n        }\n      ]\n    }\n  ],\n  \"progress\": {\n    \"current\": {\n      \"percentage\": 0.5\n    }\n  },\n  \"actions\": {\n    \"continue\": {\n      \"actionLabel\": \"Continue\"\n    },\n    \"goBack\": {\n      \"actionLabel\": \"Back\"\n    }\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "OK",
@@ -1393,7 +1393,7 @@
       "responses": [
         {
           "uuid": "77e01d78-103c-42a5-b8b2-82c71a10d883",
-          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"fileName\": \"\",\n  \"questionIdentifier\": \"\"\n}",
+          "body": "{\n  \"id\": 888777666555444,\n  \"fileName\": \"perfectly-normal-foot.jpg\",\n  \"questionIdentifier\": \"q779\"\n}",
           "latency": 0,
           "statusCode": 201,
           "label": "Created",
@@ -4430,7 +4430,12 @@
     "passphrase": ""
   },
   "cors": true,
-  "headers": [],
+  "headers": [
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "*"
+    }
+  ],
   "proxyReqHeaders": [
     {
       "key": "",
