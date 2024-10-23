@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Perks-Web-Mocks
+  description: Mocks that support development for Perks Web
+spec:
+  type: library # can be one of: service, library, website, iac-pipeline
+  lifecycle: production # can be one of: experimental, production, deprecated
+  owner: team-perks-development # your existing tech team in Backstage, i.e. team-developer-platforms
