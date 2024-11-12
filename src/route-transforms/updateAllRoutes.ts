@@ -1,4 +1,4 @@
-import mockServerData from "../mockoonFile.json";
+import mockServerData from "../mockoon_env.final.json";
 import { allowAllHeaderTypes } from "../utils/allowAllHeaderTypes";
 import { toExpressDynamicEndpoint } from "../utils/toExpressDynamicEndpoint";
 import { addMockDataToCondition } from "./add-mock-data-to-route/conditionLegacy";

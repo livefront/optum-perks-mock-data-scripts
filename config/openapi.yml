@@ -30,13 +30,17 @@ tags:
   - name: Accounts
     description: Patient Account Information.
   - name: Admin
-    description: Administrative operations on the server
+    description: Administrative operations on the server.
   - name: Conditions
     description: Health Conditions perks can offer consultation.
+  - name: Deprecated
+    description: Endpoints that will be removed as we move forward.
   - name: Drugs
     description: HealthDyne drug list currently updated via csv upload.
   - name: Guest visits
     description: Operations related to guest visits.
+  - name: HSID
+    description: Operations related to health safe id.
   - name: Patients
     description: Operations related to patient information.
   - name: Payments
@@ -78,6 +82,80 @@ tags:
   - name: Webhooks
     description: Operations related to webhooks.
 paths:
+  /accounts:
+    put:
+      summary: |
+        Updated a user account info HSID/ADB2C, Fabric, Stripe, etc..
+      description: |
+        After the user updates his profile, 
+        updates info in all the relevant places.
+      operationId: putAccount
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Adb2cClaimsUpdate'
+      responses:
+        '201':
+          description: Created
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '403':
+          $ref: '#/components/responses/Error403Response'
+      tags:
+        - Accounts
+  /accounts/login:
+    post:
+      summary: |
+        Associate user account to session from HSID/ADB2C authorization
+      description: |
+        After the user logs into their account in HSID flow, 
+        redirects to FE and they call this endpoint with token for normal workflow.
+      operationId: postLogin
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Adb2cToken'
+      responses:
+        '201':
+          description: Created
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '403':
+          $ref: '#/components/responses/Error403Response'
+      tags:
+        - Accounts
+  /accounts/logout:
+    post:
+      summary: |
+        Logout a user account from HSID/ADB2C (as a whole)
+      description: |
+        Logs a user account out of the entire HSID ecosystem.
+      operationId: postLogout
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '403':
+          $ref: '#/components/responses/Error403Response'
+      tags:
+        - Accounts
   /accounts/confirm:
     post:
       summary: |
@@ -104,6 +182,7 @@ paths:
           $ref: '#/components/responses/Error403Response'
       tags:
         - Accounts
+        - Deprecated
   /accounts/{account-id}:
     get:
       operationId: getAccountById
@@ -414,6 +493,11 @@ paths:
         Creates a guest visit.
       parameters:
         - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+        - $ref: '#/components/parameters/utmSource'
+        - $ref: '#/components/parameters/utmMedium'
+        - $ref: '#/components/parameters/utmCampaign'
+        - $ref: '#/components/parameters/utmTerm'
+        - $ref: '#/components/parameters/utmContent'
       security:
         - bearerAuth: []
       requestBody:
@@ -430,7 +514,7 @@ paths:
                 This cookie acts as a temporary access token that must be retained and sent in subsequent guest_visits requests. The cookie expires in two hours. There is no option to refresh the token so the guest visit must be completed within the timeframe.
               schema:
                 type: string
-              examples:
+              example:
                 GVIDCookieExample:
                   summary: Example GVID cookie
                   value: GVID=9QVmrGhIP3Q2CzBJXSh7HOY8T4jOdEBiT%2B4X2w4Tizkio6csjbe3M3Cfs5ZMZ7nCXDcxzHA3wyNSO6e%2FfyfLOsvb0isFaAl53z%2Fd6bDafGlyQmimRfItZwbA6BplcKglhurCGr3tOMKgpDi7h4pGiZnK%2BJ2K--FeG4KN4JaX83oV%2B4--s7UxQO4w%2BDjray3ieUTKuw%3D%3D;
@@ -444,18 +528,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error422UnprocessableEntity'
-              examples:
-                unprocessable_entity:
-                  value:
-                    status: 422
-                    errors:
-                      - message: Address state can't be blank
-                        reason: address_state
-                      - message: Patient gender can't be blank
-                        reason: patient_gender
-                      - message: Patient age can't be blank
-                        reason: patient_age
-                    message: Unprocessable Entity
+              example:
+                value:
+                  status: 422
+                  errors:
+                    - message: Address state can't be blank
+                      reason: address_state
+                    - message: Patient gender can't be blank
+                      reason: patient_gender
+                    - message: Patient age can't be blank
+                      reason: patient_age
+                  message: Unprocessable Entity
       tags:
         - Guest visits
   /guest-visits/eligibility:
@@ -527,14 +610,14 @@ paths:
                           type: string
                   message:
                     type: string
-                examples:
-                  - status: 422
-                    errors:
-                      - message: q884 response is required
-                        reason: q884
-                      - message: q885 response is required
-                        reason: q885
-                    message: Unprocessable Entity
+                example:
+                  status: 422
+                  errors:
+                    - message: q884 response is required
+                      reason: q884
+                    - message: q885 response is required
+                      reason: q885
+                  message: Unprocessable Entity
       tags:
         - Guest visits
     post:
@@ -591,14 +674,14 @@ paths:
                           type: string
                   message:
                     type: string
-                examples:
-                  - status: 422
-                    errors:
-                      - message: q884 response is required
-                        reason: q884
-                      - message: q885 response is required
-                        reason: q885
-                    message: Unprocessable Entity
+                example:
+                  status: 422
+                  errors:
+                    - message: q884 response is required
+                      reason: q884
+                    - message: q885 response is required
+                      reason: q885
+                  message: Unprocessable Entity
       tags:
         - Guest visits
   /guest-visits/{visit-id}/create-image:
@@ -953,6 +1036,32 @@ paths:
       tags:
         - Pharmacy
   /pharmacies/{pharmacy-id}/prescriptions/{visit-id}:
+    get:
+      operationId: getSelectPharmacyForVisit
+      summary: Get pharmacy details
+      description: |
+        Get pharamcy details for a specific pharmacy relative 
+        to the prescription (Fabric OR Healthdyne) to the Pharmacy chosen by the patient.  
+        Includes coupons/discounts if applicable.
+        Returns the details of the pharmacy selected.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/visit-id'
+        - $ref: '#/components/parameters/pharmacy-id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pharmacy'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Pharmacy
     put:
       operationId: putSelectPharmacyForVisit
       summary: Select a pharmacy to send the prescription and discounts
@@ -1221,8 +1330,8 @@ paths:
                   description: |
                     The comment/question to post.
                     The patient's phone number should be included in the comment.
-              examples:
-                - comment: 'Should I stop taking this if my symptoms improve?<br>Patient''s phone number is: 1 (320) 310-9771'
+              example:
+                comment: 'Should I stop taking this if my symptoms improve?<br>Patient''s phone number is: 1 (320) 310-9771'
       responses:
         '200':
           description: OK
@@ -1288,9 +1397,8 @@ paths:
             Content-Disposition:
               schema:
                 type: string
-              examples:
-                exampleValue:
-                  value: attachment; filename="school_work_note_08-29-2024_190507.pdf"; filename*=UTF-8''school_work_note_08-29-2024_190507.pdf
+              example:
+                value: attachment; filename="school_work_note_08-29-2024_190507.pdf"; filename*=UTF-8''school_work_note_08-29-2024_190507.pdf
         '401':
           $ref: '#/components/responses/Error401Response'
         '404':
@@ -1298,6 +1406,28 @@ paths:
       tags:
         - Treatment plan
   /visits:
+    get:
+      operationId: getVisits
+      summary: Get All Visits
+      description: |
+        Gets a list of the users most recent visits
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientVisitHistory'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Visits
     post:
       operationId: postVisit
       summary: Create Visit
@@ -1305,6 +1435,11 @@ paths:
         Creates a visit.
       parameters:
         - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+        - $ref: '#/components/parameters/utmSource'
+        - $ref: '#/components/parameters/utmMedium'
+        - $ref: '#/components/parameters/utmCampaign'
+        - $ref: '#/components/parameters/utmTerm'
+        - $ref: '#/components/parameters/utmContent'
       requestBody:
         content:
           application/json:
@@ -1375,14 +1510,14 @@ paths:
                           type: string
                   message:
                     type: string
-                examples:
-                  - status: 422
-                    errors:
-                      - message: q884 response is required
-                        reason: q884
-                      - message: q885 response is required
-                        reason: q885
-                    message: Unprocessable Entity
+                example:
+                  status: 422
+                  errors:
+                    - message: q884 response is required
+                      reason: q884
+                    - message: q885 response is required
+                      reason: q885
+                  message: Unprocessable Entity
       tags:
         - Visits
     post:
@@ -1439,14 +1574,14 @@ paths:
                           type: string
                   message:
                     type: string
-                examples:
-                  - status: 422
-                    errors:
-                      - message: q884 response is required
-                        reason: q884
-                      - message: q885 response is required
-                        reason: q885
-                    message: Unprocessable Entity
+                example:
+                  status: 422
+                  errors:
+                    - message: q884 response is required
+                      reason: q884
+                    - message: q885 response is required
+                      reason: q885
+                  message: Unprocessable Entity
       tags:
         - Visits
   /visits/{visit-id}/create-image:
@@ -1516,18 +1651,15 @@ paths:
                 id:
                   type: string
                   description: The unique identifier for the event.
-                  examples:
-                    - evt_1HhZsW2eZvKYlo2CVJXsLs5A
+                  example: evt_1HhZsW2eZvKYlo2CVJXsLs5A
                 object:
                   type: string
                   description: The type of object in the event (i.e. request.body.event [`event`]).
-                  examples:
-                    - event
+                  example: event
                 type:
                   type: string
                   description: The type of event from Stripe (i.e. request.body.event.type [`checkout.session.completed`]).
-                  examples:
-                    - charge.succeeded
+                  example: charge.succeeded
                 data:
                   type: object
                   properties:
@@ -1538,23 +1670,19 @@ paths:
                         id:
                           type: string
                           description: The unique identifier for the object within Stripe.
-                          examples:
-                            - cs_test_a1ZxsX2eZ3YxUVJ1rYPmP2M5U
+                          example: cs_test_a1ZxsX2eZ3YxUVJ1rYPmP2M5U
                         amount:
                           type: integer
                           description: The total amount for the session, in cents (or smallest currency unit).
-                          examples:
-                            - 5000
+                          example: 5000
                         currency:
                           type: string
                           description: Currency of transaction.
-                          examples:
-                            - usd
+                          example: usd
                         customer:
                           type: string
                           description: The Stripe customer ID related to the event.
-                          examples:
-                            - cus_JGgrsxEiwxZ2Vg
+                          example: cus_JGgrsxEiwxZ2Vg
                         metadata:
                           type: object
                           description: Any metadata params passed into the origin payment intent.
@@ -1562,44 +1690,39 @@ paths:
                             zipAuth:
                               type: string
                               description: Zipnosis auth required for webhook to call Fabric promo_code endpoint.
-                              examples:
-                                - eyJhbGciOiJIUzI1NiIsImlzcyI6InppcG5vc2lzIn0.eyJ1c2VyX2lkIjo5MDMzOSwiaWF0IjoxNzI0ODgwMzYwLCJleHAiOjE3MjQ4ODEyNjAsImlzcyI6InppcG5vc2lzIiwiandlX3Rva2VuIjpudWxsfQ.3j3KSCTSYbket8jFZQfcsDulJwWiY88bNRzJxaN6Sn4
+                              example: eyJhbGciOiJIUzI1NiIsImlzcyI6InppcG5vc2lzIn0.eyJ1c2VyX2lkIjo5MDMzOSwiaWF0IjoxNzI0ODgwMzYwLCJleHAiOjE3MjQ4ODEyNjAsImlzcyI6InppcG5vc2lzIiwiandlX3Rva2VuIjpudWxsfQ.3j3KSCTSYbket8jFZQfcsDulJwWiY88bNRzJxaN6Sn4
                             visitId:
                               type: string
                               description: Visit id attached to this payment.
-                              examples:
-                                - 67152283-1c7c-432a-9970-8b2bb8fccc51
+                              example: 67152283-1c7c-432a-9970-8b2bb8fccc51
                         paid:
                           type: boolean
                           description: Paid success or fail.
-                          examples:
-                            - true
+                          example: true
                         payment_intent:
                           type: string
                           description: Payment intent ID.
-                          examples:
-                            - pi_3QzjCrAGjvV1XAXX1xAa2iFS
+                          example: pi_3QzjCrAGjvV1XAXX1xAa2iFS
                         payment_method:
                           type: string
                           description: Customer payment method ID used for transaction.
-                          examples:
-                            - pm_3QzjCrAGjvV1XAXX1xAa2iFS
-              examples:
-                - id: evt_1HhZsW2eZvKYlo2CVJXsLs5A
-                  object: event
-                  type: checkout.session.completed
-                  data:
-                    object:
-                      id: cs_test_a1ZxsX2eZ3YxUVJ1rYPmP2M5U
-                      amount: 5000
-                      currency: usd
-                      customer: cus_JGgrsxEiwxZ2Vg
-                      metadata:
-                        zipAuth: eyJhbGciOiJIUzI1NiIsImlzcyI6InppcG5vc2lzIn0.eyJ1c2VyX2lkIjo5MDMzOSwiaWF0IjoxNzI0ODgwMzYwLCJleHAiOjE3MjQ4ODEyNjAsImlzcyI6InppcG5vc2lzIiwiandlX3Rva2VuIjpudWxsfQ.3j3KSCTSYbket8jFZQfcsDulJwWiY88bNRzJxaN6Sn4
-                        visitId: 67152283-1c7c-432a-9970-8b2bb8fccc51
-                      paid: true
-                      payment_intent: pi_3QzjCrAGjvV1XAXX1xAa2iFS
-                      payment_method: pm_3QzjCrAGjvV1XAXX1xAa2iFS
+                          example: pm_3QzjCrAGjvV1XAXX1xAa2iFS
+              example:
+                id: evt_1HhZsW2eZvKYlo2CVJXsLs5A
+                object: event
+                type: checkout.session.completed
+                data:
+                  object:
+                    id: cs_test_a1ZxsX2eZ3YxUVJ1rYPmP2M5U
+                    amount: 5000
+                    currency: usd
+                    customer: cus_JGgrsxEiwxZ2Vg
+                    metadata:
+                      zipAuth: eyJhbGciOiJIUzI1NiIsImlzcyI6InppcG5vc2lzIn0.eyJ1c2VyX2lkIjo5MDMzOSwiaWF0IjoxNzI0ODgwMzYwLCJleHAiOjE3MjQ4ODEyNjAsImlzcyI6InppcG5vc2lzIiwiandlX3Rva2VuIjpudWxsfQ.3j3KSCTSYbket8jFZQfcsDulJwWiY88bNRzJxaN6Sn4
+                      visitId: 67152283-1c7c-432a-9970-8b2bb8fccc51
+                    paid: true
+                    payment_intent: pi_3QzjCrAGjvV1XAXX1xAa2iFS
+                    payment_method: pm_3QzjCrAGjvV1XAXX1xAa2iFS
       responses:
         '200':
           description: Successful receipt of the webhook event.
@@ -1609,6 +1732,43 @@ paths:
           description: Internal server error if there is an issue processing the event.
       tags:
         - Webhooks
+  /hsid/{wildCard}:
+    get:
+      summary: Represents all HSID get endpoints
+      description: |
+        Calls from Azure to the HSID provider come through this endpoint and we do not know the specific paths that will be invoked.
+      operationId: getHSID
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+        - $ref: '#/components/parameters/wild-card'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      tags:
+        - HSID
+    post:
+      summary: Represents all HSID post endpoints
+      description: |
+        Calls from Azure to the HSID provider come through this endpoint and we do not know the specific paths that will be invoked.
+      operationId: postHSID
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+        - $ref: '#/components/parameters/wild-card'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      tags:
+        - HSID
 components:
   schemas:
     Account:
@@ -1659,27 +1819,62 @@ components:
               type: string
             accountInsuranceInformation:
               type: string
-      examples:
-        - email: bob@aol.com
-          fullName: Bob Frog
-          insuranceCarrier: Blue Cross
-          insuranceGroup: BC-Plus
-          insuranceGroupId: 45-768393F
-          insuranceId: 123485690F
-          mobilePhone: 555.555.5555
-          phone: 123.456.5555
-          smsNotify: true
-          canChangePassword: true
-          profileContent:
-            allergiesLink: Allergies
-            documentTitle: Patient Profile
-            medicationsLink: Medications
-            patientDashboardLink: Patient Dashboard
-            patientDetailsLink: Patient Details
-            visitHistoryLink: Visit History
-          accountContent:
-            profilePersonalInformation: Personal information
-            accountInsuranceInformation: Insurance information
+      example:
+        email: bob@aol.com
+        fullName: Bob Frog
+        insuranceCarrier: Blue Cross
+        insuranceGroup: BC-Plus
+        insuranceGroupId: 45-768393F
+        insuranceId: 123485690F
+        mobilePhone: 555.555.5555
+        phone: 123.456.5555
+        smsNotify: true
+        canChangePassword: true
+        profileContent:
+          allergiesLink: Allergies
+          documentTitle: Patient Profile
+          medicationsLink: Medications
+          patientDashboardLink: Patient Dashboard
+          patientDetailsLink: Patient Details
+          visitHistoryLink: Visit History
+        accountContent:
+          profilePersonalInformation: Personal information
+          accountInsuranceInformation: Insurance information
+    Adb2cToken:
+      description: |
+        The token is used to authenticate the user for the duration of the tokenExpires time.
+        The token is used in the header for all requests that require authentication.
+      type: object
+      properties:
+        token:
+          type: string
+          format: byte
+      example:
+        token: ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5
+    Adb2cClaimsUpdate:
+      description: |
+        The is used to update the user profile.
+      type: object
+      properties:
+        hsid:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - hsid
+      example:
+        hsid: 1234-5678-9012
+        email: bob@aaol.com
+        phone: 555-555-5555
+        firstName: Bob
+        lastName: Frog
     Address:
       type: object
       properties:
@@ -1703,14 +1898,14 @@ components:
         - state
         - zipCode
         - phoneNumber
-      examples:
-        - addressLine1: TEST MAIN
-          addressLine2: Suite 102
-          city: MINNEAPOLIS
-          country: USA
-          state: MN
-          zipCode: '55401'
-          phoneNumber: 256-555-5555
+      example:
+        addressLine1: TEST MAIN
+        addressLine2: Suite 102
+        city: MINNEAPOLIS
+        country: USA
+        state: MN
+        zipCode: '55401'
+        phoneNumber: 256-555-5555
     BusinessHours:
       type: object
       properties:
@@ -1730,13 +1925,13 @@ components:
             time:
               type: string
               format: date-time
-      examples:
-        - open:
-            day: Monday
-            time: '8:00'
-          close:
-            day: Monday
-            time: '18:00'
+      example:
+        open:
+          day: Monday
+          time: '8:00'
+        close:
+          day: Monday
+          time: '18:00'
     Condition:
       type: object
       properties:
@@ -1746,136 +1941,9 @@ components:
           $ref: '#/components/schemas/FulfillmentOptions'
         treatmentOptions:
           $ref: '#/components/schemas/TreatmentOptions'
-      examples:
-        - conditionDetails:
-            heading: Restore your hair and your confidence. Get prescribed online in minutes.
-            description: |
-              Fill out a questionnaire online. If you’re approved by one of Optum’s experienced providers, 
-              you’ll have your online prescription in less than 15 minutes.
-            icon:
-              imageUrl: https://example.com/image.png
-              darkModeImageUrl: https://example.com/dark-mode-image.png
-              altText: An example icon
-            ctaButton: Questionnaire for hair loss
-            label: cp_9q_449a_acne
-            urlSlug: allergies
-            name: Allergic Rhinitis
-            commonName: Allergies
-          fulfillmentOptions:
-            homeDelivery:
-              drugNames:
-                - Minoxidil
-                - Finasteride
-              priceRange:
-                label: Total cost
-                minPrice:
-                  amount: '10.50'
-                  currency: USD
-                  display: $10.50
-                maxPrice:
-                  amount: '20.50'
-                  currency: USD
-                  display: $20.50
-            retail:
-              drugNames:
-                - Minoxidil
-                - Finasteride
-              priceRange:
-                label: Total cost
-                minPrice:
-                  amount: '8.50'
-                  currency: USD
-                  display: $8.50
-                maxPrice:
-                  amount: '19.50'
-                  currency: USD
-                  display: $19.50
-          treatmentOptions:
-            - perksId: e82bfafb-eca1-4711-9156-b0f9fc8b54a7
-              commonName: Minoxidil
-              urlSlug: minoxidil
-              formulationId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
-              price:
-                amount: '8.50'
-                currency: USD
-                display: $8.50
-              quantity: 30
-              drugType: BRAND
-              description: This medicine is an HMG-CoA reductase inhibitor (also known as a statin) used in combination with...
-    ConditionDetails:
-      type: object
-      properties:
-        heading:
-          type: string
-          description: |
-            Source: fabricCondition.content.page_heading string
-          examples:
-            - Get fast, convenient care for acne. No appointment needed.
-        description:
-          description: |
-            Source: fabricCondition.content.wysk_body & treatment_plan_expectation_text string
-          type: string
-          examples:
-            - Acne is a common skin condition that occurs when hair follicles become clogged with oil and dead skin cells. This can result in various types of blemishes, including pimples, blackheads, whiteheads, and in some cases, deeper cysts or nodules. Acne typically affects areas with a high concentration of oil glands, such as the face, chest, and back.
-        icon:
-          description: |
-            Source: perksCondition.heroIcon 
-            OR fabricCondition.content.primary_image_path If Perks is unavalible
-          $ref: '#/components/schemas/ImageUrl'
-        ctaButton:
-          description: |
-            Source: fabricCondition.content.start_today_heading
-          type: string
-          examples:
-            - Questionnaire for hair loss
-        label:
-          description: |
-            Primary Key
-            Source: fabricCondition.label
-            This label is the primary key for Fabric's Clinical Conditions.
-          type: string
-          examples:
-            - cp_9q_449a_acne
-        urlSlug:
-          type: string
-          pattern: ^[a-z0-9-]+$
-          description: |
-            Source: perksCondition.urlSlug 
-            OR convert fabricCondition.name into slug       
-            A stable identifier for this health condition. 
-            URL slugs must be URL-safe: 
-            lower case letters (a-z), numbers (0-9), and dashes (-) only.
-          examples:
-            - allergies
-        name:
-          description: |
-            Source: fabricCondition.name
-            The clinical name for this condition.
-          type: string
-          examples:
-            - Allergic Rhinitis
-        alternateName:
-          description: |
-            Source: perksCondition.name  
-            The alternate clinical name for this condition.
-          type: string
-          examples:
-            - Allergic Rhinitis
-        commonName:
-          description: |
-            Source: perksCondition.commonName OR fabricCondition.name
-            Name the condition is commonly known as.  If Perks is not available 
-            Fabric name will be used.
-          type: string
-          examples:
-            - Allergies
-      required:
-        - heading
-        - description
-        - label
-        - name
-      examples:
-        - heading: Restore your hair and your confidence. Get prescribed online in minutes.
+      example:
+        conditionDetails:
+          heading: Restore your hair and your confidence. Get prescribed online in minutes.
           description: |
             Fill out a questionnaire online. If you’re approved by one of Optum’s experienced providers, 
             you’ll have your online prescription in less than 15 minutes.
@@ -1888,404 +1956,8 @@ components:
           urlSlug: allergies
           name: Allergic Rhinitis
           commonName: Allergies
-    ConditionListByCategory:
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-            description: Category Name
-            examples:
-              - Cold, flu, COVID-19
-          fabricId:
-            type: number
-            description: Fabric Id for category
-            examples:
-              - 40
-          conditions:
-            type: array
-            items:
-              $ref: '#/components/schemas/ConditionSummary'
-      examples:
-        - - name: Cold, flu, COVID-19
-            fabricId: 40
-            conditions:
-              - label: cp_12q_449a_covid19coronavirus
-                name: COVID-19
-                primaryDescription: Evaluation of COVID-19 (coronavirus)
-                primaryImagePath: /PatientInterface/Conditions/covid-a.webp
-              - label: cp_12q_449a_respiratory
-                name: Cold, sinus infection, or flu
-                primaryDescription: Stuffy or runny nose, cough, sore throat, headache, fever, or muscle aches
-                primaryImagePath: /PatientInterface/Conditions/uri-a.webp
-                urlSlug: cold
-              - label: cp_184q_449a_reason
-                name: COVID-19 treatments
-                primaryDescription: Evaluation for COVID-19 treatment for those with a confirmed diagnosis of COVID-19
-                primaryImagePath: /PatientInterface/Conditions/paxlovid-a.webp
-                urlSlug: covid-19
-              - label: cp_41q_449a_reason
-                name: Flu exposure
-                primaryDescription: Medication to prevent the flu after a close contact exposure (not for active symptoms)
-                primaryImagePath: /PatientInterface/Conditions/fluexposure-a.webp
-                urlSlug: flu
-              - label: cp_171q_449a_reason
-                name: Post-COVID discharge (video required)
-                primaryDescription: COVID-19 (coronavirus) follow-up after being discharged from the hospital or clinic
-                primaryImagePath: /PatientInterface/Conditions/postcoviddischarge-a.webp
-                urlSlug: post-covid
-              - label: cp_42q_449a_reason
-                name: Whooping cough exposure
-                primaryDescription: Medication to prevent whooping cough after close contact with a person with the illness
-                primaryImagePath: /PatientInterface/Conditions/whoopingcough-a.webp
-                urlSlug: whooping-cough
-    ConditionSummary:
-      type: object
-      properties:
-        label:
-          type: string
-          examples:
-            - cp_9q_449a_acne
-        name:
-          type: string
-          description: The clinical name for this condition.
-          examples:
-            - Allergic Rhinitis
-        primaryDescription:
-          type: string
-          examples:
-            - Cold, sinus infection, or sore throat
-        primaryImagePath:
-          type: string
-          examples:
-            - /PatientInterface/Conditions/acne-a.webp
-        urlSlug:
-          type: string
-          description: |
-            A stable identifier for this health condition. URL slugs must be URL-safe: lower case letters (a-z), numbers (0-9), and dashes (-) only.
-          examples:
-            - allergies
-      examples:
-        - label: cp_12q_449a_covid19coronavirus
-          name: COVID-19
-          primaryDescription: Evaluation of COVID-19 (coronavirus)
-          primaryImagePath: /PatientInterface/Conditions/covid-a.webp
-    Drug:
-      type: object
-      properties:
-        perksId:
-          type: string
-          format: uuid
-          examples:
-            - 84b18721-2493-4a31-a5ad-4d81dc1647e4
-        name:
-          type: string
-          examples:
-            - Minoxidil
-        drugType:
-          $ref: '#/components/schemas/DrugType'
-        urlSlug:
-          type: string
-          examples:
-            - atorvastatin
-        variants:
-          type: array
-          items:
-            type: object
-            properties:
-              perksId:
-                type: string
-                format: uuid
-                examples:
-                  - 84b18721-2493-4a31-a5ad-4d81dc1647e4
-              urlSlug:
-                type: string
-                examples:
-                  - atorvastatin
-              name:
-                type: string
-                examples:
-                  - Lipitor
-              drugType:
-                $ref: '#/components/schemas/DrugType'
-        formulationId:
-          type: string
-          format: uuid
-          examples:
-            - 84b18721-2493-4a31-a5ad-4d81dc1647e4
-        price:
-          $ref: '#/components/schemas/Price'
-        quantity:
-          type: number
-          format: double
-          examples:
-            - 30
-          description: The quantity that was used to calculate the price for this formulation.
-        protocol:
-          type: string
-          examples:
-            - General skin conditions
-        ndc:
-          type: string
-          examples:
-            - '12345678900'
-        drugDescription:
-          type: string
-          examples:
-            - Lorem ispum dilor sit amet.
-        daysSupply:
-          type: integer
-          examples:
-            - 30
-        refillCount:
-          type: integer
-          examples:
-            - 3
-        drugForm:
-          type: string
-          examples:
-            - foam
-        strength:
-          type: string
-          examples:
-            - '15'
-            - 0.3-2.5
-        strengthQualifier:
-          type: string
-          examples:
-            - '%'
-        sig:
-          type: string
-          examples:
-            - Apply to the affected skin 2 times per day
-        cpid:
-          type: integer
-          examples:
-            - 49
-        unitPrice:
-          type: number
-          examples:
-            - 27.95
-      examples:
-        - perksId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
-          name: Minoxidil
-          drugType: brand
-          urlSlug: atorvastatin
-          variants:
-            - perksId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
-              urlSlug: atorvastatin
-              name: Lipitor
-              drugType: brand
-          formulationId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
-          price:
-            amount: '10.50'
-            currency: USD
-            display: $10.50
-          quantity: 50
-          ndc: '40085031530'
-          protocol: Acne and rosacea
-          drugDescription: erythromycin with ethanol (Erygel) 2 % topical gel
-          daysSupply: 30
-          refillCount: 3
-          drugForm: gel
-          strength: '2'
-          strengthQualifier: '%'
-          sig: Apply to the affected skin 2 times per day
-          cpid: 9
-          unitPrice: 74.86
-    DrugVariantInfo:
-      type: object
-      description: |
-        Drub & Variants info. Source Perks XAPI drugs/{id}/prices
-      properties:
-        ndc:
-          type: string
-        formulationId:
-          type: string
-        name:
-          type: string
-        variants:
-          type: array
-          items:
-            type: object
-            properties:
-              ndc:
-                type: string
-              formulationId:
-                type: string
-              name:
-                type: string
-      required:
-        - ndc
-        - formulationId
-        - name
-      examples:
-        - ndc: '31722092601'
-          formulationId: '72162199205'
-          name: Methylphenidate
-          variants:
-            - ndc: '71376020103'
-              formulationId: '72162199205'
-              name: Jornay Pm
-    DrugListCsv:
-      type: object
-      properties:
-        rows:
-          type: array
-          items:
-            type: object
-            properties:
-              protocol:
-                type: string
-                examples:
-                  - '123'
-              ndc:
-                type: string
-                examples:
-                  - '12345678900'
-              drug_description:
-                type: string
-                examples:
-                  - '123'
-              quantity:
-                type: string
-                examples:
-                  - '123'
-              days_supply:
-                type: string
-                examples:
-                  - '123'
-              refill_count:
-                type: string
-                examples:
-                  - '123'
-              drug_form:
-                type: string
-                examples:
-                  - '123'
-              strength:
-                type: string
-                examples:
-                  - '123'
-              strength_qualifier:
-                type: string
-                examples:
-                  - '123'
-              sig:
-                type: string
-                examples:
-                  - '123'
-              cpid:
-                type: string
-                examples:
-                  - '123'
-              unit_price:
-                type: string
-                examples:
-                  - '123'
-            required:
-              - protocol
-              - ndc
-              - drug_description
-              - quantity
-              - days_supply
-              - refill_count
-              - drug_form
-              - strength
-              - strength_qualifier
-              - sig
-              - cpid
-              - unit_price
-      examples:
-        - rows:
-            - protocol: Acne and rosacea
-              ndc: '66993095931'
-              drug_description: clindamycin-tretinoin (Ziana) 1.2-0.025 % topical gel
-              quantity: '1'
-              days_supply: '30'
-              refill_count: '3'
-              drug_form: gel
-              strength: 1.2-0.025
-              strength_qualifier: '%'
-              sig: Apply to the affected skin 1 time per day at bedtime
-              cpid: '9'
-              unit_price: '88.4'
-    DrugPricingInfo:
-      description: |
-        Price info for a single drug formulation (strength, method of delivery, etc..)
-        Depending on the context, Source could be Fabric treatment_plan.prescriptions, 
-        Perks XAPI drugs/{id}/prices, or Internal price list for Healthdyne.
-      type: object
-      properties:
-        ndc:
-          type: string
-        formulationId:
-          type: string
-        name:
-          type: string
-        couponId:
-          type: string
-          format: uuid
-        price:
-          $ref: '#/components/schemas/Price'
-      required:
-        - ndc
-        - formulationId
-        - name
-        - price
-      examples:
-        - ndc: '31722092601'
-          formulationId: '72162199205'
-          name: Methylphenidate
-          couponId: '005947'
-          price:
-            amount: '10.50'
-            currency: USD
-            display: $10.50
-    DrugType:
-      type: string
-      enum:
-        - brand
-        - generic
-      examples:
-        - generic
-      description: |
-        Backwards Compatibility Note:** If an unrecognized `drugType` is received by the client, `brand` should be assumed.
-    FabricToken:
-      type: object
-      properties:
-        token:
-          type: string
-      examples:
-        - token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    FulfillmentOptions:
-      type: object
-      properties:
-        homeDelivery:
-          type: object
-          properties:
-            drugNames:
-              description: 'Source: Mapping Fabric/Perks NDC to DB(Healthdyne)'
-              type: array
-              items:
-                type: string
-            priceRange:
-              description: 'Source: Mapping Fabric/Perks NDC to DB(Healthdyne)'
-              $ref: '#/components/schemas/PriceRange'
-        retail:
-          type: object
-          properties:
-            drugNames:
-              description: 'Source: Perks (filtered by what is available in Fabric Treatment Options)'
-              type: array
-              items:
-                type: string
-            priceRange:
-              description: 'Source: Perks: healthConditions.drugs.price'
-              $ref: '#/components/schemas/PriceRange'
-      examples:
-        - homeDelivery:
+        fulfillmentOptions:
+          homeDelivery:
             drugNames:
               - Minoxidil
               - Finasteride
@@ -2313,6 +1985,483 @@ components:
                 amount: '19.50'
                 currency: USD
                 display: $19.50
+        treatmentOptions:
+          - perksId: e82bfafb-eca1-4711-9156-b0f9fc8b54a7
+            commonName: Minoxidil
+            urlSlug: minoxidil
+            formulationId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
+            price:
+              amount: '8.50'
+              currency: USD
+              display: $8.50
+            quantity: 30
+            drugType: BRAND
+            description: This medicine is an HMG-CoA reductase inhibitor (also known as a statin) used in combination with...
+    ConditionDetails:
+      type: object
+      properties:
+        heading:
+          type: string
+          description: |
+            Source: fabricCondition.content.page_heading string
+          example: Get fast, convenient care for acne. No appointment needed.
+        description:
+          description: |
+            Source: fabricCondition.content.wysk_body & treatment_plan_expectation_text string
+          type: string
+          example: Acne is a common skin condition that occurs when hair follicles become clogged with oil and dead skin cells. This can result in various types of blemishes, including pimples, blackheads, whiteheads, and in some cases, deeper cysts or nodules. Acne typically affects areas with a high concentration of oil glands, such as the face, chest, and back.
+        icon:
+          description: |
+            Source: perksCondition.heroIcon 
+            OR fabricCondition.content.primary_image_path If Perks is unavalible
+          $ref: '#/components/schemas/ImageUrl'
+        ctaButton:
+          description: |
+            Source: fabricCondition.content.start_today_heading
+          type: string
+          example: Questionnaire for hair loss
+        label:
+          description: |
+            Primary Key
+            Source: fabricCondition.label
+            This label is the primary key for Fabric's Clinical Conditions.
+          type: string
+          example: cp_9q_449a_acne
+        urlSlug:
+          type: string
+          pattern: ^[a-z0-9-]+$
+          description: |
+            Source: perksCondition.urlSlug 
+            OR convert fabricCondition.name into slug       
+            A stable identifier for this health condition. 
+            URL slugs must be URL-safe: 
+            lower case letters (a-z), numbers (0-9), and dashes (-) only.
+          example: allergies
+        name:
+          description: |
+            Source: fabricCondition.name
+            The clinical name for this condition.
+          type: string
+          example: Allergic Rhinitis
+        alternateName:
+          description: |
+            Source: perksCondition.name  
+            The alternate clinical name for this condition.
+          type: string
+          example: Allergic Rhinitis
+        commonName:
+          description: |
+            Source: perksCondition.commonName OR fabricCondition.name
+            Name the condition is commonly known as.  If Perks is not available 
+            Fabric name will be used.
+          type: string
+          example: Allergies
+      required:
+        - heading
+        - description
+        - label
+        - name
+      example:
+        heading: Restore your hair and your confidence. Get prescribed online in minutes.
+        description: |
+          Fill out a questionnaire online. If you’re approved by one of Optum’s experienced providers, 
+          you’ll have your online prescription in less than 15 minutes.
+        icon:
+          imageUrl: https://example.com/image.png
+          darkModeImageUrl: https://example.com/dark-mode-image.png
+          altText: An example icon
+        ctaButton: Questionnaire for hair loss
+        label: cp_9q_449a_acne
+        urlSlug: allergies
+        name: Allergic Rhinitis
+        commonName: Allergies
+    ConditionListByCategory:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Category Name
+            example: Cold, flu, COVID-19
+          fabricId:
+            type: number
+            description: Fabric Id for category
+            example: 40
+          conditions:
+            type: array
+            items:
+              $ref: '#/components/schemas/ConditionSummary'
+      example:
+        - name: Cold, flu, COVID-19
+          fabricId: 40
+          conditions:
+            - label: cp_12q_449a_covid19coronavirus
+              name: COVID-19
+              primaryDescription: Evaluation of COVID-19 (coronavirus)
+              primaryImagePath: /PatientInterface/Conditions/covid-a.webp
+            - label: cp_12q_449a_respiratory
+              name: Cold, sinus infection, or flu
+              primaryDescription: Stuffy or runny nose, cough, sore throat, headache, fever, or muscle aches
+              primaryImagePath: /PatientInterface/Conditions/uri-a.webp
+              urlSlug: cold
+            - label: cp_184q_449a_reason
+              name: COVID-19 treatments
+              primaryDescription: Evaluation for COVID-19 treatment for those with a confirmed diagnosis of COVID-19
+              primaryImagePath: /PatientInterface/Conditions/paxlovid-a.webp
+              urlSlug: covid-19
+            - label: cp_41q_449a_reason
+              name: Flu exposure
+              primaryDescription: Medication to prevent the flu after a close contact exposure (not for active symptoms)
+              primaryImagePath: /PatientInterface/Conditions/fluexposure-a.webp
+              urlSlug: flu
+            - label: cp_171q_449a_reason
+              name: Post-COVID discharge (video required)
+              primaryDescription: COVID-19 (coronavirus) follow-up after being discharged from the hospital or clinic
+              primaryImagePath: /PatientInterface/Conditions/postcoviddischarge-a.webp
+              urlSlug: post-covid
+            - label: cp_42q_449a_reason
+              name: Whooping cough exposure
+              primaryDescription: Medication to prevent whooping cough after close contact with a person with the illness
+              primaryImagePath: /PatientInterface/Conditions/whoopingcough-a.webp
+              urlSlug: whooping-cough
+    ConditionSummary:
+      type: object
+      properties:
+        label:
+          type: string
+          example: cp_9q_449a_acne
+        name:
+          type: string
+          description: The clinical name for this condition.
+          example: Allergic Rhinitis
+        primaryDescription:
+          type: string
+          example: Cold, sinus infection, or sore throat
+        primaryImagePath:
+          type: string
+          example: /PatientInterface/Conditions/acne-a.webp
+        urlSlug:
+          type: string
+          description: |
+            A stable identifier for this health condition. URL slugs must be URL-safe: lower case letters (a-z), numbers (0-9), and dashes (-) only.
+          example: allergies
+      example:
+        label: cp_12q_449a_covid19coronavirus
+        name: COVID-19
+        primaryDescription: Evaluation of COVID-19 (coronavirus)
+        primaryImagePath: /PatientInterface/Conditions/covid-a.webp
+    Drug:
+      type: object
+      properties:
+        perksId:
+          type: string
+          format: uuid
+          example: 84b18721-2493-4a31-a5ad-4d81dc1647e4
+        name:
+          type: string
+          example: Minoxidil
+        drugType:
+          $ref: '#/components/schemas/DrugType'
+        urlSlug:
+          type: string
+          example: atorvastatin
+        variants:
+          type: array
+          items:
+            type: object
+            properties:
+              perksId:
+                type: string
+                format: uuid
+                example: 84b18721-2493-4a31-a5ad-4d81dc1647e4
+              urlSlug:
+                type: string
+                example: atorvastatin
+              name:
+                type: string
+                example: Lipitor
+              drugType:
+                $ref: '#/components/schemas/DrugType'
+        formulationId:
+          type: string
+          format: uuid
+          example: 84b18721-2493-4a31-a5ad-4d81dc1647e4
+        price:
+          $ref: '#/components/schemas/Price'
+        quantity:
+          type: number
+          format: double
+          example: 30
+          description: The quantity that was used to calculate the price for this formulation.
+        protocol:
+          type: string
+          example: General skin conditions
+        ndc:
+          type: string
+          example: '12345678900'
+        drugDescription:
+          type: string
+          example: Lorem ispum dilor sit amet.
+        daysSupply:
+          type: integer
+          example: 30
+        refillCount:
+          type: integer
+          example: 3
+        drugForm:
+          type: string
+          example: foam
+        strength:
+          type: string
+          examples:
+            - '15'
+            - 0.3-2.5
+        strengthQualifier:
+          type: string
+          example: '%'
+        sig:
+          type: string
+          example: Apply to the affected skin 2 times per day
+        cpid:
+          type: integer
+          example: 49
+        unitPrice:
+          type: number
+          example: 27.95
+      example:
+        perksId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
+        name: Minoxidil
+        drugType: brand
+        urlSlug: atorvastatin
+        variants:
+          - perksId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
+            urlSlug: atorvastatin
+            name: Lipitor
+            drugType: brand
+        formulationId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
+        price:
+          amount: '10.50'
+          currency: USD
+          display: $10.50
+        quantity: 50
+        ndc: '40085031530'
+        protocol: Acne and rosacea
+        drugDescription: erythromycin with ethanol (Erygel) 2 % topical gel
+        daysSupply: 30
+        refillCount: 3
+        drugForm: gel
+        strength: '2'
+        strengthQualifier: '%'
+        sig: Apply to the affected skin 2 times per day
+        cpid: 9
+        unitPrice: 74.86
+    DrugVariantInfo:
+      type: object
+      description: |
+        Drub & Variants info. Source Perks XAPI drugs/{id}/prices
+      properties:
+        ndc:
+          type: string
+        formulationId:
+          type: string
+        name:
+          type: string
+        variants:
+          type: array
+          items:
+            type: object
+            properties:
+              ndc:
+                type: string
+              formulationId:
+                type: string
+              name:
+                type: string
+      required:
+        - ndc
+        - formulationId
+        - name
+      example:
+        ndc: '31722092601'
+        formulationId: '72162199205'
+        name: Methylphenidate
+        variants:
+          - ndc: '71376020103'
+            formulationId: '72162199205'
+            name: Jornay Pm
+    DrugListCsv:
+      type: object
+      properties:
+        rows:
+          type: array
+          items:
+            type: object
+            properties:
+              protocol:
+                type: string
+                example: '123'
+              ndc:
+                type: string
+                example: '12345678900'
+              drug_description:
+                type: string
+                example: '123'
+              quantity:
+                type: string
+                example: '123'
+              days_supply:
+                type: string
+                example: '123'
+              refill_count:
+                type: string
+                example: '123'
+              drug_form:
+                type: string
+                example: '123'
+              strength:
+                type: string
+                example: '123'
+              strength_qualifier:
+                type: string
+                example: '123'
+              sig:
+                type: string
+                example: '123'
+              cpid:
+                type: string
+                example: '123'
+              unit_price:
+                type: string
+                example: '123'
+            required:
+              - protocol
+              - ndc
+              - drug_description
+              - quantity
+              - days_supply
+              - refill_count
+              - drug_form
+              - strength
+              - strength_qualifier
+              - sig
+              - cpid
+              - unit_price
+      example:
+        rows:
+          - protocol: Acne and rosacea
+            ndc: '66993095931'
+            drug_description: clindamycin-tretinoin (Ziana) 1.2-0.025 % topical gel
+            quantity: '1'
+            days_supply: '30'
+            refill_count: '3'
+            drug_form: gel
+            strength: 1.2-0.025
+            strength_qualifier: '%'
+            sig: Apply to the affected skin 1 time per day at bedtime
+            cpid: '9'
+            unit_price: '88.4'
+    DrugPricingInfo:
+      description: |
+        Price info for a single drug formulation (strength, method of delivery, etc..)
+        Depending on the context, Source could be Fabric treatment_plan.prescriptions, 
+        Perks XAPI drugs/{id}/prices, or Internal price list for Healthdyne.
+      type: object
+      properties:
+        ndc:
+          type: string
+        formulationId:
+          type: string
+        name:
+          type: string
+        couponId:
+          type: string
+          format: uuid
+        price:
+          $ref: '#/components/schemas/Price'
+      required:
+        - ndc
+        - formulationId
+        - name
+        - price
+      example:
+        ndc: '31722092601'
+        formulationId: '72162199205'
+        name: Methylphenidate
+        couponId: '005947'
+        price:
+          amount: '10.50'
+          currency: USD
+          display: $10.50
+    DrugType:
+      type: string
+      enum:
+        - brand
+        - generic
+      example: generic
+      description: |
+        Backwards Compatibility Note:** If an unrecognized `drugType` is received by the client, `brand` should be assumed.
+    FabricToken:
+      type: object
+      properties:
+        token:
+          type: string
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    FulfillmentOptions:
+      type: object
+      properties:
+        homeDelivery:
+          type: object
+          properties:
+            drugNames:
+              description: 'Source: Mapping Fabric/Perks NDC to DB(Healthdyne)'
+              type: array
+              items:
+                type: string
+            priceRange:
+              description: 'Source: Mapping Fabric/Perks NDC to DB(Healthdyne)'
+              $ref: '#/components/schemas/PriceRange'
+        retail:
+          type: object
+          properties:
+            drugNames:
+              description: 'Source: Perks (filtered by what is available in Fabric Treatment Options)'
+              type: array
+              items:
+                type: string
+            priceRange:
+              description: 'Source: Perks: healthConditions.drugs.price'
+              $ref: '#/components/schemas/PriceRange'
+      example:
+        homeDelivery:
+          drugNames:
+            - Minoxidil
+            - Finasteride
+          priceRange:
+            label: Total cost
+            minPrice:
+              amount: '10.50'
+              currency: USD
+              display: $10.50
+            maxPrice:
+              amount: '20.50'
+              currency: USD
+              display: $20.50
+        retail:
+          drugNames:
+            - Minoxidil
+            - Finasteride
+          priceRange:
+            label: Total cost
+            minPrice:
+              amount: '8.50'
+              currency: USD
+              display: $8.50
+            maxPrice:
+              amount: '19.50'
+              currency: USD
+              display: $19.50
     GuestVisitInput:
       type: object
       required:
@@ -2350,15 +2499,15 @@ components:
           type: string
           description: |
             This allows the visit's condition, also known as reason for visit, to be preset at the start of the visit. If this parameter is omitted, the reason_for_visit will be left unset, and the guest visit will later prompt for a reason for visit.
-      examples:
-        - guestVisit:
-            addressState: MN
-            patientBirthDate: '1987-04-03'
-            patientGender: male
-            preparerBirthDate: 'null'
-            dependentVisit: false
-            patientAge: 34
-          conditionLabel: cp_9q_449a_acne
+      example:
+        guestVisit:
+          addressState: MN
+          patientBirthDate: '1987-04-03'
+          patientGender: male
+          preparerBirthDate: 'null'
+          dependentVisit: false
+          patientAge: 34
+        conditionLabel: cp_9q_449a_acne
     HealthCheck:
       type: object
       properties:
@@ -2420,10 +2569,10 @@ components:
           type: string
         questionIdentifier:
           type: string
-      examples:
-        - id: 17180
-          fileName: skin-rash-left-hand.jpg
-          questionIdentifier: q779
+      example:
+        id: 17180
+        fileName: skin-rash-left-hand.jpg
+        questionIdentifier: q779
     ImageInput:
       type: object
       properties:
@@ -2432,28 +2581,25 @@ components:
         file:
           type: string
           format: binary
-      examples:
-        - questionZid: q779
-          file: (binary)
+      example:
+        questionZid: q779
+        file: (binary)
     ImageUrl:
       type: object
       properties:
         imageUrl:
           type: string
-          examples:
-            - https://example.com/image.png
+          example: https://example.com/image.png
         darkModeImageUrl:
           type: string
-          examples:
-            - https://example.com/dark-mode-image.png
+          example: https://example.com/dark-mode-image.png
         altText:
           type: string
-          examples:
-            - An example image
-      examples:
-        - imageUrl: https://example.com/image.png
-          darkModeImageUrl: https://example.com/dark-mode-image.png
-          altText: An example icon
+          example: An example image
+      example:
+        imageUrl: https://example.com/image.png
+        darkModeImageUrl: https://example.com/dark-mode-image.png
+        altText: An example icon
     Interaction:
       type: object
       properties:
@@ -2539,27 +2685,27 @@ components:
                 type: number
         actions:
           $ref: '#/components/schemas/Action'
-      examples:
-        - stateName: clinical_interview
-          title: Interview Question
-          content:
-            - contentType: select_input
-              contentName: q775
-              contentLabel: <p>Almost done! Photos of the affected area of the skin are required to diagnose and treat you.</p><p><b>Can photos be taken and uploaded at this time?</b></p>
-              options:
-                - optionLabel: 'Yes'
-                  optionValue: 'yes'
-                - optionLabel: 'No'
-                  optionValue: 'no'
-              required: true
-          progress:
-            clinical_interview:
-              percentage: 28.4
-          actions:
-            continue:
-              actionLabel: Continue
-            goBack:
-              actionLabel: Back
+      example:
+        stateName: clinical_interview
+        title: Interview Question
+        content:
+          - contentType: select_input
+            contentName: q775
+            contentLabel: <p>Almost done! Photos of the affected area of the skin are required to diagnose and treat you.</p><p><b>Can photos be taken and uploaded at this time?</b></p>
+            options:
+              - optionLabel: 'Yes'
+                optionValue: 'yes'
+              - optionLabel: 'No'
+                optionValue: 'no'
+            required: true
+        progress:
+          clinical_interview:
+            percentage: 28.4
+        actions:
+          continue:
+            actionLabel: Continue
+          goBack:
+            actionLabel: Back
     InteractionInput:
       type: object
       properties:
@@ -2569,11 +2715,11 @@ components:
           type: object
           additionalProperties:
             type: string
-      examples:
-        - actionName: continue
-          responses:
-            q857: ihaveneverbeenprescribedtreatmentforthiscondition
-            q858: 'yes'
+      example:
+        actionName: continue
+        responses:
+          q857: ihaveneverbeenprescribedtreatmentforthiscondition
+          q858: 'yes'
     NameSearchResponse:
       type: array
       items:
@@ -2588,6 +2734,57 @@ components:
             name: Cystex (methenamine-benz acid)
           - id: 2253445
             name: Cystex Plus (methenamine-sal)
+    PatientVisitHistory:
+      description: |
+        Patient Visit History using to list Visit History
+      type: object
+      properties:
+        visits:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatientVisitSummary'
+        currentCount:
+          type: number
+        currentPage:
+          type: number
+        totalCount:
+          type: number
+        totalPages:
+          type: number
+      example:
+        visits:
+          - id: 123
+            createdAt: '2024-05-20T19:08:56.000Z'
+            finishedAt: '2024-06-20T19:08:56.000Z'
+            reasonForVisit: acne
+            state: prescriptions_expired
+        currentCount: 1
+        currentPage: 1
+        totalCount: 1
+        totalPages: 1
+    PatientVisitSummary:
+      description: |
+        Patient Visit Summary using to list Visit History
+      type: object
+      properties:
+        id:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        reasonForVisit:
+          type: string
+        state:
+          type: string
+      example:
+        id: 123
+        createdAt: '2024-05-20T19:08:56.000Z'
+        finishedAt: '2024-06-20T19:08:56.000Z'
+        reasonForVisit: acne
+        state: prescriptions_expired
     PaymentIntent:
       description: |
         See https://docs.stripe.com/api/payment_intents/create
@@ -2647,10 +2844,10 @@ components:
             Defaults to 'usd'.
       required:
         - amount
-      examples:
-        - amount: 1099
-          customerId: cus_NffrFeUfNV2Hib
-          currency: usd
+      example:
+        amount: 1099
+        customerId: cus_NffrFeUfNV2Hib
+        currency: usd
     PaymentIntentDetail:
       description: |
         See https://docs.stripe.com/api/payment_intents/list
@@ -2681,13 +2878,13 @@ components:
           type: string
           description: |
             Maps to PaymentIntents.data[].invoice in Stripe.
-      examples:
-        - paymentIntentId: pi_3MtwBwLkdIwHu7ix28a3tqPa
-          amount: 2000
-          amountReceived: 1500
-          created: '2018-11-13T20:20:39+00:00'
-          piClientSecret: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH
-          invoiceId: in_1MtHbELkdIwHu7ixl4OzzPMv
+      example:
+        paymentIntentId: pi_3MtwBwLkdIwHu7ix28a3tqPa
+        amount: 2000
+        amountReceived: 1500
+        created: '2018-11-13T20:20:39+00:00'
+        piClientSecret: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH
+        invoiceId: in_1MtHbELkdIwHu7ixl4OzzPMv
     PaymentIntents:
       description: |
         See https://docs.stripe.com/api/payment_intents/list
@@ -2697,20 +2894,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PaymentIntentDetail'
-      examples:
-        - transactions:
-            - paymentIntentId: pi_3MtwBwLkdIwHu7ix28a3tqPa
-              amount: 2000
-              amountReceived: 1500
-              created: '2018-11-13T20:20:39+00:00'
-              piClientSecret: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH
-              invoiceId: in_1MtHbELkdIwHu7ixl4OzzPMv
-            - paymentIntentId: pi_3MtwBwLkdIwHu7ix28a3tqPb
-              amount: 75
-              amountReceived: 0
-              created: '2024-11-13T20:20:39+00:00'
-              piClientSecret: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGI
-              invoiceId: in_1MtHbELkdIwHu7ixl4OzzPMw
+      example:
+        transactions:
+          - paymentIntentId: pi_3MtwBwLkdIwHu7ix28a3tqPa
+            amount: 2000
+            amountReceived: 1500
+            created: '2018-11-13T20:20:39+00:00'
+            piClientSecret: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH
+            invoiceId: in_1MtHbELkdIwHu7ixl4OzzPMv
+          - paymentIntentId: pi_3MtwBwLkdIwHu7ix28a3tqPb
+            amount: 75
+            amountReceived: 0
+            created: '2024-11-13T20:20:39+00:00'
+            piClientSecret: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGI
+            invoiceId: in_1MtHbELkdIwHu7ixl4OzzPMw
     PaymentMethod:
       description: |
         See https://docs.stripe.com/api/payment_methods/object
@@ -2743,12 +2940,12 @@ components:
           type: number
           description: |
             Maps to CustomerSession.exp_yea in Stripe.
-      examples:
-        - name: visa 5555
-          lastFour: '5555'
-          fingerprint: Xt5EWLLDS7FJjR1c
-          expireMonth: 8
-          expireYear: 2025
+      example:
+        name: visa 5555
+        lastFour: '5555'
+        fingerprint: Xt5EWLLDS7FJjR1c
+        expireMonth: 8
+        expireYear: 2025
     Pharmacy:
       type: object
       properties:
@@ -2782,38 +2979,38 @@ components:
           description: |
             Source Summation of Perks XAPI prices.data[].retailer.price or internal DB of Healthdyne drug prices.
           $ref: '#/components/schemas/Price'
-      examples:
-        - isPickup: true
-          perksId: '00605'
-          name: Apci Choice (Hma 605)
-          location:
-            addressLine1: TEST MAIN
-            addressLine2: Suite 102
-            city: MINNEAPOLIS
-            country: USA
-            state: MN
-            zipCode: '55401'
-            phoneNumber: 256-555-5555
-          businessHours:
-            - open:
-                day: Monday
-                time: '8:00'
-              close:
-                day: Monday
-                time: '18:00'
-          availableDrugs:
-            - ndc: '31722092601'
-              formulationId: '72162199205'
-              name: Methylphenidate
-              couponId: '005947'
-              price:
-                amount: '10.50'
-                currency: USD
-                display: $10.50
-          totalPrice:
-            amount: '10.50'
-            currency: USD
-            display: $10.50
+      example:
+        isPickup: true
+        perksId: '00605'
+        name: Apci Choice (Hma 605)
+        location:
+          addressLine1: TEST MAIN
+          addressLine2: Suite 102
+          city: MINNEAPOLIS
+          country: USA
+          state: MN
+          zipCode: '55401'
+          phoneNumber: 256-555-5555
+        businessHours:
+          - open:
+              day: Monday
+              time: '8:00'
+            close:
+              day: Monday
+              time: '18:00'
+        availableDrugs:
+          - ndc: '31722092601'
+            formulationId: '72162199205'
+            name: Methylphenidate
+            couponId: '005947'
+            price:
+              amount: '10.50'
+              currency: USD
+              display: $10.50
+        totalPrice:
+          amount: '10.50'
+          currency: USD
+          display: $10.50
     PharmacyList:
       description: |
         Composite DTO for pharmacies endpoint.  Limited to 100 results.
@@ -2832,52 +3029,52 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Pharmacy'
-      examples:
-        - searchParameters:
-            ndc: 0169-4307-30
-            patientId: '187'
-            pharmacyName: CSV
-            zipCode: '12345'
-          prescribedDrugs:
-            - ndc: '31722092601'
-              formulationId: '72162199205'
-              name: Methylphenidate
-              variants:
-                - ndc: '71376020103'
-                  formulationId: '72162199205'
-                  name: Jornay Pm
-          pharmacies:
-            - isPickup: true
-              perksId: '00605'
-              name: Apci Choice (Hma 605)
-              location:
-                addressLine1: TEST MAIN
-                addressLine2: Suite 102
-                city: MINNEAPOLIS
-                country: USA
-                state: MN
-                zipCode: '55401'
-                phoneNumber: 256-555-5555
-              businessHours:
-                - open:
-                    day: Monday
-                    time: '8:00'
-                  close:
-                    day: Monday
-                    time: '18:00'
-              availableDrugs:
-                - ndc: '31722092601'
-                  formulationId: '72162199205'
-                  name: Methylphenidate
-                  couponId: '005947'
-                  price:
-                    amount: '10.50'
-                    currency: USD
-                    display: $10.50
-              totalPrice:
-                amount: '10.50'
-                currency: USD
-                display: $10.50
+      example:
+        searchParameters:
+          ndc: 0169-4307-30
+          patientId: '187'
+          pharmacyName: CSV
+          zipCode: '12345'
+        prescribedDrugs:
+          - ndc: '31722092601'
+            formulationId: '72162199205'
+            name: Methylphenidate
+            variants:
+              - ndc: '71376020103'
+                formulationId: '72162199205'
+                name: Jornay Pm
+        pharmacies:
+          - isPickup: true
+            perksId: '00605'
+            name: Apci Choice (Hma 605)
+            location:
+              addressLine1: TEST MAIN
+              addressLine2: Suite 102
+              city: MINNEAPOLIS
+              country: USA
+              state: MN
+              zipCode: '55401'
+              phoneNumber: 256-555-5555
+            businessHours:
+              - open:
+                  day: Monday
+                  time: '8:00'
+                close:
+                  day: Monday
+                  time: '18:00'
+            availableDrugs:
+              - ndc: '31722092601'
+                formulationId: '72162199205'
+                name: Methylphenidate
+                couponId: '005947'
+                price:
+                  amount: '10.50'
+                  currency: USD
+                  display: $10.50
+            totalPrice:
+              amount: '10.50'
+              currency: USD
+              display: $10.50
     PharmacyListSearchParameters:
       type: object
       description: |
@@ -2897,11 +3094,11 @@ components:
           description: |
             Source Fabric patient.address OR query parameter
           type: string
-      examples:
-        - ndc: '0169430730'
-          patientId: '187'
-          pharmacyName: CSV
-          zipCode: '12345'
+      example:
+        ndc: '0169430730'
+        patientId: '187'
+        pharmacyName: CSV
+        zipCode: '12345'
     PharmacySelection:
       type: object
       properties:
@@ -2921,11 +3118,11 @@ components:
           description: |
             Maps to Fabric discount_card_group_id, only for retail
           type: string
-      examples:
-        - pharmacyControlNumber: CLAIMCR
-          couponId: '005947'
-          cardholderId: APD1066745
-          groupId: 1858CCC
+      example:
+        pharmacyControlNumber: CLAIMCR
+        couponId: '005947'
+        cardholderId: APD1066745
+        groupId: 1858CCC
     Prescription:
       type: object
       properties:
@@ -2945,36 +3142,33 @@ components:
           type: integer
         description:
           type: string
-      examples:
-        - drugName: Amoxicillin
-          ndcCode: 50090-0301
-          quantity: 30
-          strength: 500mg
-          refills: 3
-          drugForm: Tablet
-          daysSupply: 10
-          description: Take one tablet by mouth every 8 hours for 10 days.
+      example:
+        drugName: Amoxicillin
+        ndcCode: 50090-0301
+        quantity: 30
+        strength: 500mg
+        refills: 3
+        drugForm: Tablet
+        daysSupply: 10
+        description: Take one tablet by mouth every 8 hours for 10 days.
     Price:
       type: object
       properties:
         amount:
           type: string
-          examples:
-            - '10.50'
+          example: '10.50'
           description: The decimal value of the price encoded as a string. String representation prevents encoding errors since JSON doesn't allow numeric precision to be specified. Clients should parse this value as a string and convert to decimal.
         currency:
           type: string
           description: The ISO 4217 currency code for this price.
-          examples:
-            - USD
+          example: USD
         display:
           type: string
-          examples:
-            - $10.50
-      examples:
-        - amount: '10.50'
-          currency: USD
-          display: $10.50
+          example: $10.50
+      example:
+        amount: '10.50'
+        currency: USD
+        display: $10.50
     PriceRange:
       type: object
       properties:
@@ -2984,16 +3178,16 @@ components:
           $ref: '#/components/schemas/Price'
         maxPrice:
           $ref: '#/components/schemas/Price'
-      examples:
-        - label: Total Price
-          minPrice:
-            amount: '10.50'
-            currency: USD
-            display: $10.50
-          maxPrice:
-            amount: '20.50'
-            currency: USD
-            display: $20.50
+      example:
+        label: Total Price
+        minPrice:
+          amount: '10.50'
+          currency: USD
+          display: $10.50
+        maxPrice:
+          amount: '20.50'
+          currency: USD
+          display: $20.50
     ProgressBar:
       type: object
       properties:
@@ -3009,25 +3203,25 @@ components:
           $ref: '#/components/schemas/ProgressBarItem'
         doctorReview:
           $ref: '#/components/schemas/ProgressBarItem'
-      examples:
-        - personalInformation:
-            index: 2
-            name: Visit Purpose
-          eligibility:
-            index: 1
-            name: Eligibility
-          interview:
-            index: 3
-            name: Health History
-          accountSetup:
-            index: 4
-            name: Account Setup
-          payment:
-            index: 5
-            name: Payment
-          doctorReview:
-            index: 6
-            name: Provider Review
+      example:
+        personalInformation:
+          index: 2
+          name: Visit Purpose
+        eligibility:
+          index: 1
+          name: Eligibility
+        interview:
+          index: 3
+          name: Health History
+        accountSetup:
+          index: 4
+          name: Account Setup
+        payment:
+          index: 5
+          name: Payment
+        doctorReview:
+          index: 6
+          name: Provider Review
     SessionData:
       type: object
       properties:
@@ -3055,19 +3249,19 @@ components:
           type: number
         tokenExpires:
           type: string
-      examples:
-        - clinicSerial:
-            - '123456789'
-            - '588834993'
-          cosmosId: '123457890'
-          fabricId: 123457890
-          fabricGVID: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-          fabricJwtExpires: '2024-12-31'
-          fabricMfaToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-          fabricLoggedIn: 'true'
-          sessionId: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-          sessionInvalidates: 1
-          tokenExpires: '2024-12-31'
+      example:
+        clinicSerial:
+          - '123456789'
+          - '588834993'
+        cosmosId: '123457890'
+        fabricId: 123457890
+        fabricGVID: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+        fabricJwtExpires: '2024-12-31'
+        fabricMfaToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+        fabricLoggedIn: 'true'
+        sessionId: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+        sessionInvalidates: 1
+        tokenExpires: '2024-12-31'
     Token:
       description: |
         The token is used to authenticate the user for the duration of the tokenExpires time.
@@ -3100,23 +3294,23 @@ components:
         - passwordExpired
         - roles
         - clinicSerial
-      examples:
-        - token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-          tokenExpires: '2024-05-26T10:15:00'
-          userId: 987654
-          passwordExpired: false
-          roles:
-            - user
-          clinicSerial: CLN123456789
-          completedProfile: true
-          phoneVerificationRequired: false
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        tokenExpires: '2024-05-26T10:15:00'
+        userId: 987654
+        passwordExpired: false
+        roles:
+          - user
+        clinicSerial: CLN123456789
+        completedProfile: true
+        phoneVerificationRequired: false
     TokenVerify:
       type: object
       properties:
         confirmationToken:
           type: string
-      examples:
-        - confirmationToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+      example:
+        confirmationToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
     TreatmentOptions:
       type: array
       items:
@@ -3126,18 +3320,15 @@ components:
             description: Source Perks drug.id
             type: string
             format: uuid
-            examples:
-              - e82bfafb-eca1-4711-9156-b0f9fc8b54a7
+            example: e82bfafb-eca1-4711-9156-b0f9fc8b54a7
           commonName:
             description: Source Perks drug.commonName
             type: string
-            examples:
-              - Minoxidil
+            example: Minoxidil
           urlSlug:
             description: Source Perks drug.urlSlug
             type: string
-            examples:
-              - minoxidil
+            example: minoxidil
           formulationId:
             description: Source Perks drug.formulationId
             type: string
@@ -3158,18 +3349,18 @@ components:
           description:
             description: Source Perks drug.descriptionText
             type: string
-      examples:
-        - - perksId: e82bfafb-eca1-4711-9156-b0f9fc8b54a7
-            commonName: Minoxidil
-            urlSlug: minoxidil
-            formulationId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
-            price:
-              amount: '8.50'
-              currency: USD
-              display: $8.50
-            quantity: 30
-            drugType: BRAND
-            description: This medicine is an HMG-CoA reductase inhibitor (also known as a statin) used in combination with...
+      example:
+        - perksId: e82bfafb-eca1-4711-9156-b0f9fc8b54a7
+          commonName: Minoxidil
+          urlSlug: minoxidil
+          formulationId: 84b18721-2493-4a31-a5ad-4d81dc1647e4
+          price:
+            amount: '8.50'
+            currency: USD
+            display: $8.50
+          quantity: 30
+          drugType: BRAND
+          description: This medicine is an HMG-CoA reductase inhibitor (also known as a statin) used in combination with...
     TreatmentPlan:
       description: |
         The treatment plan is the result of a completed consult.
@@ -3266,42 +3457,42 @@ components:
         content:
           $ref: '#/components/schemas/TreatmentPlanSuccessContent'
       additionalProperties: false
-      examples:
-        - fabricId: f47ac10b-58cc-4372-a567-0e02b2c3d479
-          assessmentText: You have a sinus infection.
-          patientId: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
-          patientFirstName: Hans
-          patientLastName: Moleman
-          patientZip: '90210'
-          state: CA
-          patientBirthDate: '1980-01-01'
-          patientPhone: 555-555-5555
-          chiefComplaint: I have a sore throat.
-          reasonForVisit: Cold, sinus infection, or flu
-          prescriptions:
-            - drugName: Amoxicillin
-              ndcCode: 50090-0301
-              quantity: 30
-              strength: 500mg
-              refills: 3
-              drugForm: Tablet
-              daysSupply: 10
-              description: Take one tablet by mouth every 8 hours for 10 days.
-          createdAt: '2024-05-26T09:46:00Z'
-          finishedAt: '2024-05-26T10:02:00Z'
-          headerText: Your treatment plan
-          icdCode: J01.90
-          labelText: Recommended medications
-          requiredTriageOption: ScheduleDoctorVisit
-          tags:
-            - sinus infection
-          triageRequired: true
-          patientMrn: '123456'
-          doctor:
-            fabricId: 123e4567-e89b-12d3-a456-426614174000
-            firstName: Nick
-            lastName: Riviera
-            title: MD
+      example:
+        fabricId: f47ac10b-58cc-4372-a567-0e02b2c3d479
+        assessmentText: You have a sinus infection.
+        patientId: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+        patientFirstName: Hans
+        patientLastName: Moleman
+        patientZip: '90210'
+        state: CA
+        patientBirthDate: '1980-01-01'
+        patientPhone: 555-555-5555
+        chiefComplaint: I have a sore throat.
+        reasonForVisit: Cold, sinus infection, or flu
+        prescriptions:
+          - drugName: Amoxicillin
+            ndcCode: 50090-0301
+            quantity: 30
+            strength: 500mg
+            refills: 3
+            drugForm: Tablet
+            daysSupply: 10
+            description: Take one tablet by mouth every 8 hours for 10 days.
+        createdAt: '2024-05-26T09:46:00Z'
+        finishedAt: '2024-05-26T10:02:00Z'
+        headerText: Your treatment plan
+        icdCode: J01.90
+        labelText: Recommended medications
+        requiredTriageOption: ScheduleDoctorVisit
+        tags:
+          - sinus infection
+        triageRequired: true
+        patientMrn: '123456'
+        doctor:
+          fabricId: 123e4567-e89b-12d3-a456-426614174000
+          firstName: Nick
+          lastName: Riviera
+          title: MD
     TreatmentPlanComment:
       description: |
         Comment on treatment plan
@@ -3338,20 +3529,20 @@ components:
           format: date-time
         userId:
           type: integer
-      examples:
-        - id: 5809
-          comment: 'Should I stop taking this if my symptoms improve?<br>Patient''s phone number is: 1 (320) 310-9771'
-          commentableId: 109318
-          commentableType: Visit
-          createdAt: '2024-09-16T17:40:28Z'
-          endsConversation: false
-          needsReview: true
-          reviewedByClinicianAt: null
-          targetAudience:
-            - doctor
-          title: ''
-          updatedAt: '2024-09-16T17:40:28Z'
-          userId: 1769
+      example:
+        id: 5809
+        comment: 'Should I stop taking this if my symptoms improve?<br>Patient''s phone number is: 1 (320) 310-9771'
+        commentableId: 109318
+        commentableType: Visit
+        createdAt: '2024-09-16T17:40:28Z'
+        endsConversation: false
+        needsReview: true
+        reviewedByClinicianAt: null
+        targetAudience:
+          - doctor
+        title: ''
+        updatedAt: '2024-09-16T17:40:28Z'
+        userId: 1769
     TreatmentPlanReport:
       description: |
         This returns the treatment plan detailed report that is generated after a completed consult.
@@ -3478,159 +3669,159 @@ components:
               type: string
             oneMoreQuestionButtonText:
               type: string
-      examples:
-        - report:
-            allowPatientComments: false
-            clinicianFooter: Clinician Footer
-            createdAt: '2024-08-29T21:06:03Z'
-            commentableExpirationDate: '2024-08-30'
-            completeBy: '2021-09-29T00:00:00Z'
-            doctorSummary: |-
-              <p><b>Dear Harsh,</b></p><p>Based on the information provided, you have <b>viral sinusitis</b>, also known as a sinus infection. Sinus infections are caused by bacteria or a virus and symptoms are almost always identical. The difference between the 2 types of infections is timing.</p><p>Sinus infections start as viral infections and symptoms improve on their own in about 7 days. A bacterial infection may have developed if any of the following apply to you:</p><ul>
-              <li>You have had 7 days of symptoms and are experiencing at least 2 of the following:</li>
-              <ul>
-              <li>Fever</li>
-              <li>Facial pressure or headache</li>
-              <li>Green or yellow nasal mucus</li>
-              <li>Symptoms that improved and then got worse again</li>
-              </ul>
-              <li>You have had symptoms for 10 or more days</li>
-              </ul><h3>Medication information</h3><p>Because you have a viral infection, antibiotics will not help you get better. Treating a viral infection with antibiotics could actually make you feel worse.</p><p>I am prescribing:</p><ul><li>
-              <b>Ibuprofen 800 mg oral tablet.</b> Take 1 tablet by mouth 3 times per day as needed for 7 days. Do not exceed 2400mg in 24 hours. There are no refills with this prescription.</li></ul><h3>Self care</h3><p>Steps you can take to be as comfortable as possible:</p><ul>
-              <li>Rest.</li>
-              <li>Drink plenty of fluids.</li>
-              <li>Take a warm shower to loosen congestion</li>
-              <li>Use a cool-mist humidifier.</li>
-              <li>Use throat lozenges.</li>
-              <li>Suck on frozen items such as popsicles.</li>
-              <li>Drink hot tea with lemon and honey.</li>
-              <li>Gargle with warm salt water (1/4 teaspoon of salt per 8 ounce glass of water).</li>
-              </ul><h3>When to seek care</h3><p>Please be seen in a clinic or urgent care if any of the following occur:</p><ul><li>New symptoms develop, or symptoms become worse</li></ul><p><b>Call 911 or go to the emergency room if any of the following occur:</b></p><ul>
-              <li>Difficulty breathing</li>
-              <li>If you feel that your throat is closing off</li>
-              <li>Suddenly develop a rash</li>
-              <li>Unable to swallow fluids or are drooling</li>
-              </ul><p>For the latest updates on COVID-19 (Coronavirus), please visit the <a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html" target="_blank" rel="nofollow">Centers for Disease Control and Prevention (CDC)</a>. Also, your state and local health department websites may provide additional guidance regarding testing and isolation recommendations for your location.</p>
-            doctorSummaryBasicText: |-
-              Dear Harsh,
+      example:
+        report:
+          allowPatientComments: false
+          clinicianFooter: Clinician Footer
+          createdAt: '2024-08-29T21:06:03Z'
+          commentableExpirationDate: '2024-08-30'
+          completeBy: '2021-09-29T00:00:00Z'
+          doctorSummary: |-
+            <p><b>Dear Harsh,</b></p><p>Based on the information provided, you have <b>viral sinusitis</b>, also known as a sinus infection. Sinus infections are caused by bacteria or a virus and symptoms are almost always identical. The difference between the 2 types of infections is timing.</p><p>Sinus infections start as viral infections and symptoms improve on their own in about 7 days. A bacterial infection may have developed if any of the following apply to you:</p><ul>
+            <li>You have had 7 days of symptoms and are experiencing at least 2 of the following:</li>
+            <ul>
+            <li>Fever</li>
+            <li>Facial pressure or headache</li>
+            <li>Green or yellow nasal mucus</li>
+            <li>Symptoms that improved and then got worse again</li>
+            </ul>
+            <li>You have had symptoms for 10 or more days</li>
+            </ul><h3>Medication information</h3><p>Because you have a viral infection, antibiotics will not help you get better. Treating a viral infection with antibiotics could actually make you feel worse.</p><p>I am prescribing:</p><ul><li>
+            <b>Ibuprofen 800 mg oral tablet.</b> Take 1 tablet by mouth 3 times per day as needed for 7 days. Do not exceed 2400mg in 24 hours. There are no refills with this prescription.</li></ul><h3>Self care</h3><p>Steps you can take to be as comfortable as possible:</p><ul>
+            <li>Rest.</li>
+            <li>Drink plenty of fluids.</li>
+            <li>Take a warm shower to loosen congestion</li>
+            <li>Use a cool-mist humidifier.</li>
+            <li>Use throat lozenges.</li>
+            <li>Suck on frozen items such as popsicles.</li>
+            <li>Drink hot tea with lemon and honey.</li>
+            <li>Gargle with warm salt water (1/4 teaspoon of salt per 8 ounce glass of water).</li>
+            </ul><h3>When to seek care</h3><p>Please be seen in a clinic or urgent care if any of the following occur:</p><ul><li>New symptoms develop, or symptoms become worse</li></ul><p><b>Call 911 or go to the emergency room if any of the following occur:</b></p><ul>
+            <li>Difficulty breathing</li>
+            <li>If you feel that your throat is closing off</li>
+            <li>Suddenly develop a rash</li>
+            <li>Unable to swallow fluids or are drooling</li>
+            </ul><p>For the latest updates on COVID-19 (Coronavirus), please visit the <a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html" target="_blank" rel="nofollow">Centers for Disease Control and Prevention (CDC)</a>. Also, your state and local health department websites may provide additional guidance regarding testing and isolation recommendations for your location.</p>
+          doctorSummaryBasicText: |-
+            Dear Harsh,
 
-              Based on the information provided, you have viral sinusitis, also
-              known as a sinus infection. Sinus infections are caused by
-              bacteria or a virus and symptoms are almost always identical. The
-              difference between the 2 types of infections is timing.
+            Based on the information provided, you have viral sinusitis, also
+            known as a sinus infection. Sinus infections are caused by
+            bacteria or a virus and symptoms are almost always identical. The
+            difference between the 2 types of infections is timing.
 
-              Sinus infections start as viral infections and symptoms improve
-              on their own in about 7 days. A bacterial infection may have
-              developed if any of the following apply to you:
+            Sinus infections start as viral infections and symptoms improve
+            on their own in about 7 days. A bacterial infection may have
+            developed if any of the following apply to you:
 
-              * You have had 7 days of symptoms and are experiencing at least 2
-              of the following:
-              * Fever
-              * Facial pressure or headache
-              * Green or yellow nasal mucus
-              * Symptoms that improved and then got worse again
-              * You have had symptoms for 10 or more days
+            * You have had 7 days of symptoms and are experiencing at least 2
+            of the following:
+            * Fever
+            * Facial pressure or headache
+            * Green or yellow nasal mucus
+            * Symptoms that improved and then got worse again
+            * You have had symptoms for 10 or more days
 
-              Medication information
-              ----------------------
+            Medication information
+            ----------------------
 
-              Because you have a viral infection, antibiotics will not help you
-              get better. Treating a viral infection with antibiotics could
-              actually make you feel worse.
+            Because you have a viral infection, antibiotics will not help you
+            get better. Treating a viral infection with antibiotics could
+            actually make you feel worse.
 
-              I am prescribing:
+            I am prescribing:
 
-              * Ibuprofen 800 mg oral tablet. Take 1 tablet by mouth 3 times
-              per day as needed for 7 days. Do not exceed 2400mg in 24 hours.
-              There are no refills with this prescription.
+            * Ibuprofen 800 mg oral tablet. Take 1 tablet by mouth 3 times
+            per day as needed for 7 days. Do not exceed 2400mg in 24 hours.
+            There are no refills with this prescription.
 
-              Self care
-              ---------
+            Self care
+            ---------
 
-              Steps you can take to be as comfortable as possible:
+            Steps you can take to be as comfortable as possible:
 
-              * Rest.
-              * Drink plenty of fluids.
-              * Take a warm shower to loosen congestion
-              * Use a cool-mist humidifier.
-              * Use throat lozenges.
-              * Suck on frozen items such as popsicles.
-              * Drink hot tea with lemon and honey.
-              * Gargle with warm salt water (1/4 teaspoon of salt per 8 ounce
-              glass of water).
+            * Rest.
+            * Drink plenty of fluids.
+            * Take a warm shower to loosen congestion
+            * Use a cool-mist humidifier.
+            * Use throat lozenges.
+            * Suck on frozen items such as popsicles.
+            * Drink hot tea with lemon and honey.
+            * Gargle with warm salt water (1/4 teaspoon of salt per 8 ounce
+            glass of water).
 
-              When to seek care
-              -----------------
+            When to seek care
+            -----------------
 
-              Please be seen in a clinic or urgent care if any of the following
-              occur:
+            Please be seen in a clinic or urgent care if any of the following
+            occur:
 
-              * New symptoms develop, or symptoms become worse
-              Call 911 or go to the emergency room if any of the following
-              occur:
+            * New symptoms develop, or symptoms become worse
+            Call 911 or go to the emergency room if any of the following
+            occur:
 
-              * Difficulty breathing
-              * If you feel that your throat is closing off
-              * Suddenly develop a rash
-              * Unable to swallow fluids or are drooling
-              For the latest updates on COVID-19 (Coronavirus), please visit
-              the Centers for Disease Control and Prevention (CDC) 
-              ( https://www.cdc.gov/coronavirus/2019-ncov/index.html ). Also,
-              your state and local health department websites may provide
-              additional guidance regarding testing and isolation
-              recommendations for your location.
+            * Difficulty breathing
+            * If you feel that your throat is closing off
+            * Suddenly develop a rash
+            * Unable to swallow fluids or are drooling
+            For the latest updates on COVID-19 (Coronavirus), please visit
+            the Centers for Disease Control and Prevention (CDC) 
+            ( https://www.cdc.gov/coronavirus/2019-ncov/index.html ). Also,
+            your state and local health department websites may provide
+            additional guidance regarding testing and isolation
+            recommendations for your location.
+          hideSendMessages: false
+          id: 37362
+          orderTransactions:
+            - amount: 2500
+              basePrice: 2500
+              createdAt: '2024-08-29T17:41:30Z'
+              description: 'ZIP(visit) #190507 to Optum Perks MN'
+              freeVisitReason: null
+              insuranceBilledAmount: null
+              insuranceBilledAt: null
+              insurancePaidAmount: null
+              insurancePaidAt: null
+              promoCode: null
+              promoCodeAmount: null
+              refundAmount: null
+              transactionType: Visit
+              zipGroupDiscountAmount: null
+          prescriptions:
+            - drugName: Amoxicillin
+              ndcCode: 50090-0301
+              quantity: 30
+              strength: 500mg
+              refills: 3
+              drugForm: Tablet
+              daysSupply: 10
+              description: Take one tablet by mouth every 8 hours for 10 days.
+          prescriptionChangePeriodActive: false
+          schoolWorkNote:
+            evaluationDateCopy: Harsh Patel has been evaluated and received care on 8/29/2024.
+            firstDateOfAbsence: '2024-08-29T00:00:00Z'
             hideSendMessages: false
-            id: 37362
-            orderTransactions:
-              - amount: 2500
-                basePrice: 2500
-                createdAt: '2024-08-29T17:41:30Z'
-                description: 'ZIP(visit) #190507 to Optum Perks MN'
-                freeVisitReason: null
-                insuranceBilledAmount: null
-                insuranceBilledAt: null
-                insurancePaidAmount: null
-                insurancePaidAt: null
-                promoCode: null
-                promoCodeAmount: null
-                refundAmount: null
-                transactionType: Visit
-                zipGroupDiscountAmount: null
-            prescriptions:
-              - drugName: Amoxicillin
-                ndcCode: 50090-0301
-                quantity: 30
-                strength: 500mg
-                refills: 3
-                drugForm: Tablet
-                daysSupply: 10
-                description: Take one tablet by mouth every 8 hours for 10 days.
-            prescriptionChangePeriodActive: false
-            schoolWorkNote:
-              evaluationDateCopy: Harsh Patel has been evaluated and received care on 8/29/2024.
-              firstDateOfAbsence: '2024-08-29T00:00:00Z'
-              hideSendMessages: false
-              id: 2452
-              notes: null
-              returnMessageCopy: Harsh can return to school/work without restrictions on 9/3/2024.
-              updatedAt: '2024-08-29T21:06:03Z'
-            updatePrescriptionAccordionVisible: false
-            updateTreatmentPlanVisible: false
-          content:
-            medicalEmergencyAttentionText: |
-              <span class="attention-color">If you are experiencing a medical emergency, please call</span>
-              <a class="attention-color" href="tel:911" style="text-decoration: none; cursor: default;" rel="nofollow">911</a>
-            callSupportInstruction: 'If your question is not specific to your visit treatment plan, please contact Customer Support: <a class="footer-support-phone" style="text-decoration: none; cursor: default;" rel="nofollow">(866) 714-3330</a>'
-            oneMoreQuestionText: Please enter your question and a phone number you can be reached at if the provider needs to contact you.
-            oneMoreQuestionButtonText: Send message
+            id: 2452
+            notes: null
+            returnMessageCopy: Harsh can return to school/work without restrictions on 9/3/2024.
+            updatedAt: '2024-08-29T21:06:03Z'
+          updatePrescriptionAccordionVisible: false
+          updateTreatmentPlanVisible: false
+        content:
+          medicalEmergencyAttentionText: |
+            <span class="attention-color">If you are experiencing a medical emergency, please call</span>
+            <a class="attention-color" href="tel:911" style="text-decoration: none; cursor: default;" rel="nofollow">911</a>
+          callSupportInstruction: 'If your question is not specific to your visit treatment plan, please contact Customer Support: <a class="footer-support-phone" style="text-decoration: none; cursor: default;" rel="nofollow">(866) 714-3330</a>'
+          oneMoreQuestionText: Please enter your question and a phone number you can be reached at if the provider needs to contact you.
+          oneMoreQuestionButtonText: Send message
     Visit:
       type: object
       properties:
         id:
           type: string
           format: uuid
-      examples:
-        - id: 123e4567-e89b-12d3-a456-426614174000
+      example:
+        id: 123e4567-e89b-12d3-a456-426614174000
     VisitInput:
       type: object
       properties:
@@ -3641,9 +3832,9 @@ components:
         locationState:
           description: Condition label is optional. If provided, location state is also required.
           type: string
-      examples:
-        - conditionLabel: cp_9q_449a_acne
-          locationState: MN
+      example:
+        conditionLabel: cp_9q_449a_acne
+        locationState: MN
     Error401Unauthorized:
       description: The request is missing a valid token.
       type: object
@@ -3652,9 +3843,9 @@ components:
           type: number
         message:
           type: string
-      examples:
-        - status: 401
-          message: Unauthorized
+      example:
+        status: 401
+        message: Unauthorized
     Error404NotFound:
       description: The requested resource was not found.
       type: object
@@ -3663,9 +3854,9 @@ components:
           type: number
         message:
           type: string
-      examples:
-        - status: 404
-          message: Resource not found
+      example:
+        status: 404
+        message: Resource not found
     Error400BadRequest:
       description: Bad Request
       type: object
@@ -3674,9 +3865,9 @@ components:
           type: number
         message:
           type: string
-      examples:
-        - status: 400
-          message: Bad Request
+      example:
+        status: 400
+        message: Bad Request
     Error403Forbidden:
       description: Forbidden
       type: object
@@ -3685,9 +3876,9 @@ components:
           type: number
         message:
           type: string
-      examples:
-        - status: 403
-          message: 403 Forbidden
+      example:
+        status: 403
+        message: 403 Forbidden
     Error422UnprocessableEntity:
       description: Unprocessable Entity
       type: object
@@ -3705,12 +3896,12 @@ components:
                 type: string
         message:
           type: string
-      examples:
-        - status: 422
-          errors:
-            - message: <field> can't be blank
-              reason: <field_id>
-          message: Unprocessable Entity
+      example:
+        status: 422
+        errors:
+          - message: <field> can't be blank
+            reason: <field_id>
+        message: Unprocessable Entity
     ConditionMappingCsv:
       type: object
       properties:
@@ -3721,37 +3912,32 @@ components:
             properties:
               id:
                 type: number
-                examples:
-                  - 123
+                example: 3139
               name:
                 type: string
-                examples:
-                  - '123'
+                example: Acute Tenosynovitis
               commonName:
                 type: string
-                examples:
-                  - '123'
+                example: Tenosynovitis
               urlSlug:
                 type: string
-                examples:
-                  - '123'
+                example: tenosynovitis
               fabricLabel:
                 type: string
-                examples:
-                  - '123'
+                example: cp_7q_449a_bladderinfection
             required:
               - id
               - name
               - commonName
               - urlSlug
               - fabricLabel
-      examples:
-        - rows:
-            - id: 3139
-              name: Acute Tenosynovitis
-              commonName: Tenosynovitis
-              urlSlug: tenosynovitis,
-              fabricLabel: cp_7q_449a_bladderinfection
+      example:
+        rows:
+          - id: 3139
+            name: Acute Tenosynovitis
+            commonName: Tenosynovitis
+            urlSlug: tenosynovitis
+            fabricLabel: cp_7q_449a_bladderinfection
     ProgressBarItem:
       type: object
       properties:
@@ -3762,9 +3948,9 @@ components:
       required:
         - index
         - name
-      examples:
-        - index: 1
-          name: Eligibility
+      example:
+        index: 1
+        name: Eligibility
     ContentLabels:
       type: object
       properties:
@@ -3832,11 +4018,11 @@ components:
               type: string
               enum:
                 - Back
-      examples:
-        - continue:
-            actionLabel: Continue
-          goBack:
-            actionLabel: Back
+      example:
+        continue:
+          actionLabel: Continue
+        goBack:
+          actionLabel: Back
     GuestVisitEligibility:
       type: object
       properties:
@@ -3859,48 +4045,48 @@ components:
             - **errorDescription**: Description of the error defined by CMS / Product team.
           additionalProperties:
             type: string
-      examples:
-        - stateName: eligibility
-          title: Eligibility
-          progressBar:
-            accountSetup:
-              index: 1
-              name: Account Setup
-            eligibility:
-              index: 2
-              name: Eligibility
-            doctorReview:
-              index: 4
-              name: Provider Review
-            interview:
-              index: 3
-              name: Interview
-            payment:
-              index: 5
-              name: Payment
-            personalInformation:
-              index: 6
-              name: Personal Information
-          contentLabels:
-            formTitle: Who is this visit for?
-            forMyselfOption: Myself
-            forSomeoneOption: Someone Else
-            aboutYourselfText: Tell us about yourself
-            ageLabel: Age
-            locationLabel: Current location
-            aboutPatientText: Tell us about the patient
-            continueButton: Continue
-            dropdownStatePlaceholder: State
-            dropdownStateNotListed: My state isn't listed
-            myAgeLabel: My Age
-            backButton: Back
-            personalSex: Sex Assigned at Birth
-            sex:
-              female: Female
-              male: Male
-            states:
-              - abbreviation: MN
-                name: Minnesota
+      example:
+        stateName: eligibility
+        title: Eligibility
+        progressBar:
+          accountSetup:
+            index: 1
+            name: Account Setup
+          eligibility:
+            index: 2
+            name: Eligibility
+          doctorReview:
+            index: 4
+            name: Provider Review
+          interview:
+            index: 3
+            name: Interview
+          payment:
+            index: 5
+            name: Payment
+          personalInformation:
+            index: 6
+            name: Personal Information
+        contentLabels:
+          formTitle: Who is this visit for?
+          forMyselfOption: Myself
+          forSomeoneOption: Someone Else
+          aboutYourselfText: Tell us about yourself
+          ageLabel: Age
+          locationLabel: Current location
+          aboutPatientText: Tell us about the patient
+          continueButton: Continue
+          dropdownStatePlaceholder: State
+          dropdownStateNotListed: My state isn't listed
+          myAgeLabel: My Age
+          backButton: Back
+          personalSex: Sex Assigned at Birth
+          sex:
+            female: Female
+            male: Male
+          states:
+            - abbreviation: MN
+              name: Minnesota
     PatientList:
       type: object
       required:
@@ -4012,34 +4198,34 @@ components:
                       - 'null'
               pendingVisits:
                 type: number
-      examples:
-        - patients:
-            - id: 44
-              email: dev@rvohealth.com
-              firstName: Gugli
-              lastName: Macaroni
-              birthDate: '1981-03-31'
-              insuranceCarrier: null
-              insuranceGroup: null
-              insuranceGroupId: null
-              insuranceId: null
-              mobilePhone: null
-              smsNotify: false
-              canChangePassword: true
-              phone: '16125551234'
-              address:
-                id: 45
-                address1: 902 Hannah Crest
-                address2: null
-                city: Minneapolis
-                country: USA
-                phone: ''
-                state: MN
-                zip: '55401'
-                fullAddress: 902 Hannah Crest,  Minneapolis, MN 55401
-                latitude: null
-                longitude: null
-              pendingVisits: 2
+      example:
+        patients:
+          - id: 44
+            email: dev@rvohealth.com
+            firstName: Gugli
+            lastName: Macaroni
+            birthDate: '1981-03-31'
+            insuranceCarrier: null
+            insuranceGroup: null
+            insuranceGroupId: null
+            insuranceId: null
+            mobilePhone: null
+            smsNotify: false
+            canChangePassword: true
+            phone: '16125551234'
+            address:
+              id: 45
+              address1: 902 Hannah Crest
+              address2: null
+              city: Minneapolis
+              country: USA
+              phone: ''
+              state: MN
+              zip: '55401'
+              fullAddress: 902 Hannah Crest,  Minneapolis, MN 55401
+              latitude: null
+              longitude: null
+            pendingVisits: 2
     PaymentDiscount:
       description: |
         See https://docs.stripe.com/api/promotion_codes/list
@@ -4065,29 +4251,29 @@ components:
           type: number
           description: |
             Maps from PromotionsCode.coupon.percent_off in Stripe
-      examples:
-        - active: true
-          code: A1H1Q1MG
-          couponId: nVJYDOag
-          amountOff: 0
-          percentOff: 25.5
+      example:
+        active: true
+        code: A1H1Q1MG
+        couponId: nVJYDOag
+        amountOff: 0
+        percentOff: 25.5
     PaymentMethods:
       description: |
         See https://docs.stripe.com/api/payment_methods/object
       type: array
       items:
         $ref: '#/components/schemas/PaymentMethod'
-      examples:
-        - - name: visa 5555
-            lastFour: '5555'
-            fingerprint: Xt5EWLLDS7FJjR1c
-            expireMonth: 8
-            expireYear: 2025
-          - name: amex 3555
-            lastFour: '3555'
-            fingerprint: Ut5EWLLDS7FJjR1c
-            expireMonth: 5
-            expireYear: 2027
+      example:
+        - name: visa 5555
+          lastFour: '5555'
+          fingerprint: Xt5EWLLDS7FJjR1c
+          expireMonth: 8
+          expireYear: 2025
+        - name: amex 3555
+          lastFour: '3555'
+          fingerprint: Ut5EWLLDS7FJjR1c
+          expireMonth: 5
+          expireYear: 2027
     GVID:
       description: |
         This cookie need to be passed in subsequent calls to endpoints for the guest visit that was created.
@@ -4097,8 +4283,8 @@ components:
           type: string
       required:
         - gvid
-      examples:
-        - gvid: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+      example:
+        gvid: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
     TreatmentPlanSuccessContent:
       description: |
         Static content indicating that a treament plan has successfully been created.
@@ -4111,10 +4297,10 @@ components:
         treatmentPlanAvailable:
           type: string
       additionalProperties: false
-      examples:
-        - treatmentPlanCreatedFirstPerson: Thank you for using Optum Perks Online Care! Your provider has reviewed your symptoms and created a treatment plan.
-          treatmentPlanCreatedThirdPerson: Thank you for using Optum Perks Online Care! A provider has reviewed Hans's symptoms and created a treatment plan.
-          treatmentPlanAvailable: Your Treatment Plan is Available.
+      example:
+        treatmentPlanCreatedFirstPerson: Thank you for using Optum Perks Online Care! Your provider has reviewed your symptoms and created a treatment plan.
+        treatmentPlanCreatedThirdPerson: Thank you for using Optum Perks Online Care! A provider has reviewed Hans's symptoms and created a treatment plan.
+        treatmentPlanAvailable: Your Treatment Plan is Available.
   parameters:
     visit-id:
       name: visit-id
@@ -4124,10 +4310,9 @@ components:
       schema:
         type: string
         format: uuid
-      examples:
-        exampleVisitId:
-          summary: Example visit ID
-          value: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+      example:
+        summary: Example visit ID
+        value: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
     account-id:
       name: account-id
       in: path
@@ -4135,10 +4320,9 @@ components:
       schema:
         type: string
       description: A patient account id.
-      examples:
-        exampleAccountId:
-          summary: Example of an Account Id
-          value: '88315'
+      example:
+        summary: Example of an Account Id
+        value: '88315'
     pharmacy-id:
       name: pharmacy-id
       in: path
@@ -4147,10 +4331,9 @@ components:
       required: true
       schema:
         type: string
-      examples:
-        exampleVisitId:
-          summary: Example pharmacy ID
-          value: '00605'
+      example:
+        summary: Example pharmacy ID
+        value: '00605'
     pi-secret:
       name: pi-secret
       in: path
@@ -4161,10 +4344,9 @@ components:
       description: |
         The client secret associated with a patient intent in stripe.  Represents an invoice and payment(s) that 
         a customer has incurred and paid.
-      examples:
-        simpleExample:
-          summary: Example Payment Intent client secret
-          value: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH
+      example:
+        summary: Example Payment Intent client secret
+        value: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH
     payment-method-name:
       name: patient-method-name
       in: path
@@ -4172,10 +4354,9 @@ components:
       required: true
       schema:
         type: string
-      examples:
-        examplePatientName:
-          summary: Example Payment Method Name
-          value: visa-9999
+      example:
+        summary: Example Payment Method Name
+        value: visa-9999
     url-slug:
       name: url-slug
       in: path
@@ -4186,10 +4367,9 @@ components:
       description: |
         The url-slug of a health condition.  Normally this is the Perks XAPI url-slug.  However,
         in some cases, to allow for reverse lookup it is a slugged version of the Fabric condition name.
-      examples:
-        exampleConditionUrlSlug:
-          summary: Example Condition Url Slug
-          value: urinary-tract-infection
+      example:
+        summary: Example Condition Url Slug
+        value: urinary-tract-infection
     Accept-Language:
       name: Accept-Language
       in: header
@@ -4197,7 +4377,7 @@ components:
         Specifies which language the client is able to understand. When specified, the server should localize dynamic data, like prices and content, based on the specified language code. Static labels on the client, like headings and button labels, will be localized on the client.
       schema:
         type: string
-      examples:
+      example:
         english:
           summary: English (United States)
           value: en-US
@@ -4208,7 +4388,7 @@ components:
         Used to indicate the original media type of the resource.
       schema:
         type: string
-      examples:
+      example:
         for-images:
           value: application/x-www-form-urlencoded
     User-Agent:
@@ -4235,7 +4415,7 @@ components:
       schema:
         type: string
         format: uuid
-      examples:
+      example:
         basic-example:
           value: 72ec7cc7-9670-4386-9145-5f91b40ca9b5
     x-admin-key:
@@ -4247,10 +4427,9 @@ components:
       schema:
         type: string
       description: Query conditions by category
-      examples:
-        exampleQuery:
-          summary: Example query
-          value: Acne
+      example:
+        summary: Example query
+        value: Acne
     imageId:
       name: imageId
       in: query
@@ -4258,10 +4437,9 @@ components:
       required: true
       schema:
         type: number
-      examples:
-        exampleImageId:
-          summary: Example image ID
-          value: 17180
+      example:
+        summary: Example image ID
+        value: 17180
     pharmacyName:
       name: pharmacyName
       in: query
@@ -4269,10 +4447,9 @@ components:
       required: false
       schema:
         type: string
-      examples:
-        nameExample:
-          value: CVS
-          summary: An example start of a pharmacy name  to search for
+      example:
+        value: CVS
+        summary: An example start of a pharmacy name  to search for
     ndc:
       name: ndc
       in: query
@@ -4280,10 +4457,9 @@ components:
       required: false
       schema:
         type: string
-      examples:
-        ndcExample:
-          value: '0169430730'
-          summary: An example NDC
+      example:
+        value: '0169430730'
+        summary: An example NDC
     zipCode:
       name: zipCode
       in: query
@@ -4291,10 +4467,9 @@ components:
       required: false
       schema:
         type: string
-      examples:
-        zipCodeExample:
-          value: '12345'
-          summary: An example Zip Code
+      example:
+        value: '12345'
+        summary: An example Zip Code
     searchQuery:
       name: searchQuery
       in: query
@@ -4302,10 +4477,9 @@ components:
       required: false
       schema:
         type: string
-      examples:
-        searchQueryExample:
-          value: methen
-          summary: An example search query to get all drug names starting with "methen"
+      example:
+        value: methen
+        summary: An example search query to get all drug names starting with "methen"
     GVID:
       name: GVID
       in: cookie
@@ -4314,7 +4488,7 @@ components:
       required: true
       schema:
         type: string
-      examples:
+      example:
         GVIDCookieExample:
           summary: Example GVID cookie
           value: 9QVmrGhIP3Q2CzBJXSh7HOY8T4jOdEBiT%2B4X2w4Tizkio6csjbe3M3Cfs5ZMZ7nCXDcxzHA3wyNSO6e%2FfyfLOsvb0isFaAl53z%2Fd6bDafGlyQmimRfItZwbA6BplcKglhurCGr3tOMKgpDi7h4pGiZnK%2BJ2K--FeG4KN4JaX83oV%2B4--s7UxQO4w%2BDjray3ieUTKuw%3D%3D;
@@ -4342,10 +4516,9 @@ components:
         type: string
         pattern: ^[a-z0-9_]+$
       description: The Fabric label of a condition
-      examples:
-        exampleConditionLabel:
-          summary: Example Condition Label
-          value: cp_9q_449a_acne
+      example:
+        summary: Example Condition Label
+        value: cp_9q_449a_acne
     name:
       name: name
       in: query
@@ -4353,10 +4526,54 @@ components:
       required: false
       schema:
         type: string
-      examples:
-        nameExample:
-          value: tazora
-          summary: An example drug name or description to search for
+      example:
+        value: tazora
+        summary: An example drug name or description to search for
+    utmSource:
+      name: utmSource
+      in: query
+      description: The source of the traffic (e.g., google, newsletter)
+      required: false
+      schema:
+        type: string
+      example:
+        value: google
+    utmMedium:
+      name: utmMedium
+      in: query
+      description: The marketing medium (e.g., cpc, banner, email)
+      required: false
+      schema:
+        type: string
+      example:
+        value: email
+    utmCampaign:
+      name: utmCampaign
+      in: query
+      description: The specific campaign name, slogan, or promotion code
+      required: false
+      schema:
+        type: string
+      example:
+        value: summer_sale
+    utmTerm:
+      name: utmTerm
+      in: query
+      description: Identify paid search keywords
+      required: false
+      schema:
+        type: string
+      example:
+        value: online_care
+    utmContent:
+      name: utmContent
+      in: query
+      description: Used to differentiate similar content or links within the same ad
+      required: false
+      schema:
+        type: string
+      example:
+        value: banner_1
     promo-code:
       name: promo-code
       in: path
@@ -4365,10 +4582,9 @@ components:
         type: string
       description: |
         A promo code entered buy the user.
-      examples:
-        simpleExample:
-          summary: Promotion Code
-          value: A1H1Q1MG
+      example:
+        summary: Promotion Code
+        value: A1H1Q1MG
     X-Admin-Key:
       name: x-admin-key
       in: header
@@ -4376,7 +4592,7 @@ components:
         Admin Key for Admin tagged endpoints
       schema:
         type: string
-      examples:
+      example:
         basic-example:
           value: totally_legit_admin_key
     patient-name:
@@ -4387,10 +4603,19 @@ components:
       schema:
         type: string
         format: uuid
-      examples:
-        examplePatientName:
-          summary: Example Patient Name
-          value: Hans
+      example:
+        summary: Example Patient Name
+        value: Hans
+    wild-card:
+      name: wildCard
+      in: path
+      required: false
+      schema:
+        type: string
+      description: Putting this param at the end of a path allows us to configure APIM gateway to accept wild card paths.
+      example:
+        summary: Example of a wild card path
+        value: foo/bar
   examples:
     allergyNames:
       value:
@@ -5411,6 +5636,6 @@ components:
       schema:
         type: string
         format: byte
-      examples:
+      example:
         BasicExample:
           value: ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5

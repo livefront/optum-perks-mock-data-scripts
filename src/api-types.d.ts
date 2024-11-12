@@ -40,7 +40,13 @@
         export type SearchQuery = string;
         export type UrlSlug = string; // ^[a-z0-9-]+$
         export type UserAgent = string;
+        export type UtmCampaign = string;
+        export type UtmContent = string;
+        export type UtmMedium = string;
+        export type UtmSource = string;
+        export type UtmTerm = string;
         export type VisitId = string; // uuid
+        export type WildCard = string;
         export type XAdminKey = string;
         export type ZipCode = string;
     }
@@ -55,6 +61,7 @@
         "condition-label": Parameters.ConditionLabel /* ^[a-z0-9_]+$ */;
         "promo-code": Parameters.PromoCode;
         "patient-name": Parameters.PatientName /* uuid */;
+        "wild-card"?: Parameters.WildCard;
     }
     export interface QueryParameters {
         category?: Parameters.Category;
@@ -64,6 +71,11 @@
         zipCode?: Parameters.ZipCode;
         searchQuery?: Parameters.SearchQuery;
         name?: Parameters.Name;
+        utmSource?: Parameters.UtmSource;
+        utmMedium?: Parameters.UtmMedium;
+        utmCampaign?: Parameters.UtmCampaign;
+        utmTerm?: Parameters.UtmTerm;
+        utmContent?: Parameters.UtmContent;
     }
     namespace Responses {
         export type Error400Response = /**
@@ -179,6 +191,37 @@
             goBack?: {
                 actionLabel?: "Back";
             };
+        }
+        /**
+         * The is used to update the user profile.
+         *
+         * example:
+         * {
+         *   "hsid": "1234-5678-9012",
+         *   "email": "bob@aaol.com",
+         *   "phone": "555-555-5555",
+         *   "firstName": "Bob",
+         *   "lastName": "Frog"
+         * }
+         */
+        export interface Adb2cClaimsUpdate {
+            hsid: string;
+            email?: string; // email
+            phone?: string;
+            firstName?: string;
+            lastName?: string;
+        }
+        /**
+         * The token is used to authenticate the user for the duration of the tokenExpires time.
+         * The token is used in the header for all requests that require authentication.
+         *
+         * example:
+         * {
+         *   "token": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
+         * }
+         */
+        export interface Adb2cToken {
+            token?: string; // byte
         }
         /**
          * example:
@@ -566,7 +609,7 @@
          *       "id": 3139,
          *       "name": "Acute Tenosynovitis",
          *       "commonName": "Tenosynovitis",
-         *       "urlSlug": "tenosynovitis,",
+         *       "urlSlug": "tenosynovitis",
          *       "fabricLabel": "cp_7q_449a_bladderinfection"
          *     }
          *   ]
@@ -576,27 +619,27 @@
             rows?: {
                 /**
                  * example:
-                 * 123
+                 * 3139
                  */
                 id: number;
                 /**
                  * example:
-                 * 123
+                 * Acute Tenosynovitis
                  */
                 name: string;
                 /**
                  * example:
-                 * 123
+                 * Tenosynovitis
                  */
                 commonName: string;
                 /**
                  * example:
-                 * 123
+                 * tenosynovitis
                  */
                 urlSlug: string;
                 /**
                  * example:
-                 * 123
+                 * cp_7q_449a_bladderinfection
                  */
                 fabricLabel: string;
             }[];
@@ -1628,6 +1671,64 @@
                 };
                 pendingVisits: number;
             }[];
+        }
+        /**
+         * Patient Visit History using to list Visit History
+         *
+         * example:
+         * {
+         *   "visits": [
+         *     {
+         *       "id": 123,
+         *       "createdAt": "2024-05-20T19:08:56.000Z",
+         *       "finishedAt": "2024-06-20T19:08:56.000Z",
+         *       "reasonForVisit": "acne",
+         *       "state": "prescriptions_expired"
+         *     }
+         *   ],
+         *   "currentCount": 1,
+         *   "currentPage": 1,
+         *   "totalCount": 1,
+         *   "totalPages": 1
+         * }
+         */
+        export interface PatientVisitHistory {
+            visits?: /**
+             * Patient Visit Summary using to list Visit History
+             *
+             * example:
+             * {
+             *   "id": 123,
+             *   "createdAt": "2024-05-20T19:08:56.000Z",
+             *   "finishedAt": "2024-06-20T19:08:56.000Z",
+             *   "reasonForVisit": "acne",
+             *   "state": "prescriptions_expired"
+             * }
+             */
+            PatientVisitSummary[];
+            currentCount?: number;
+            currentPage?: number;
+            totalCount?: number;
+            totalPages?: number;
+        }
+        /**
+         * Patient Visit Summary using to list Visit History
+         *
+         * example:
+         * {
+         *   "id": 123,
+         *   "createdAt": "2024-05-20T19:08:56.000Z",
+         *   "finishedAt": "2024-06-20T19:08:56.000Z",
+         *   "reasonForVisit": "acne",
+         *   "state": "prescriptions_expired"
+         * }
+         */
+        export interface PatientVisitSummary {
+            id?: number;
+            createdAt?: string; // date-time
+            finishedAt?: string; // date-time
+            reasonForVisit?: string;
+            state?: string;
         }
         /**
          * See https://docs.stripe.com/api/promotion_codes/list
@@ -3533,6 +3634,18 @@ declare namespace Paths {
             }
         }
     }
+    namespace GetHSID {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+            export type $1 = OCApi.Parameters.WildCard;
+        }
+        namespace Responses {
+            export interface $200 {
+            }
+            export interface $400 {
+            }
+        }
+    }
     namespace GetHealthCheck {
         namespace Parameters {
             export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
@@ -3868,6 +3981,64 @@ declare namespace Paths {
             export type $404 = OCApi.Responses.Error404Response;
         }
     }
+    namespace GetSelectPharmacyForVisit {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.VisitId /* uuid */;
+            export type $1 = OCApi.Parameters.PharmacyId;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * example:
+             * {
+             *   "isPickup": true,
+             *   "perksId": "00605",
+             *   "name": "Apci Choice (Hma 605)",
+             *   "location": {
+             *     "addressLine1": "TEST MAIN",
+             *     "addressLine2": "Suite 102",
+             *     "city": "MINNEAPOLIS",
+             *     "country": "USA",
+             *     "state": "MN",
+             *     "zipCode": "55401",
+             *     "phoneNumber": "256-555-5555"
+             *   },
+             *   "businessHours": [
+             *     {
+             *       "open": {
+             *         "day": "Monday",
+             *         "time": "8:00"
+             *       },
+             *       "close": {
+             *         "day": "Monday",
+             *         "time": "18:00"
+             *       }
+             *     }
+             *   ],
+             *   "availableDrugs": [
+             *     {
+             *       "ndc": "31722092601",
+             *       "formulationId": "72162199205",
+             *       "name": "Methylphenidate",
+             *       "couponId": "005947",
+             *       "price": {
+             *         "amount": "10.50",
+             *         "currency": "USD",
+             *         "display": "$10.50"
+             *       }
+             *     }
+             *   ],
+             *   "totalPrice": {
+             *     "amount": "10.50",
+             *     "currency": "USD",
+             *     "display": "$10.50"
+             *   }
+             * }
+             */
+            OCApi.Schemas.Pharmacy;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
     namespace GetSessionData {
         namespace Parameters {
             export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
@@ -4177,6 +4348,36 @@ declare namespace Paths {
             }
         }
     }
+    namespace GetVisits {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * Patient Visit History using to list Visit History
+             *
+             * example:
+             * {
+             *   "visits": [
+             *     {
+             *       "id": 123,
+             *       "createdAt": "2024-05-20T19:08:56.000Z",
+             *       "finishedAt": "2024-06-20T19:08:56.000Z",
+             *       "reasonForVisit": "acne",
+             *       "state": "prescriptions_expired"
+             *     }
+             *   ],
+             *   "currentCount": 1,
+             *   "currentPage": 1,
+             *   "totalCount": 1,
+             *   "totalPages": 1
+             * }
+             */
+            OCApi.Schemas.PatientVisitHistory;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
     namespace PostConditions {
         namespace Parameters {
             export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
@@ -4189,7 +4390,7 @@ declare namespace Paths {
          *       "id": 3139,
          *       "name": "Acute Tenosynovitis",
          *       "commonName": "Tenosynovitis",
-         *       "urlSlug": "tenosynovitis,",
+         *       "urlSlug": "tenosynovitis",
          *       "fabricLabel": "cp_7q_449a_bladderinfection"
          *     }
          *   ]
@@ -4353,6 +4554,11 @@ declare namespace Paths {
     namespace PostGuestVisit {
         namespace Parameters {
             export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+            export type $1 = OCApi.Parameters.UtmSource;
+            export type $2 = OCApi.Parameters.UtmMedium;
+            export type $3 = OCApi.Parameters.UtmCampaign;
+            export type $4 = OCApi.Parameters.UtmTerm;
+            export type $5 = OCApi.Parameters.UtmContent;
         }
         export type RequestBody = /**
          * example:
@@ -4512,6 +4718,52 @@ declare namespace Paths {
                 }[];
                 message?: string;
             }
+        }
+    }
+    namespace PostHSID {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+            export type $1 = OCApi.Parameters.WildCard;
+        }
+        export interface RequestBody {
+        }
+        namespace Responses {
+            export interface $200 {
+            }
+            export interface $400 {
+            }
+        }
+    }
+    namespace PostLogin {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        export type RequestBody = /**
+         * The token is used to authenticate the user for the duration of the tokenExpires time.
+         * The token is used in the header for all requests that require authentication.
+         *
+         * example:
+         * {
+         *   "token": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
+         * }
+         */
+        OCApi.Schemas.Adb2cToken;
+        namespace Responses {
+            export interface $201 {
+            }
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $403 = OCApi.Responses.Error403Response;
+        }
+    }
+    namespace PostLogout {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        namespace Responses {
+            export interface $204 {
+            }
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $403 = OCApi.Responses.Error403Response;
         }
     }
     namespace PostStripeWebhook {
@@ -4681,6 +4933,11 @@ declare namespace Paths {
     namespace PostVisit {
         namespace Parameters {
             export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+            export type $1 = OCApi.Parameters.UtmSource;
+            export type $2 = OCApi.Parameters.UtmMedium;
+            export type $3 = OCApi.Parameters.UtmCampaign;
+            export type $4 = OCApi.Parameters.UtmTerm;
+            export type $5 = OCApi.Parameters.UtmContent;
         }
         export type RequestBody = /**
          * example:
@@ -4834,6 +5091,30 @@ declare namespace Paths {
                 }[];
                 message?: string;
             }
+        }
+    }
+    namespace PutAccount {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        export type RequestBody = /**
+         * The is used to update the user profile.
+         *
+         * example:
+         * {
+         *   "hsid": "1234-5678-9012",
+         *   "email": "bob@aaol.com",
+         *   "phone": "555-555-5555",
+         *   "firstName": "Bob",
+         *   "lastName": "Frog"
+         * }
+         */
+        OCApi.Schemas.Adb2cClaimsUpdate;
+        namespace Responses {
+            export interface $201 {
+            }
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $403 = OCApi.Responses.Error403Response;
         }
     }
     namespace PutAccountById {
