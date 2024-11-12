@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "create-mockoon": "mockoon-cli import -i config/openapi.yml -o src/mockoon_env.final.json -p",
     "api-types": "node ./scripts/apiTypes.js && echo 'Types generated in ./src/api-types.d.ts'",
-    "write-data": "ts-node ./scripts/addMockDataToJson.js"
+    "add-rules": "node ./scripts/addRules.js",
+    "write-data": "ts-node ./scripts/addMockDataToJson.js",
+    "pipeline": "node ./scripts/pipeline.js"
   },
   "devDependencies": {
     "@dtsgenerator/replace-namespace": "^1.5.1",
@@ -14,8 +17,9 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.3",
-    "@mockoon/cli": "^8.4.0",
+    "@mockoon/cli": "^9.0.0",
     "ts-node": "^10.9.2",
+    "js-yaml": "^4.1.0",
     "typescript": "^5.6.3"
   }
 }

@@ -7,7 +7,7 @@ const fs = require('fs')
 const { default: dtsGenerator, parseSchema } = require('dtsgenerator')
 const YAML = require('yaml')
 
-const inputFile = './config/optum-perks-online-care-api-spec.yml'
+const inputFile = './config/openapi.yml'
 const outputPath = './src/api-types.d.ts'
 
 // Convert the yaml spec to a JS object
