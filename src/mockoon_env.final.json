@@ -637,14 +637,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "FILE",
@@ -677,14 +669,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -717,14 +701,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -801,14 +777,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -841,14 +809,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -881,14 +841,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -965,14 +917,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -1005,14 +949,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -1045,14 +981,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -1341,15 +1269,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "Set-Cookie",
-              "value": {
-                "GVIDCookieExample": {
-                  "summary": "Example GVID cookie",
-                  "value": "GVID=9QVmrGhIP3Q2CzBJXSh7HOY8T4jOdEBiT%2B4X2w4Tizkio6csjbe3M3Cfs5ZMZ7nCXDcxzHA3wyNSO6e%2FfyfLOsvb0isFaAl53z%2Fd6bDafGlyQmimRfItZwbA6BplcKglhurCGr3tOMKgpDi7h4pGiZnK%2BJ2K--FeG4KN4JaX83oV%2B4--s7UxQO4w%2BDjray3ieUTKuw%3D%3D;"
-                }
-              }
             },
             {
               "key": "session-token",
@@ -2196,14 +2115,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -2228,14 +2139,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -2260,14 +2163,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -2292,14 +2187,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -2324,14 +2211,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -2356,14 +2235,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -2388,14 +2259,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -2420,14 +2283,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -2452,14 +2307,6 @@
             {
               "key": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "key": "session-token",
-              "value": {
-                "BasicExample": {
-                  "value": "ZTU0YTNkOTYtNTE1Ni00YTE0LWFiZDQtYzI2ZjdlYmVmYmQ5"
-                }
-              }
             }
           ],
           "bodyType": "INLINE",
@@ -4606,12 +4453,6 @@
             {
               "key": "Content-Type",
               "value": "application/pdf"
-            },
-            {
-              "key": "Content-Disposition",
-              "value": {
-                "value": "attachment; filename=\"school_work_note_08-29-2024_190507.pdf\"; filename*=UTF-8''school_work_note_08-29-2024_190507.pdf"
-              }
             }
           ],
           "bodyType": "INLINE",
