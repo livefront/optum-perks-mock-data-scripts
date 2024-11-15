@@ -1,5 +1,5 @@
 import mockServerData from "../mockoon_env.final.json";
-import { allowAllHeaderTypes } from "../utils/allowAllHeaderTypes";
+import { setAccessControlHeaders } from "../utils/setAccessControlHeaders";
 import { toExpressDynamicEndpoint } from "../utils/toExpressDynamicEndpoint";
 import { addMockDataToCondition } from "./add-mock-data-to-route/conditionLegacy";
 import { addMockDataToConditions } from "./add-mock-data-to-route/conditions";
@@ -11,7 +11,7 @@ import { addMockDataPostGuestVisitInteraction } from "./add-mock-data-to-route/p
 
 /** Updates each route's config (if necessary) and adds type safe mock data. */
 export const updateAllRoutes = () => {
-  allowAllHeaderTypes(mockServerData);
+  setAccessControlHeaders(mockServerData);
   mockServerData.routes.forEach((route) => {
     // Update OpenAPI dynamic routes to Express.js dynamic routes
     if (route.endpoint.includes("{")) {
