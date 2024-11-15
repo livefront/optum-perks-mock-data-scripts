@@ -41,12 +41,10 @@ async function runPipeline() {
 
   executeStep("npm run write-data", "Write additonal JSON data");
 
-  executeStep("npm run add-rules", "Process Mockoon Environment");
+  executeStep("npm run add-rules", "Process Mockoon JSON");
 
   log("Pipeline completed successfully");
 }
-
-// Error handling for uncaught exceptions
 process.on("uncaughtException", (error) => {
   log("Uncaught Exception:", true);
   log(error.message, true);
@@ -58,8 +56,6 @@ process.on("unhandledRejection", (error) => {
   log(error.message, true);
   process.exit(1);
 });
-
-// Run the pipeline
 runPipeline().catch((error) => {
   log("Pipeline failed:", true);
   log(error.message, true);
