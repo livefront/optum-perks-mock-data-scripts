@@ -41,7 +41,9 @@ async function runPipeline() {
 
   executeStep("npm run write-data", "Write additonal JSON data");
 
-  executeStep("npm run add-rules", "Process Mockoon JSON");
+  executeStep("npm run add-rules", "Add Rules to display examples with dynamic paths");
+
+  executeStep("npm run update-env", "Tweak Mockoon Env");
 
   log("Pipeline completed successfully");
 }
