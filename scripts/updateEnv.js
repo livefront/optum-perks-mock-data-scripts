@@ -16,4 +16,3 @@ fs.writeFile(outputPath, JSON.stringify(jsonData, null, 2), (err) => {
     console.log("Port updated to 3005 and saved to:", outputPath);
   }
 });
-x
