@@ -7,6 +7,7 @@
     "api-types": "node ./scripts/apiTypes.js && echo 'Types generated in ./src/api-types.d.ts'",
     "add-rules": "node ./scripts/addRules.js",
     "write-data": "ts-node ./scripts/addMockDataToJson.js",
+    "update-env": "node ./scripts/updateEnv.js",
     "pipeline": "node ./scripts/pipeline.js"
   },
   "devDependencies": {
