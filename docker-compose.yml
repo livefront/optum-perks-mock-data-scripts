@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mockoon-server:
+    build: .
+    ports:
+      - "${PORT:-3005}:${PORT:-3005}"
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./config:/usr/src/app/config
+      - ./scripts:/usr/src/app/scripts
+      - node_modules:/usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=3005
+      - TZ=UTC
+    user: mockoon
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT:-3005}/api/v1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  node_modules:
