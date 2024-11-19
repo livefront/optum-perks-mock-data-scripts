@@ -23,7 +23,7 @@ npm install
 npm run pipeline
 
 # Start server
-npx mockoon-cli start -d ./src/mockoonFile.json
+npx mockoon-cli start -d ./src/mockoon_env.final.json
 ```
 
 ### Docker
@@ -102,7 +102,7 @@ npm run update-env
 ├── src/
 │   ├── responses/         # Response templates
 │   ├── mock-data/        # Mock data sources
-│   └── mockoonFile.json  # Mockoon configuration
+│   └── mockoon_env.final.json  # Mockoon configuration
 └── docker-compose.yml    # Docker configuration
 ```
 
@@ -172,7 +172,7 @@ NODE_ENV=production
 
 ### Mockoon Configuration
 
-- Port settings in `src/mockoonFile.json`
+- Port settings in `src/mockoon_env.final.json`
 - Response delays and codes in response templates
 - Dynamic rules in route configurations
 
@@ -217,7 +217,7 @@ NODE_ENV=production
 
 ## Contributing
 
-1. Never edit `mockoonFile.json` manually
+1. Never edit `mockoon_env.final.json` manually
 2. Run full pipeline after changes
 3. Test all endpoints before deployment
 4. Maintain type safety with generated types
