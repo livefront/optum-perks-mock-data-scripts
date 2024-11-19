@@ -102,9 +102,16 @@ npm run update-env
 ├── src/
 │   ├── responses/         # Response templates
 │   ├── mock-data/        # Mock data sources
-│   └── mockoon_env.final.json  # Mockoon configuration
+│   └── mockoonFile.json  # Mockoon configuration
 └── docker-compose.yml    # Docker configuration
 ```
+
+### Available Responses
+
+- by default, moockon will use faker.js to generate mock responses
+- _unless_ there are explicit examples given in the spec yaml. if those exist, they will be served
+- If more than one example exists (i.e. for non-2XX level responses) you can pick the example you want by using the example name as the path variable
+- Scripts to build explicit mock structures for domains like conditions ,guestVisits etc are run, and those results are also served.
 
 ### Updating Mock Data
 
