@@ -1,34 +1,227 @@
-# Optum Perks Online Care Mock Data Config
+# Optum Perks Online Care Mock Server
 
-This repo contains code for generating a JSON file we can feed to Mockoon CLI to get Online Care API spec compliant data back.
+A dynamic mock server that provides OpenAPI spec-compliant endpoints for the Optum Perks Online Care API. Built with Mockoon and designed for both development and testing environments.
 
-## Contents
+## Table of Contents
 
-- [Optum Perks Online Care Mock Data Config](#optum-perks-online-care-mock-data-config)
-  - [Contents](#contents)
-  - [Using the Mockoon JSON file](#using-the-mockoon-json-file)
-  - [Updating the Mockoon JSON file](#updating-the-mockoon-json-file)
+- [Quick Start](#quick-start)
+- [Pipeline Process](#pipeline-process)
+- [Development Guide](#development-guide)
+- [Deployment](#deployment)
+- [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
 
-## Using the Mockoon JSON file
+## Quick Start
 
-To use the current [Mockoon JSON file](./src/mockoon_env.final.json) as your mock server config. Do the following.
+### Local Development
 
-1. Run `npm install` if you haven't yet.
-2. Run `npm run pipeline` to add rules for all examples and generate the additional, necessary mock data files.
-3. Run `npx mockoon-cli start -d ./src/mockoon_env.final.json`.
-4. Send calls to [http://localhost:3005/api/v1](http://localhost:3005/api/v1). So if you wanted to, for example, hit the `/conditions` endpoint, you would call [http://localhost:3005/api/v1/conditions](http://localhost:3005/api/v1/conditions).
+```bash
+# Install dependencies
+npm install
 
-## Updating the Mockoon JSON file
+# Generate mock data
+npm run pipeline
 
-The Mockoon JSON file should never be edited manually. If you want to test something quick with a manual edit, make sure to either discard the change once you no longer need it, or add the change via script if you want it to persist.
+# Start server
+npx mockoon-cli start -d ./src/mockoonFile.json
+```
 
-If the spec is updated and we need to get the mock server in sync with it, complete the following steps.
+### Docker
 
-1. Replace [the bundled yaml spec file](./config/openapi.yml) with the updated file.
-2. Run `api-types` to update our generated types.
-3. Make the necessary fixes for any type errors in our [responses](./src/responses) and [mock data](./src/mock-data) files.
-4. Feed the new bundled spec file you used in step one to the Mockoon desktop app and see all of the routes populate.
-5. Click on the three dots in the configuration you just created (in the farthest left panel) and click "Copy configuration to clipboard (JSON)".
-6. Replace the current [Mockoon JSON file](./src/mockoon_env.final.json) with the JSON you just copied to your clipboard.
-7. Run `npm run pipeline` to make the necessary changes to the new config file.
-8. Run `npx mockoon-cli start -d ./src/mockoon_env.final.json` and make sure the mock server is working by hitting the unchanged routes and the routes that had updates at [http://localhost:3005/api/v1](http://localhost:3005/api/v1).
+```bash
+# Build and start
+docker compose up --build
+
+# Access the server
+curl http://localhost:3005/api/v1
+```
+
+The mock server will be available at `http://localhost:3005/api/v1`
+
+## Pipeline Process
+
+The mock server automatically transforms an OpenAPI specification into a functioning mock server through a series of steps:
+
+```mermaid
+graph TD
+    A[OpenAPI Spec YAML] --> B[Create Mockoon Env]
+    B --> C[Generate Types]
+    C --> D[Write Mock Data]
+    D --> E[Add Dynamic Rules]
+    E --> F[Update Environment]
+    F --> G[Final Mock Server]
+```
+
+### Pipeline Steps
+
+1. **Create Mockoon Environment** (`npm run create-mockoon`)
+   - Converts OpenAPI spec to Mockoon config
+   - Sets up base routes and responses
+
+2. **Generate API Types** (`npm run api-types`)
+   - Creates TypeScript definitions
+   - Ensures type safety
+
+3. **Write Mock Data** (`npm run write-data`)
+   - Generates spec-compliant dynamic response chains
+   - Populates data templates
+
+4. **Add Dynamic Rules** (`npm run add-rules`)
+   - Configures path parameters
+   - Sets up response rules
+
+5. **Update Environment** (`npm run update-env`)
+   - Configures server settings
+   - Sets final environment
+
+### Running the Pipeline
+
+```bash
+# Run entire pipeline
+npm run pipeline
+
+# Or run steps individually
+npm run create-mockoon
+npm run api-types
+npm run write-data
+npm run add-rules
+npm run update-env
+```
+
+## Development Guide
+
+### Project Structure
+
+```
+├── config/                 # API specification
+│   └── openapi.yml        # OpenAPI spec file
+├── scripts/               # Build and generation scripts
+│   ├── pipeline.js        # Main pipeline script
+│   ├── apiTypes.js        # Type generation
+│   └── ...               # Other utilities
+├── src/
+│   ├── responses/         # Response templates
+│   ├── mock-data/        # Mock data sources
+│   └── mockoonFile.json  # Mockoon configuration
+└── docker-compose.yml    # Docker configuration
+```
+
+### Updating Mock Data
+
+The mock server configuration should never be edited manually. To update:
+
+1. **Update API Specification**
+
+   ```bash
+   # 1. Replace OpenAPI spec
+   cp new-spec.yml ./config/openapi.yml
+   
+   # 2. Run pipeline
+   npm run pipeline
+   ```
+
+2. **Add New Mock Data**
+   - Add templates to `src/responses/`
+   - Add data sources to `src/mock-data/`
+   - Run `npm run write-data`
+
+3. **Modify Response Rules**
+   - Update rules in response templates
+   - Run `npm run add-rules`
+
+### Available Endpoints
+
+Base URL: `http://localhost:3005/api/v1`
+
+Example endpoints:
+
+- GET `/conditions`
+- GET `/conditions/:id`
+- [Add other key endpoints here]
+
+## Deployment
+
+### Docker Production Deployment
+
+```bash
+# Build production image
+docker build -t your-registry/mockoon-server:version .
+
+# Push to registry
+docker push your-registry/mockoon-server:version
+
+# Deploy
+docker compose -f docker-compose.prod.yml up -d
+```
+
+### Environment Variables
+
+```bash
+# .env file
+PORT=3005
+NODE_ENV=production
+```
+
+## Configuration
+
+### Pipeline Configuration
+
+- Pipeline behavior can be modified in `scripts/pipeline.js`
+- Custom steps can be added through `package.json` scripts
+- Error handling can be adjusted in pipeline scripts
+
+### Mockoon Configuration
+
+- Port settings in `src/mockoonFile.json`
+- Response delays and codes in response templates
+- Dynamic rules in route configurations
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Pipeline Failures**
+
+   ```bash
+   # Check pipeline logs
+   npm run pipeline -- --verbose
+   ```
+
+2. **Missing Mock Data**
+
+   ```bash
+   # Regenerate mock data
+   npm run write-data
+   ```
+
+3. **Server Won't Start**
+   - Check port availability
+   - Verify JSON configuration
+   - Ensure all dependencies are installed
+
+### Error Messages
+
+- `Failed: Create Mockoon JSON env`
+  - Verify OpenAPI spec format
+  - Check file permissions
+
+- `Error: Port already in use`
+  - Change port in environment variables
+  - Kill existing server process
+
+### Getting Help
+
+- Check [Mockoon documentation](https://mockoon.com/docs/)
+- Review pipeline logs
+- Verify OpenAPI spec compatibility
+
+## Contributing
+
+1. Never edit `mockoonFile.json` manually
+2. Run full pipeline after changes
+3. Test all endpoints before deployment
+4. Maintain type safety with generated types
+
+---
+
+For more information about Mockoon, visit [mockoon.com](https://mockoon.com)
