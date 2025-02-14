@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Optum Perks Online Care API Spec
+  title: Online Care API
   description: |
     ## Security
 
@@ -15,7 +15,7 @@ info:
 
     - Properties are assumed to be non-nullable unless otherwise stated
     - `additionalProperties` are allowed (`true`) unless otherwise stated
-  version: 0.1.2
+  version: '1739560519'
   license:
     name: private
     url: https://www.rvohealth.com/legal/terms
@@ -41,6 +41,10 @@ tags:
     description: Operations related to guest visits.
   - name: HSID
     description: Operations related to health safe id.
+  - name: Notifications
+    description: Operations related to notifications.
+  - name: Order
+    description: Operations related to prescription home delivery order.
   - name: Patients
     description: Operations related to patient information.
   - name: Payments
@@ -217,6 +221,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/account-id'
         - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountUpdate'
       responses:
         '200':
           description: OK
@@ -529,16 +539,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error422UnprocessableEntity'
               example:
-                value:
-                  status: 422
-                  errors:
-                    - message: Address state can't be blank
-                      reason: address_state
-                    - message: Patient gender can't be blank
-                      reason: patient_gender
-                    - message: Patient age can't be blank
-                      reason: patient_age
-                  message: Unprocessable Entity
+                status: 422
+                errors:
+                  - message: Address state can't be blank
+                    reason: address_state
+                  - message: Patient gender can't be blank
+                    reason: patient_gender
+                  - message: Patient age can't be blank
+                    reason: patient_age
+                message: Unprocessable Entity
       tags:
         - Guest visits
   /guest-visits/eligibility:
@@ -746,7 +755,8 @@ paths:
       operationId: getPatients
       summary: List patients
       description: |
-        Returns a list of patients.
+        Returns a list of patients for the current user. This includes both the primary patient (current user) and any
+        dependent patients attached to the primary patient account.
       security:
         - bearerAuth: []
       responses:
@@ -758,6 +768,221 @@ paths:
                 $ref: '#/components/schemas/PatientList'
         '401':
           $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Patients
+    post:
+      operationId: postPatient
+      summary: Create a dependent
+      description: |
+        Creates a new patient dependent for the primary patient account (current user).
+        Returns the newly created patient record.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatientCreatePayload'
+      responses:
+        '200':
+          description: Patient created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientRecord'
+        '400':
+          $ref: '#/components/responses/Error400Response'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Patients
+  /patients/{patient-id}/visits:
+    get:
+      operationId: getPatientVisits
+      summary: Get All Visits for Patient ID
+      description: |
+        Retrieves a list of visits for a specified patient ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/patient-id'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientVisitHistory'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Patients
+  /patients/{patient-id}/details:
+    get:
+      operationId: getPatientDetails
+      summary: Get patient details
+      description: |
+        Get a patient's details
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+        - $ref: '#/components/parameters/patient-id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientDetails'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '403':
+          $ref: '#/components/responses/Error403Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Patients
+    patch:
+      operationId: patchPatientDetails
+      summary: Update patient details
+      description: |
+        Update a patient's details
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+        - $ref: '#/components/parameters/patient-id'
+      requestBody:
+        description: |
+          Patient data to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatientDetails'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientDetails'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '403':
+          $ref: '#/components/responses/Error403Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Patients
+  /patients/{patient-id}/allergies:
+    get:
+      operationId: getPatientAllergies
+      summary: List patient allergies
+      description: Returns an array of allergies for the given patient.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/patient-id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Allergy'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Patients
+  /patients/{patient-id}/medications:
+    get:
+      operationId: getPatientMedications
+      summary: List patient medications
+      description: Returns an array of medications for the given patient.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/patient-id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Medication'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Patients
+  /patients/{patient-id}/allergies-medications:
+    get:
+      operationId: getPatientAllergiesMedications
+      summary: List patient allergies and medications
+      description: Returns an array of medications for the given patient.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/patient-id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllergyMedicationPayload'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Patients
+  /patients/{patient-id}/mail-order-requests:
+    get:
+      operationId: getPatientMailOrderRequests
+      summary: Get patient's prescription mail order requests
+      description: |
+        Get a patient's prescription mail order requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/patient-id'
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientMailOrderRequest'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '403':
+          $ref: '#/components/responses/Error403Response'
         '404':
           $ref: '#/components/responses/Error404Response'
       tags:
@@ -809,6 +1034,82 @@ paths:
           $ref: '#/components/responses/Error404Response'
       tags:
         - Admin
+  /metrics:
+    get:
+      operationId: getPerformanceMetrics
+      summary: Get performance metrics for the Node.js process
+      description: |
+        The data in this endpoint is logged periodically, 
+        however this endpoint allows for on-demand access to the same data
+      security:
+        - {}
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+        - $ref: '#/components/parameters/X-Admin-Key'
+        - $ref: '#/components/parameters/reset'
+      responses:
+        '200':
+          description: |
+            OK Response returns current performance metrics for the server's process.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Admin
+  /notifications:
+    get:
+      operationId: getPatientNotifications
+      summary: List patient's notifications
+      description: |
+        Returns a list of notifications.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      responses:
+        '200':
+          description: Notification object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Notifications
+    put:
+      operationId: putPatientNotification
+      summary: Updates a notification as being read by the patient
+      description: |
+        Updated the read property which is reflected in the viewed_at property.
+        Before being read, the value is null, after being read the value is the date-time
+        the notification was queried from the API.
+        Returns the notification.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      responses:
+        '200':
+          description: Notification object returned with it's updated content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Notifications
   /payments:
     post:
       operationId: postCreatePaymentIntent
@@ -863,7 +1164,12 @@ paths:
       operationId: getPaymentIntent
       summary: Fetch Stripe payment intent by piSecret
       description: |
-        Returns a specific payments (intents) for a piSecret associated with this account
+        Returns a specific payments (intents) for a piSecret associated with this account.
+
+        For the failedPaymentIntent example:
+        - `status: requires_payment_method` indicates a `PaymentIntent` failure. See: https://docs.stripe.com/payments/paymentintents/lifecycle.
+        - `lastPaymentError`: Contains the error details. Specific info about the error can be interpreted from the `code` and `decline_code` fields.
+          For more info on `code` and `decline_code`, see: https://docs.stripe.com/error-codes, https://docs.stripe.com/declines/codes.
       security:
         - bearerAuth: []
       parameters:
@@ -876,6 +1182,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentIntentDetail'
+              examples:
+                successfulPaymentIntent:
+                  $ref: '#/components/examples/successfulPaymentIntent'
+                failedPaymentIntent:
+                  $ref: '#/components/examples/failedPaymentIntent'
         '401':
           $ref: '#/components/responses/Error401Response'
         '404':
@@ -1013,10 +1324,11 @@ paths:
       operationId: getPharmacyListByVisitId
       summary: Get the details of the available pharmacies for a treatment plan (visit)
       description: |
-        Returns a list of pharmacies that have all drugs/prices on the treatment plant available
+        Returns a list of pharmacies that have all drugs/prices on the treatment plant available, sorted primarily by ascending price and secondarily by pharmacy name descending alphabetically. Items lacking pricing will be at the bottom of the list.
       security:
         - bearerAuth: []
       parameters:
+        - $ref: '#/components/parameters/deliveryType'
         - $ref: '#/components/parameters/visit-id'
         - $ref: '#/components/parameters/zipCode'
         - $ref: '#/components/parameters/pharmacyName'
@@ -1260,6 +1572,29 @@ paths:
           $ref: '#/components/responses/Error401Response'
       tags:
         - Token management
+  /treatment-plans/{visit-id}/refills/status:
+    get:
+      operationId: getOrderStatus
+      summary: Get the status of a home delivery order for a given visit ID
+      description: |
+        Returns the status of a home delivery order for a given visit ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/visit-id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeDeliveryOrderStatus'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Order
   /treatment-plans/{visit-id}:
     get:
       operationId: getTreatmentPlanById
@@ -1399,6 +1734,33 @@ paths:
                 type: string
               example:
                 value: attachment; filename="school_work_note_08-29-2024_190507.pdf"; filename*=UTF-8''school_work_note_08-29-2024_190507.pdf
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Treatment plan
+  /treatment-plans/{visit-id}/report-receipt:
+    get:
+      operationId: getTreatmentPlanReportReceipt
+      summary: Get treatment plan report receipt
+      description: |
+        Fetch a treatment plan report receipt after a completed consult.
+        This uses the Stripe GET /payment_intents/:id https://docs.stripe.com/api/payment_intents
+        This uses the Stripe GET /charges/:id https://docs.stripe.com/api/charges
+        This uses the Stripe GET /invoices/:id https://docs.stripe.com/api/invoices 
+      parameters:
+        - $ref: '#/components/parameters/visit-id'
+        - $ref: '#/components/parameters/User-Agent'
+        - $ref: '#/components/parameters/Accept-Language'
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportReceipt'
         '401':
           $ref: '#/components/responses/Error401Response'
         '404':
@@ -1732,43 +2094,62 @@ paths:
           description: Internal server error if there is an issue processing the event.
       tags:
         - Webhooks
-  /hsid/{wildCard}:
-    get:
-      summary: Represents all HSID get endpoints
+  /visits/{visit-id}/send-prescriptions/{pharmacy-id}:
+    put:
+      operationId: putVisitSendPrescription
+      summary: Sends the prescription and discounts to the pharmacy
       description: |
-        Calls from Azure to the HSID provider come through this endpoint and we do not know the specific paths that will be invoked.
-      operationId: getHSID
+        Sends the prescription (Fabric OR Healthdyne) to the Pharmacy chosen by the patient.  
+        Includes coupons/discounts if applicable.
+        Returns void.
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
-        - $ref: '#/components/parameters/wild-card'
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-      tags:
-        - HSID
-    post:
-      summary: Represents all HSID post endpoints
-      description: |
-        Calls from Azure to the HSID provider come through this endpoint and we do not know the specific paths that will be invoked.
-      operationId: postHSID
-      parameters:
-        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
-        - $ref: '#/components/parameters/wild-card'
+        - $ref: '#/components/parameters/visit-id'
+        - $ref: '#/components/parameters/pharmacy-id'
       requestBody:
-        required: true
+        description: |
+          The discount card information to apply to the prescription.
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/DiscountCard'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
+      tags:
+        - Visits
+  /pharmacies/{pharmacy-id}/coupons/{coupon-id}/discount-card:
+    get:
+      operationId: getPharmacyCouponsDiscountCard
+      summary: Get pharmacy coupons discount card for a given pharmacy location
+      description: |
+        Returns the coupons discount card details for a given pharmacy location
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/pharmacy-id'
+        - $ref: '#/components/parameters/coupon-id'
+        - $ref: '#/components/parameters/User-Agent'
+        - $ref: '#/components/parameters/Accept-Language'
+        - $ref: '#/components/parameters/Ocp-Apim-Subscription-Key'
       responses:
         '200':
           description: OK
-        '400':
-          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountCard'
+        '401':
+          $ref: '#/components/responses/Error401Response'
+        '404':
+          $ref: '#/components/responses/Error404Response'
       tags:
-        - HSID
+        - Pharmacy
 components:
   schemas:
     Account:
@@ -1819,6 +2200,8 @@ components:
               type: string
             accountInsuranceInformation:
               type: string
+        address:
+          $ref: '#/components/schemas/AccountAddress'
       example:
         email: bob@aol.com
         fullName: Bob Frog
@@ -1840,6 +2223,18 @@ components:
         accountContent:
           profilePersonalInformation: Personal information
           accountInsuranceInformation: Insurance information
+        address:
+          id: 2910336
+          address1: 1049 Moore Grove
+          address2: null
+          city: Minneapolis
+          country: null
+          phone: (202)345-6789
+          state: MN
+          zip: '55401'
+          fullAddress: 1049 Moore Grove,  Minneapolis, MN 55401
+          latitude: 44.9836543
+          longitude: -93.2693572
     Adb2cToken:
       description: |
         The token is used to authenticate the user for the duration of the tokenExpires time.
@@ -2734,6 +3129,64 @@ components:
             name: Cystex (methenamine-benz acid)
           - id: 2253445
             name: Cystex Plus (methenamine-sal)
+    PatientDetails:
+      type: object
+      properties:
+        firstName:
+          description: |
+            Patient's first name
+          type: string
+        lastName:
+          description: |
+            Patient's last name
+          type: string
+        email:
+          description: |
+            Patient's email address
+          type: string
+      example:
+        firstName: John
+        lastName: Doe
+        email: john.doe@example.com
+    Notification:
+      description: |
+        Get the user's current notifications
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationDetail'
+      example:
+        notifications:
+          - id: 123
+            title: You have a provider response available
+            message: Thank you for using Optum Perks Online Care! Your provider has reviewed your symptoms and created a treatment plan.
+            messageType: null
+            category: treatment_plan
+            force: true
+            viewedAt: '2025-01-03T22:06:29Z'
+            createdAt: '2025-01-03T22:06:29Z'
+            updatedAt: '2025-01-03T22:06:29Z'
+            notificationLinks:
+              - id: 123
+                href: /visits/195020/report
+                label: View Treatment Plan
+    NotificationLink:
+      description: |
+        Contains a url (href) to the visit the notification belongs to.
+      type: object
+      properties:
+        id:
+          type: integer
+        href:
+          type: string
+        label:
+          type: string
+      example:
+        id: 123
+        href: /visits/195020/report
+        label: View Treatment Plan
     PatientVisitHistory:
       description: |
         Patient Visit History using to list Visit History
@@ -2758,6 +3211,14 @@ components:
             finishedAt: '2024-06-20T19:08:56.000Z'
             reasonForVisit: acne
             state: prescriptions_expired
+            headerText: Action required
+            readableState: Complete your visit
+            subState: active
+            pending: true
+            prescriptions:
+              - triamcinolone acetonide (Oralone) 0.1 % dental paste
+              - valacyclovir (Valtrex) 1 gram oral tablet
+              - Mupirocin calcium 2 % topical cream
         currentCount: 1
         currentPage: 1
         totalCount: 1
@@ -2779,12 +3240,36 @@ components:
           type: string
         state:
           type: string
+        headerText:
+          type: string
+        readableState:
+          type: string
+        subState:
+          type: string
+        pending:
+          type: boolean
+        prescriptions:
+          type: array
+          items:
+            type: string
       example:
         id: 123
         createdAt: '2024-05-20T19:08:56.000Z'
         finishedAt: '2024-06-20T19:08:56.000Z'
         reasonForVisit: acne
         state: prescriptions_expired
+        headerText: Action required
+        readableState: Complete your visit
+        subState: active
+        pending: true
+        prescriptions:
+          - triamcinolone acetonide (Oralone) 0.1 % dental paste
+          - valacyclovir (Valtrex) 1 gram oral tablet
+          - Mupirocin calcium 2 % topical cream
+    PatientAllergies:
+      $ref: '#/components/schemas/Allergy'
+    PatientMedications:
+      $ref: '#/components/schemas/Medication'
     PaymentIntent:
       description: |
         See https://docs.stripe.com/api/payment_intents/create
@@ -2878,6 +3363,16 @@ components:
           type: string
           description: |
             Maps to PaymentIntents.data[].invoice in Stripe.
+        status:
+          type: string
+          description: |
+            Maps to PaymentIntents.data[].status in Stripe.
+        lastPaymentError:
+          type:
+            - 'null'
+            - object
+          description: |
+            Maps to PaymentIntents.data[].last_payment_error in Stripe.
       example:
         paymentIntentId: pi_3MtwBwLkdIwHu7ix28a3tqPa
         amount: 2000
@@ -2885,6 +3380,8 @@ components:
         created: '2018-11-13T20:20:39+00:00'
         piClientSecret: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH
         invoiceId: in_1MtHbELkdIwHu7ixl4OzzPMv
+        status: succeeded
+        lastPaymentError: null
     PaymentIntents:
       description: |
         See https://docs.stripe.com/api/payment_intents/list
@@ -2946,12 +3443,22 @@ components:
         fingerprint: Xt5EWLLDS7FJjR1c
         expireMonth: 8
         expireYear: 2025
+    MailOrderRequests:
+      $ref: '#/components/schemas/PatientMailOrderRequest'
     Pharmacy:
       type: object
       properties:
+        isDelivery:
+          description: |
+            Indicates that the pharmacy perform mail orders or not.
+          type: boolean
         isPickup:
           description: |
             Implicit from whether the pharmacy comes from Perks XAPI or Healthdyne.
+          type: boolean
+        isPricingLowest:
+          description: |
+            True if and only if the pharmacy has the lowest price available.
           type: boolean
         perksId:
           description: |
@@ -2980,7 +3487,9 @@ components:
             Source Summation of Perks XAPI prices.data[].retailer.price or internal DB of Healthdyne drug prices.
           $ref: '#/components/schemas/Price'
       example:
+        isDelivery: true
         isPickup: true
+        isPricingLowest: true
         perksId: '00605'
         name: Apci Choice (Hma 605)
         location:
@@ -3031,6 +3540,7 @@ components:
             $ref: '#/components/schemas/Pharmacy'
       example:
         searchParameters:
+          deliveryType: MailOrder
           ndc: 0169-4307-30
           patientId: '187'
           pharmacyName: CSV
@@ -3045,6 +3555,8 @@ components:
                 name: Jornay Pm
         pharmacies:
           - isPickup: true
+            isPricingLowest: true
+            isDelivery: true
             perksId: '00605'
             name: Apci Choice (Hma 605)
             location:
@@ -3080,6 +3592,13 @@ components:
       description: |
         Source: the get http call query parameters that resulted in the pharmacy list response.
       properties:
+        deliveryType:
+          description: |
+            Type of delivery service (e.g., retail or mail order). Defaults to mail order. (Optional)
+          type: string
+          enum:
+            - Retail
+            - MailOrder
         ndc:
           type: string
         patientId:
@@ -3094,11 +3613,17 @@ components:
           description: |
             Source Fabric patient.address OR query parameter
           type: string
+        radiusMiles:
+          description: |
+            Source query parameter (optional)
+          type: integer
       example:
+        deliveryType: MailOrder
         ndc: '0169430730'
         patientId: '187'
         pharmacyName: CSV
         zipCode: '12345'
+        radiusMiles: 10
     PharmacySelection:
       type: object
       properties:
@@ -3627,6 +4152,10 @@ components:
                     type:
                       - 'null'
                       - number
+                  stripePaymentAmount:
+                    type:
+                      - 'null'
+                      - number
             prescriptions:
               type: array
               items:
@@ -3787,6 +4316,7 @@ components:
               refundAmount: null
               transactionType: Visit
               zipGroupDiscountAmount: null
+              stripePaymentAmount: 2500
           prescriptions:
             - drugName: Amoxicillin
               ndcCode: 50090-0301
@@ -3902,6 +4432,334 @@ components:
           - message: <field> can't be blank
             reason: <field_id>
         message: Unprocessable Entity
+    DiscountCard:
+      description: |
+        It includes the discount coupons details.
+      type: object
+      properties:
+        pcn:
+          description: |
+            Maps to Fabric discount_card_pcn, only for retail
+            Processor Control Number for the discount card.
+          type: string
+        bin:
+          description: |
+            Maps to Fabric discount_card_bin, only for retail
+            BIN number for the discount card.
+          type: string
+        uid:
+          description: |
+            Maps to Fabric discount_card_cardholder_id, only for retail
+            Unique identifier for the user, usually assigned by the system.
+          type: string
+        grp:
+          description: |
+            Maps to Fabric discount_card_group_id, only for retail
+            Group code for the discount card.
+          type: string
+      example:
+        pcn: CLAIMCR
+        bin: '005947'
+        uid: APD1066745
+        grp: 1858CCC
+    InvoiceItem:
+      description: |
+        The invoice item contains the description, quantity, price, subtotal and discount applied to each item.
+      type: object
+      properties:
+        description:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: object
+          properties:
+            currency:
+              type: string
+            amount:
+              type: number
+        subtotal:
+          type: object
+          properties:
+            currency:
+              type: string
+            amount:
+              type: number
+        discount:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/InvoiceItemDiscount'
+      example:
+        description: Consultation
+        quantity: 1
+        price:
+          currency: USD
+          amount: 100
+        subtotal:
+          currency: USD
+          amount: 100
+        discount:
+          - coupon:
+              amountOff: 10
+              created: '2021-09-01T00:00:00Z'
+              currency: USD
+              duration: forever
+              durationInMonths: null
+              name: 10% off
+              percentOff: null
+              valid: true
+            customer: customer_id
+            promotionCode: null
+            startDate: 1630454400
+    InvoiceItemDiscount:
+      description: |
+        The invoice item discounts contains the details of the discount applied to the invoice item.
+      type: object
+      properties:
+        coupon:
+          type: object
+          properties:
+            amountOff:
+              type:
+                - number
+                - 'null'
+            created:
+              type: string
+              format: date-time
+            currency:
+              type: string
+            duration:
+              type: string
+            durationInMonths:
+              type:
+                - number
+                - 'null'
+            name:
+              type: string
+            percentOff:
+              type:
+                - number
+                - 'null'
+            valid:
+              type: boolean
+        customer:
+          type: string
+        promotionCode:
+          type:
+            - number
+            - 'null'
+        startDate:
+          type: number
+      example:
+        coupon:
+          amountOff: 10
+          created: '2021-09-01T00:00:00Z'
+          currency: USD
+          duration: forever
+          durationInMonths: null
+          name: 10% off
+          percentOff: null
+          valid: true
+        customer: customer_id
+        promotionCode: null
+        startDate: 1630454400
+    ReportReceipt:
+      description: |
+        The report receipt is the result of a completed consult.
+        It includes the business information, the stripe payment invoice information.
+        It includes the items purchased, the total amount, subtotal amount, taxes and the payment method.
+      type: object
+      properties:
+        business:
+          type: object
+          properties:
+            name:
+              type: string
+            logo:
+              type: string
+            phone:
+              type: string
+            email:
+              type: string
+            website:
+              type: string
+        invoice:
+          type: string
+        datePurchased:
+          type: string
+          format: date-time
+        paymentMethod:
+          type: object
+          properties:
+            type:
+              type: string
+            card:
+              type:
+                - object
+                - 'null'
+              properties:
+                brand:
+                  type: string
+                last4:
+                  type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceItem'
+        subtotal:
+          type: object
+          properties:
+            currency:
+              type: string
+            amount:
+              type: number
+        taxes:
+          type: object
+          properties:
+            currency:
+              type: string
+            amount:
+              type: number
+        totalAmount:
+          type: object
+          properties:
+            currency:
+              type: string
+            amount:
+              type: number
+      example:
+        business:
+          name: Business Name
+          logo: https://business.com/logo.png
+          phone: '+1234567890'
+          email: test@email.net
+          website: https://business.com
+        invoice: invoice_id
+        datePurchased: '2021-09-01T00:00:00Z'
+        paymentMethod:
+          type: card
+          card:
+            brand: Visa
+            last4: '4242'
+        items:
+          - description: Consultation
+            quantity: 1
+            price:
+              currency: USD
+              amount: 100
+            subtotal:
+              currency: USD
+              amount: 100
+            discount:
+              - coupon:
+                  amountOff: 10
+                  created: '2021-09-01T00:00:00Z'
+                  currency: USD
+                  duration: forever
+                  durationInMonths: null
+                  name: 10% off
+                  percentOff: null
+                  valid: true
+                customer: customer_id
+                promotionCode: null
+                startDate: 1630454400
+        subtotal:
+          currency: USD
+          amount: 100
+        taxes:
+          currency: USD
+          amount: 10
+        totalAmount:
+          currency: USD
+          amount: 110
+    AccountAddress:
+      type: object
+      description: 'Source: Fabric content.patient_profile'
+      properties:
+        id:
+          type: number
+        address1:
+          type: string
+        address2:
+          type:
+            - string
+            - 'null'
+        city:
+          type: string
+        country:
+          type:
+            - string
+            - 'null'
+        phone:
+          type:
+            - string
+            - 'null'
+          description: A 10-digit phone number
+          pattern: ^\(\d{3}\)\d{3}-\d{4}$
+        state:
+          type: string
+        zip:
+          type: string
+        fullAddress:
+          type: string
+        latitude:
+          type:
+            - number
+            - 'null'
+        longitude:
+          type:
+            - number
+            - 'null'
+      example:
+        id: 2910336
+        address1: 1049 Moore Grove
+        address2: null
+        city: Minneapolis
+        country: null
+        phone: (202)345-6789
+        state: MN
+        zip: '55401'
+        fullAddress: 1049 Moore Grove,  Minneapolis, MN 55401
+        latitude: 44.9836543
+        longitude: -93.2693572
+    AccountUpdate:
+      description: |
+        The is used to update the account profile.
+      type: object
+      properties:
+        fullName:
+          type: string
+        phone:
+          type: string
+          description: A 10-digit phone number
+          pattern: ^\(\d{3}\)\d{3}-\d{4}$
+        insuranceCarrier:
+          type: string
+        insuranceId:
+          type: string
+        email:
+          type: string
+          format: email
+        address:
+          $ref: '#/components/schemas/AccountAddress'
+      example:
+        fullName: Muhammad Rehman
+        phone: (509)530-1766
+        email: mrehman+1@rvohaealth.com
+        address:
+          id: 2910336
+          address1: 1049 Moore Grove
+          address2: null
+          city: Minneapolis
+          country: null
+          phone: (202)345-6789
+          state: MN
+          zip: '55401'
+          fullAddress: 1049 Moore Grove,  Minneapolis, MN 55401
+          latitude: 44.9836543
+          longitude: -93.2693572
     ConditionMappingCsv:
       type: object
       properties:
@@ -4226,6 +5084,293 @@ components:
               latitude: null
               longitude: null
             pendingVisits: 2
+    PatientCore:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - birthDate
+        - gender
+      properties:
+        firstName:
+          description: |
+            The first name of the patient.
+          type: string
+        lastName:
+          description: |
+            The last name of the patient.
+          type: string
+        birthDate:
+          description: |
+            The date of birth of the patient.
+          type: string
+          format: date
+        gender:
+          description: |
+            The gender of the patient.
+          type: string
+          enum:
+            - male
+            - female
+      example:
+        firstName: John
+        lastName: Doe
+        birthDate: '2010-01-01'
+        gender: male
+    PatientCreatePayload:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PatientCore'
+        - type: object
+          properties:
+            relationship:
+              type: string
+              description: |
+                The dependent's relationship to the primary patient account.
+              enum:
+                - Legal Dependent
+                - Son
+                - Daughter
+                - Child
+                - Spouse/Partner
+      required:
+        - relationship
+      example:
+        firstName: John
+        lastName: Doe
+        birthDate: '2010-01-01'
+        gender: male
+        relationship: Child
+    id:
+      type: integer
+      description: |
+        The unique identifier of the patient.
+    PatientRecord:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: |
+                The unique identifier of the patient.
+            dependent:
+              description: |
+                Whether the patient is a dependent or not.
+              type: boolean
+            relationship:
+              description: |
+                The relationship of the patient to the primary patient account, including the primary patient account itself.
+              type: string
+              enum:
+                - Primary
+                - Legal Dependent
+                - Son
+                - Daughter
+                - Child
+                - Spouse/Partner
+            primaryPatientId:
+              description: |
+                The primary patient account ID. This is used to link the patient to the primary patient account family.
+              $ref: '#/components/schemas/id'
+        - $ref: '#/components/schemas/PatientCore'
+      required:
+        - id
+        - dependent
+        - primaryPatientId
+        - relationship
+      example:
+        id: 44366
+        firstName: John
+        lastName: Doe
+        birthDate: '2010-01-01'
+        gender: male
+        dependent: true
+        relationship: Child
+        primaryPatientId: 99999
+    Allergy:
+      type: object
+      properties:
+        id:
+          type: integer
+        state:
+          type: string
+        allergyId:
+          type: string
+        name:
+          type: string
+        externalAllergyId:
+          type:
+            - string
+            - 'null'
+        externalCode:
+          type:
+            - string
+            - 'null'
+      example:
+        id: 3075
+        state: active
+        allergyId: '2006808'
+        name: Tylenol
+        externalAllergyId: null
+        externalCode: null
+    Medication:
+      type: object
+      properties:
+        id:
+          type: integer
+        medicationId:
+          type: string
+        medicationName:
+          type: string
+        state:
+          type: string
+        externalMedicationId:
+          type:
+            - string
+            - 'null'
+        externalCode:
+          type:
+            - string
+            - 'null'
+      example:
+        id: 5006
+        medicationId: '6171233'
+        name: Briviact oral
+        state: active
+        externalMedicationId: null
+        externalCode: null
+    AllergyMedicationPayload:
+      description: List of allergies and medications for the given patient
+      type: object
+      properties:
+        allergies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Allergy'
+        medications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Medication'
+      example:
+        allergies:
+          - id: 3075
+            state: active
+            allergyId: '2006808'
+            name: Tylenol
+            externalAllergyId: null
+            externalCode: null
+        medications:
+          - id: 5006
+            medicationId: '6171233'
+            name: Briviact oral
+            state: active
+            externalMedicationId: null
+            externalCode: null
+    PatientMailOrderRequest:
+      type: object
+      properties:
+        mailOrderRequestKey:
+          description: Identifier of mail order request from 3rd party prescription mail fulfillment service
+          type: string
+        orderNumber:
+          description: User friendly order number the fulfillment service associated with mail order request
+          type:
+            - string
+            - 'null'
+        timestamp:
+          description: Timestamp representing the latest time something changed with mail order request
+          type: string
+        status:
+          description: Status code of mail order request
+          type: string
+          enum:
+            - Placed
+            - Processing
+            - Shipped
+        statusMessage:
+          description: User friendly message relaying status code
+          type:
+            - string
+            - 'null'
+        shipmentCarrier:
+          description: Code that reflects what shipping carrier is handling the mail order request
+          type:
+            - string
+            - 'null'
+        shipmentDate:
+          description: Date mail order was shipped to customer
+          type:
+            - string
+            - 'null'
+        trackingNumber:
+          description: Identifier of shipment from 3rd party mail carrier service
+          type:
+            - string
+            - 'null'
+        trackingUrl:
+          description: A url that directs users to the 3rd party mail carrier site to check the latest tracking information
+          type:
+            - string
+            - 'null'
+      example:
+        mailOrderRequestKey: FILL13SEP2024013624221
+        orderNumber: “7537084”,
+        timestamp: '2024-09-13T15:00:44.051716Z'
+        status: Shipped
+        statusMessage: The Rx has been shipped
+        shipmentCarrier: “UPS”
+        shipmentDate: “2024-09-06T06:00:02Z”
+        trackingNumber: '12344567'
+        trackingUrl: https://upstrackingurl?id=12345
+    NotificationDetail:
+      description: |
+        Notification object
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        message:
+          type: string
+        messageType:
+          type:
+            - 'null'
+            - string
+        category:
+          type: string
+        force:
+          type: boolean
+        viewedAt:
+          type:
+            - 'null'
+            - string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        notificationLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationLink'
+      example:
+        id: 123
+        title: You have a provider response available
+        message: Thank you for using Optum Perks Online Care! Your provider has reviewed your symptoms and created a treatment plan.
+        messageType: null
+        category: treatment_plan
+        force: true
+        viewedAt: '2025-01-03T22:06:29Z'
+        createdAt: '2025-01-03T22:06:29Z'
+        updatedAt: '2025-01-03T22:06:29Z'
+        notificationLinks:
+          - id: 123
+            href: /visits/195020/report
+            label: View Treatment Plan
     PaymentDiscount:
       description: |
         See https://docs.stripe.com/api/promotion_codes/list
@@ -4285,6 +5430,122 @@ components:
         - gvid
       example:
         gvid: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    ShippingAddress:
+      type: object
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        line3:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+      required:
+        - line1
+        - city
+        - state
+        - zipCode
+      example:
+        line1: TEST MAIN
+        line2: Bldg 3
+        line3: Suite 102
+        city: MINNEAPOLIS
+        state: MN
+        zipCode: '55401'
+    HomeDeliveryPrescription:
+      description: |
+        The prescription ordered for home delivery
+      type: object
+      required:
+        - drugName
+        - strength
+        - strengthQualifier
+        - quantityQualifier
+        - status
+      properties:
+        drugName:
+          description: |
+            The name of the drug in the prescription
+          type: string
+        strength:
+          description: |
+            The strength of the drug relative to the unit of measurement
+          type: string
+        strengthQualifier:
+          description: |
+            The strength unit of measurement for the drug
+          type: string
+        quantityQualifier:
+          description: |
+            The quanity unit of measurement for the drug
+          type: string
+        status:
+          description: |
+            The status of the prescription fulfillment
+          type: string
+          enum:
+            - placed
+            - processing
+            - shipped
+      example:
+        drugName: Tylenol
+        strength: '500'
+        strengthQualifier: mg
+        quantityQualifier: tablet
+        status: processing
+    HomeDeliveryOrderStatus:
+      description: |
+        The prescription ordered for home delivery and its fulfillment status
+      type: object
+      required:
+        - id
+        - createdDate
+        - shippingAddress
+        - prescription
+      properties:
+        id:
+          description: |
+            The unique order ID assigned to the order
+          type: string
+          format: unique
+        createdDate:
+          description: |
+            The date the order was created
+          type: string
+          format: date
+        shippedDate:
+          description: |
+            The date the order was shipped
+          type: string
+          format: date
+        shippingAddress:
+          description: |
+            The delivery address for fulfilling the order
+          $ref: '#/components/schemas/ShippingAddress'
+        prescription:
+          description: |
+            The prescription drug included in the order along with its fulfillment status
+          $ref: '#/components/schemas/HomeDeliveryPrescription'
+      example:
+        id: CLAIMCR
+        createdDate: '2025-01-08'
+        shippedDate: '2025-01-10'
+        shippingAddress:
+          line1: 123 Willow Way
+          city: Somewheresville
+          state: FL
+          zipCode: '11111'
+        prescription:
+          drugName: Tylenol
+          strength: '500'
+          strengthQualifier: mg
+          quantityQualifier: tablet
+          status: processing
     TreatmentPlanSuccessContent:
       description: |
         Static content indicating that a treament plan has successfully been created.
@@ -4430,6 +5691,17 @@ components:
       example:
         summary: Example query
         value: Acne
+    deliveryType:
+      name: deliveryType
+      in: query
+      description: Type of delivery service (e.g., retail or mail order). Defaults to mail order. (Optional)
+      required: false
+      schema:
+        type: string
+        enum:
+          - Retail
+          - MailOrder
+      example: MailOrder
     imageId:
       name: imageId
       in: query
@@ -4492,6 +5764,17 @@ components:
         GVIDCookieExample:
           summary: Example GVID cookie
           value: 9QVmrGhIP3Q2CzBJXSh7HOY8T4jOdEBiT%2B4X2w4Tizkio6csjbe3M3Cfs5ZMZ7nCXDcxzHA3wyNSO6e%2FfyfLOsvb0isFaAl53z%2Fd6bDafGlyQmimRfItZwbA6BplcKglhurCGr3tOMKgpDi7h4pGiZnK%2BJ2K--FeG4KN4JaX83oV%2B4--s7UxQO4w%2BDjray3ieUTKuw%3D%3D;
+    coupon-id:
+      name: coupon-id
+      in: path
+      description: |
+        The coupon id in Perks XAPI 
+      required: true
+      schema:
+        type: string
+      example:
+        summary: Example coupon id
+        value: 00605-878782-NJUY876HY
     condition-legacy:
       name: condition-legacy
       in: path
@@ -4574,6 +5857,58 @@ components:
         type: string
       example:
         value: banner_1
+    patient-id:
+      name: patient-id
+      in: path
+      required: true
+      schema:
+        type: number
+      description: A patient id.
+      example:
+        summary: Example of an Patient Id
+        value: 188315
+    page:
+      name: page
+      in: query
+      description: Page number being requested
+      required: false
+      schema:
+        type: integer
+        default: 1
+      example:
+        value: 1
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of results per page
+      required: false
+      schema:
+        type: integer
+        default: 10
+      example:
+        value: 10
+    X-Admin-Key:
+      name: x-admin-key
+      in: header
+      description: |
+        Admin Key for Admin tagged endpoints
+      schema:
+        type: string
+      example:
+        basic-example:
+          value: totally_legit_admin_key
+    reset:
+      name: reset
+      in: query
+      description: |
+        Currently used when retrieving metrics.
+        If present, metrics that accumulate will be reset / cleared.
+      required: false
+      schema:
+        type: string
+      examples:
+        resetQueryExample:
+          value: 'true'
     promo-code:
       name: promo-code
       in: path
@@ -4585,16 +5920,6 @@ components:
       example:
         summary: Promotion Code
         value: A1H1Q1MG
-    X-Admin-Key:
-      name: x-admin-key
-      in: header
-      description: |
-        Admin Key for Admin tagged endpoints
-      schema:
-        type: string
-      example:
-        basic-example:
-          value: totally_legit_admin_key
     patient-name:
       name: patient-name
       in: path
@@ -4606,16 +5931,6 @@ components:
       example:
         summary: Example Patient Name
         value: Hans
-    wild-card:
-      name: wildCard
-      in: path
-      required: false
-      schema:
-        type: string
-      description: Putting this param at the end of a path allows us to configure APIM gateway to accept wild card paths.
-      example:
-        summary: Example of a wild card path
-        value: foo/bar
   examples:
     allergyNames:
       value:
@@ -5597,6 +6912,77 @@ components:
         server: unhealthy
         redis: end
         db: connected
+    successfulPaymentIntent:
+      value:
+        paymentIntentId: pi_3MtwBwLkdIwHu7ix28a3tqPa
+        amount: 2000
+        amountReceived: 1500
+        created: '2018-11-13T20:20:39+00:00'
+        piClientSecret: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH
+        invoiceId: in_1MtHbELkdIwHu7ixl4OzzPMv
+        status: succeeded
+        lastPaymentError: null
+    failedPaymentIntent:
+      value:
+        paymentIntentId: pi_3MtwBwLkdIwHu7ix28a3tqPa
+        amount: 2000
+        amountReceived: 0
+        created: '2018-11-13T20:20:39+00:00'
+        piClientSecret: pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH
+        invoiceId: in_1MtHbELkdIwHu7ixl4OzzPMv
+        status: requires_payment_method
+        lastPaymentError:
+          advice_code: confirm_card_data
+          charge: ch_123456789
+          code: expired_card
+          decline_code: expired_card
+          doc_url: https://stripe.com/docs/error-codes/expired-card
+          message: Your card has expired.
+          param: exp_month
+          payment_method:
+            id: pm_123456789
+            object: payment_method
+            allow_redisplay: unspecified
+            billing_details:
+              address:
+                city: null
+                country: null
+                line1: null
+                line2: null
+                postal_code: '28277'
+                state: null
+              email: null
+              name: null
+              phone: null
+            card:
+              brand: visa
+              checks:
+                address_line1_check: null
+                address_postal_code_check: pass
+                cvc_check: pass
+              country: US
+              display_brand: visa
+              exp_month: 1
+              exp_year: 2025
+              fingerprint: “1111111111111111"
+              funding: credit
+              generated_from: null
+              last4: '0069'
+              networks:
+                available:
+                  - visa
+                preferred: null
+              regulated_status: unregulated
+              three_d_secure_usage:
+                supported: true
+              wallet: null
+            created: 1737041825
+            customer: null
+            livemode: false
+            metadata: {}
+            radar_options: {}
+            type: card
+          type: card_error
   securitySchemes:
     bearerAuth:
       description: |

@@ -23,7 +23,7 @@ npm install
 npm run pipeline
 
 # Start server
-npx mockoon-cli start -d ./src/mockoon_env.final.json
+npx mockoon-cli start -d ./src/mockoonFile.json
 ```
 
 ### Docker

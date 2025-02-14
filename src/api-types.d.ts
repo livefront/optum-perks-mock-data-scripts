@@ -26,17 +26,23 @@
         export type ConditionLabel = string; // ^[a-z0-9_]+$
         export type ConditionLegacy = string; // ^[a-z0-9_-]+$
         export type ContentType = string;
+        export type CouponId = string;
+        export type DeliveryType = "Retail" | "MailOrder";
         export type GVID = string;
         export type ImageId = number;
+        export type Limit = number;
         export type Name = string;
         export type Ndc = string;
         export type OcpApimSubscriptionKey = string; // uuid
+        export type Page = number;
+        export type PatientId = number;
         export type PatientName = string; // uuid
         export type PaymentMethodName = string;
         export type PharmacyId = string;
         export type PharmacyName = string;
         export type PiSecret = string; // ^[a-z0-9_]+$
         export type PromoCode = string;
+        export type Reset = string;
         export type SearchQuery = string;
         export type UrlSlug = string; // ^[a-z0-9-]+$
         export type UserAgent = string;
@@ -46,7 +52,6 @@
         export type UtmSource = string;
         export type UtmTerm = string;
         export type VisitId = string; // uuid
-        export type WildCard = string;
         export type XAdminKey = string;
         export type ZipCode = string;
     }
@@ -57,14 +62,16 @@
         "pi-secret": Parameters.PiSecret /* ^[a-z0-9_]+$ */;
         "payment-method-name"?: Parameters.PaymentMethodName;
         "url-slug": Parameters.UrlSlug /* ^[a-z0-9-]+$ */;
+        "coupon-id": Parameters.CouponId;
         "condition-legacy": Parameters.ConditionLegacy /* ^[a-z0-9_-]+$ */;
         "condition-label": Parameters.ConditionLabel /* ^[a-z0-9_]+$ */;
+        "patient-id": Parameters.PatientId;
         "promo-code": Parameters.PromoCode;
         "patient-name": Parameters.PatientName /* uuid */;
-        "wild-card"?: Parameters.WildCard;
     }
     export interface QueryParameters {
         category?: Parameters.Category;
+        deliveryType?: Parameters.DeliveryType;
         imageId: Parameters.ImageId;
         pharmacyName?: Parameters.PharmacyName;
         ndc?: Parameters.Ndc;
@@ -76,6 +83,9 @@
         utmCampaign?: Parameters.UtmCampaign;
         utmTerm?: Parameters.UtmTerm;
         utmContent?: Parameters.UtmContent;
+        page?: Parameters.Page;
+        limit?: Parameters.Limit;
+        reset?: Parameters.Reset;
     }
     namespace Responses {
         export type Error400Response = /**
@@ -140,6 +150,19 @@
          *   "accountContent": {
          *     "profilePersonalInformation": "Personal information",
          *     "accountInsuranceInformation": "Insurance information"
+         *   },
+         *   "address": {
+         *     "id": 2910336,
+         *     "address1": "1049 Moore Grove",
+         *     "address2": null,
+         *     "city": "Minneapolis",
+         *     "country": null,
+         *     "phone": "(202)345-6789",
+         *     "state": "MN",
+         *     "zip": "55401",
+         *     "fullAddress": "1049 Moore Grove,  Minneapolis, MN 55401",
+         *     "latitude": 44.9836543,
+         *     "longitude": -93.2693572
          *   }
          * }
          */
@@ -172,6 +195,108 @@
                 profilePersonalInformation?: string;
                 accountInsuranceInformation?: string;
             };
+            address?: /**
+             * Source: Fabric content.patient_profile
+             * example:
+             * {
+             *   "id": 2910336,
+             *   "address1": "1049 Moore Grove",
+             *   "address2": null,
+             *   "city": "Minneapolis",
+             *   "country": null,
+             *   "phone": "(202)345-6789",
+             *   "state": "MN",
+             *   "zip": "55401",
+             *   "fullAddress": "1049 Moore Grove,  Minneapolis, MN 55401",
+             *   "latitude": 44.9836543,
+             *   "longitude": -93.2693572
+             * }
+             */
+            AccountAddress;
+        }
+        /**
+         * Source: Fabric content.patient_profile
+         * example:
+         * {
+         *   "id": 2910336,
+         *   "address1": "1049 Moore Grove",
+         *   "address2": null,
+         *   "city": "Minneapolis",
+         *   "country": null,
+         *   "phone": "(202)345-6789",
+         *   "state": "MN",
+         *   "zip": "55401",
+         *   "fullAddress": "1049 Moore Grove,  Minneapolis, MN 55401",
+         *   "latitude": 44.9836543,
+         *   "longitude": -93.2693572
+         * }
+         */
+        export interface AccountAddress {
+            id?: number;
+            address1?: string;
+            address2?: string | null;
+            city?: string;
+            country?: string | null;
+            /**
+             * A 10-digit phone number
+             */
+            phone?: string | null; // ^\(\d{3}\)\d{3}-\d{4}$
+            state?: string;
+            zip?: string;
+            fullAddress?: string;
+            latitude?: number | null;
+            longitude?: number | null;
+        }
+        /**
+         * The is used to update the account profile.
+         *
+         * example:
+         * {
+         *   "fullName": "Muhammad Rehman",
+         *   "phone": "(509)530-1766",
+         *   "email": "mrehman+1@rvohaealth.com",
+         *   "address": {
+         *     "id": 2910336,
+         *     "address1": "1049 Moore Grove",
+         *     "address2": null,
+         *     "city": "Minneapolis",
+         *     "country": null,
+         *     "phone": "(202)345-6789",
+         *     "state": "MN",
+         *     "zip": "55401",
+         *     "fullAddress": "1049 Moore Grove,  Minneapolis, MN 55401",
+         *     "latitude": 44.9836543,
+         *     "longitude": -93.2693572
+         *   }
+         * }
+         */
+        export interface AccountUpdate {
+            fullName?: string;
+            /**
+             * A 10-digit phone number
+             */
+            phone?: string; // ^\(\d{3}\)\d{3}-\d{4}$
+            insuranceCarrier?: string;
+            insuranceId?: string;
+            email?: string; // email
+            address?: /**
+             * Source: Fabric content.patient_profile
+             * example:
+             * {
+             *   "id": 2910336,
+             *   "address1": "1049 Moore Grove",
+             *   "address2": null,
+             *   "city": "Minneapolis",
+             *   "country": null,
+             *   "phone": "(202)345-6789",
+             *   "state": "MN",
+             *   "zip": "55401",
+             *   "fullAddress": "1049 Moore Grove,  Minneapolis, MN 55401",
+             *   "latitude": 44.9836543,
+             *   "longitude": -93.2693572
+             * }
+             */
+            AccountAddress;
         }
         /**
          * example:
@@ -243,6 +368,77 @@
             zipCode: string;
             country?: string;
             phoneNumber: string;
+        }
+        /**
+         * example:
+         * {
+         *   "id": 3075,
+         *   "state": "active",
+         *   "allergyId": "2006808",
+         *   "name": "Tylenol",
+         *   "externalAllergyId": null,
+         *   "externalCode": null
+         * }
+         */
+        export interface Allergy {
+            id?: number;
+            state?: string;
+            allergyId?: string;
+            name?: string;
+            externalAllergyId?: string | null;
+            externalCode?: string | null;
+        }
+        /**
+         * List of allergies and medications for the given patient
+         * example:
+         * {
+         *   "allergies": [
+         *     {
+         *       "id": 3075,
+         *       "state": "active",
+         *       "allergyId": "2006808",
+         *       "name": "Tylenol",
+         *       "externalAllergyId": null,
+         *       "externalCode": null
+         *     }
+         *   ],
+         *   "medications": [
+         *     {
+         *       "id": 5006,
+         *       "medicationId": "6171233",
+         *       "name": "Briviact oral",
+         *       "state": "active",
+         *       "externalMedicationId": null,
+         *       "externalCode": null
+         *     }
+         *   ]
+         * }
+         */
+        export interface AllergyMedicationPayload {
+            allergies?: /**
+             * example:
+             * {
+             *   "id": 3075,
+             *   "state": "active",
+             *   "allergyId": "2006808",
+             *   "name": "Tylenol",
+             *   "externalAllergyId": null,
+             *   "externalCode": null
+             * }
+             */
+            Allergy[];
+            medications?: /**
+             * example:
+             * {
+             *   "id": 5006,
+             *   "medicationId": "6171233",
+             *   "name": "Briviact oral",
+             *   "state": "active",
+             *   "externalMedicationId": null,
+             *   "externalCode": null
+             * }
+             */
+            Medication[];
         }
         /**
          * example:
@@ -705,6 +901,43 @@
                 abbreviation?: string;
                 name?: string;
             }[];
+        }
+        /**
+         * It includes the discount coupons details.
+         *
+         * example:
+         * {
+         *   "pcn": "CLAIMCR",
+         *   "bin": "005947",
+         *   "uid": "APD1066745",
+         *   "grp": "1858CCC"
+         * }
+         */
+        export interface DiscountCard {
+            /**
+             * Maps to Fabric discount_card_pcn, only for retail
+             * Processor Control Number for the discount card.
+             *
+             */
+            pcn?: string;
+            /**
+             * Maps to Fabric discount_card_bin, only for retail
+             * BIN number for the discount card.
+             *
+             */
+            bin?: string;
+            /**
+             * Maps to Fabric discount_card_cardholder_id, only for retail
+             * Unique identifier for the user, usually assigned by the system.
+             *
+             */
+            uid?: string;
+            /**
+             * Maps to Fabric discount_card_group_id, only for retail
+             * Group code for the discount card.
+             *
+             */
+            grp?: string;
         }
         /**
          * example:
@@ -1401,6 +1634,123 @@
             db: "connected" | "error";
         }
         /**
+         * The prescription ordered for home delivery and its fulfillment status
+         *
+         * example:
+         * {
+         *   "id": "CLAIMCR",
+         *   "createdDate": "2025-01-08",
+         *   "shippedDate": "2025-01-10",
+         *   "shippingAddress": {
+         *     "line1": "123 Willow Way",
+         *     "city": "Somewheresville",
+         *     "state": "FL",
+         *     "zipCode": "11111"
+         *   },
+         *   "prescription": {
+         *     "drugName": "Tylenol",
+         *     "strength": "500",
+         *     "strengthQualifier": "mg",
+         *     "quantityQualifier": "tablet",
+         *     "status": "processing"
+         *   }
+         * }
+         */
+        export interface HomeDeliveryOrderStatus {
+            /**
+             * The unique order ID assigned to the order
+             *
+             */
+            id: string; // unique
+            /**
+             * The date the order was created
+             *
+             */
+            createdDate: string; // date
+            /**
+             * The date the order was shipped
+             *
+             */
+            shippedDate?: string; // date
+            /**
+             * The delivery address for fulfilling the order
+             *
+             */
+            shippingAddress: /**
+             * example:
+             * {
+             *   "line1": "TEST MAIN",
+             *   "line2": "Bldg 3",
+             *   "line3": "Suite 102",
+             *   "city": "MINNEAPOLIS",
+             *   "state": "MN",
+             *   "zipCode": "55401"
+             * }
+             */
+            ShippingAddress;
+            /**
+             * The prescription drug included in the order along with its fulfillment status
+             *
+             */
+            prescription: /**
+             * The prescription ordered for home delivery
+             *
+             * example:
+             * {
+             *   "drugName": "Tylenol",
+             *   "strength": "500",
+             *   "strengthQualifier": "mg",
+             *   "quantityQualifier": "tablet",
+             *   "status": "processing"
+             * }
+             */
+            HomeDeliveryPrescription;
+        }
+        /**
+         * The prescription ordered for home delivery
+         *
+         * example:
+         * {
+         *   "drugName": "Tylenol",
+         *   "strength": "500",
+         *   "strengthQualifier": "mg",
+         *   "quantityQualifier": "tablet",
+         *   "status": "processing"
+         * }
+         */
+        export interface HomeDeliveryPrescription {
+            /**
+             * The name of the drug in the prescription
+             *
+             */
+            drugName: string;
+            /**
+             * The strength of the drug relative to the unit of measurement
+             *
+             */
+            strength: string;
+            /**
+             * The strength unit of measurement for the drug
+             *
+             */
+            strengthQualifier: string;
+            /**
+             * The quanity unit of measurement for the drug
+             *
+             */
+            quantityQualifier: string;
+            /**
+             * The status of the prescription fulfillment
+             *
+             */
+            status: "placed" | "processing" | "shipped";
+        }
+        /**
+         * The unique identifier of the patient.
+         *
+         */
+        export type Id = number;
+        /**
          * example:
          * {
          *   "id": 17180,
@@ -1589,6 +1939,142 @@
             };
         }
         /**
+         * The invoice item contains the description, quantity, price, subtotal and discount applied to each item.
+         *
+         * example:
+         * {
+         *   "description": "Consultation",
+         *   "quantity": 1,
+         *   "price": {
+         *     "currency": "USD",
+         *     "amount": 100
+         *   },
+         *   "subtotal": {
+         *     "currency": "USD",
+         *     "amount": 100
+         *   },
+         *   "discount": [
+         *     {
+         *       "coupon": {
+         *         "amountOff": 10,
+         *         "created": "2021-09-01T00:00:00Z",
+         *         "currency": "USD",
+         *         "duration": "forever",
+         *         "durationInMonths": null,
+         *         "name": "10% off",
+         *         "percentOff": null,
+         *         "valid": true
+         *       },
+         *       "customer": "customer_id",
+         *       "promotionCode": null,
+         *       "startDate": 1630454400
+         *     }
+         *   ]
+         * }
+         */
+        export interface InvoiceItem {
+            description?: string;
+            quantity?: number;
+            price?: {
+                currency?: string;
+                amount?: number;
+            };
+            subtotal?: {
+                currency?: string;
+                amount?: number;
+            };
+            discount?: /**
+             * The invoice item discounts contains the details of the discount applied to the invoice item.
+             *
+             * example:
+             * {
+             *   "coupon": {
+             *     "amountOff": 10,
+             *     "created": "2021-09-01T00:00:00Z",
+             *     "currency": "USD",
+             *     "duration": "forever",
+             *     "durationInMonths": null,
+             *     "name": "10% off",
+             *     "percentOff": null,
+             *     "valid": true
+             *   },
+             *   "customer": "customer_id",
+             *   "promotionCode": null,
+             *   "startDate": 1630454400
+             * }
+             */
+            InvoiceItemDiscount[] | null;
+        }
+        /**
+         * The invoice item discounts contains the details of the discount applied to the invoice item.
+         *
+         * example:
+         * {
+         *   "coupon": {
+         *     "amountOff": 10,
+         *     "created": "2021-09-01T00:00:00Z",
+         *     "currency": "USD",
+         *     "duration": "forever",
+         *     "durationInMonths": null,
+         *     "name": "10% off",
+         *     "percentOff": null,
+         *     "valid": true
+         *   },
+         *   "customer": "customer_id",
+         *   "promotionCode": null,
+         *   "startDate": 1630454400
+         * }
+         */
+        export interface InvoiceItemDiscount {
+            coupon?: {
+                amountOff?: number | null;
+                created?: string; // date-time
+                currency?: string;
+                duration?: string;
+                durationInMonths?: number | null;
+                name?: string;
+                percentOff?: number | null;
+                valid?: boolean;
+            };
+            customer?: string;
+            promotionCode?: number | null;
+            startDate?: number;
+        }
+        export type MailOrderRequests = /**
+         * example:
+         * {
+         *   "mailOrderRequestKey": "FILL13SEP2024013624221",
+         *   "orderNumber": "“7537084”,",
+         *   "timestamp": "2024-09-13T15:00:44.051716Z",
+         *   "status": "Shipped",
+         *   "statusMessage": "The Rx has been shipped",
+         *   "shipmentCarrier": "“UPS”",
+         *   "shipmentDate": "“2024-09-06T06:00:02Z”",
+         *   "trackingNumber": "12344567",
+         *   "trackingUrl": "https://upstrackingurl?id=12345"
+         * }
+         */
+        PatientMailOrderRequest;
+        /**
+         * example:
+         * {
+         *   "id": 5006,
+         *   "medicationId": "6171233",
+         *   "name": "Briviact oral",
+         *   "state": "active",
+         *   "externalMedicationId": null,
+         *   "externalCode": null
+         * }
+         */
+        export interface Medication {
+            id?: number;
+            medicationId?: string;
+            medicationName?: string;
+            state?: string;
+            externalMedicationId?: string | null;
+            externalCode?: string | null;
+        }
+        /**
          * example:
          * [
          *   {
@@ -1605,6 +2091,224 @@
             id?: number;
             name?: string;
         }[];
+        /**
+         * Get the user's current notifications
+         *
+         * example:
+         * {
+         *   "notifications": [
+         *     {
+         *       "id": 123,
+         *       "title": "You have a provider response available",
+         *       "message": "Thank you for using Optum Perks Online Care! Your provider has reviewed your symptoms and created a treatment plan.",
+         *       "messageType": null,
+         *       "category": "treatment_plan",
+         *       "force": true,
+         *       "viewedAt": "2025-01-03T22:06:29Z",
+         *       "createdAt": "2025-01-03T22:06:29Z",
+         *       "updatedAt": "2025-01-03T22:06:29Z",
+         *       "notificationLinks": [
+         *         {
+         *           "id": 123,
+         *           "href": "/visits/195020/report",
+         *           "label": "View Treatment Plan"
+         *         }
+         *       ]
+         *     }
+         *   ]
+         * }
+         */
+        export interface Notification {
+            notifications?: /**
+             * Notification object
+             *
+             * example:
+             * {
+             *   "id": 123,
+             *   "title": "You have a provider response available",
+             *   "message": "Thank you for using Optum Perks Online Care! Your provider has reviewed your symptoms and created a treatment plan.",
+             *   "messageType": null,
+             *   "category": "treatment_plan",
+             *   "force": true,
+             *   "viewedAt": "2025-01-03T22:06:29Z",
+             *   "createdAt": "2025-01-03T22:06:29Z",
+             *   "updatedAt": "2025-01-03T22:06:29Z",
+             *   "notificationLinks": [
+             *     {
+             *       "id": 123,
+             *       "href": "/visits/195020/report",
+             *       "label": "View Treatment Plan"
+             *     }
+             *   ]
+             * }
+             */
+            NotificationDetail[];
+        }
+        /**
+         * Notification object
+         *
+         * example:
+         * {
+         *   "id": 123,
+         *   "title": "You have a provider response available",
+         *   "message": "Thank you for using Optum Perks Online Care! Your provider has reviewed your symptoms and created a treatment plan.",
+         *   "messageType": null,
+         *   "category": "treatment_plan",
+         *   "force": true,
+         *   "viewedAt": "2025-01-03T22:06:29Z",
+         *   "createdAt": "2025-01-03T22:06:29Z",
+         *   "updatedAt": "2025-01-03T22:06:29Z",
+         *   "notificationLinks": [
+         *     {
+         *       "id": 123,
+         *       "href": "/visits/195020/report",
+         *       "label": "View Treatment Plan"
+         *     }
+         *   ]
+         * }
+         */
+        export interface NotificationDetail {
+            id?: number;
+            title?: string;
+            message?: string;
+            messageType?: null | string;
+            category?: string;
+            force?: boolean;
+            viewedAt?: null | string; // date-time
+            createdAt?: string; // date-time
+            updatedAt?: string; // date-time
+            notificationLinks?: /**
+             * Contains a url (href) to the visit the notification belongs to.
+             *
+             * example:
+             * {
+             *   "id": 123,
+             *   "href": "/visits/195020/report",
+             *   "label": "View Treatment Plan"
+             * }
+             */
+            NotificationLink[];
+        }
+        /**
+         * Contains a url (href) to the visit the notification belongs to.
+         *
+         * example:
+         * {
+         *   "id": 123,
+         *   "href": "/visits/195020/report",
+         *   "label": "View Treatment Plan"
+         * }
+         */
+        export interface NotificationLink {
+            id?: number;
+            href?: string;
+            label?: string;
+        }
+        export type PatientAllergies = /**
+         * example:
+         * {
+         *   "id": 3075,
+         *   "state": "active",
+         *   "allergyId": "2006808",
+         *   "name": "Tylenol",
+         *   "externalAllergyId": null,
+         *   "externalCode": null
+         * }
+         */
+        Allergy;
+        /**
+         * example:
+         * {
+         *   "firstName": "John",
+         *   "lastName": "Doe",
+         *   "birthDate": "2010-01-01",
+         *   "gender": "male"
+         * }
+         */
+        export interface PatientCore {
+            /**
+             * The first name of the patient.
+             *
+             */
+            firstName: string;
+            /**
+             * The last name of the patient.
+             *
+             */
+            lastName: string;
+            /**
+             * The date of birth of the patient.
+             *
+             */
+            birthDate: string; // date
+            /**
+             * The gender of the patient.
+             *
+             */
+            gender: "male" | "female";
+        }
+        /**
+         * example:
+         * {
+         *   "firstName": "John",
+         *   "lastName": "Doe",
+         *   "birthDate": "2010-01-01",
+         *   "gender": "male",
+         *   "relationship": "Child"
+         * }
+         */
+        export interface PatientCreatePayload {
+            /**
+             * The first name of the patient.
+             *
+             */
+            firstName: string;
+            /**
+             * The last name of the patient.
+             *
+             */
+            lastName: string;
+            /**
+             * The date of birth of the patient.
+             *
+             */
+            birthDate: string; // date
+            /**
+             * The gender of the patient.
+             *
+             */
+            gender: "male" | "female";
+            /**
+             * The dependent's relationship to the primary patient account.
+             *
+             */
+            relationship: "Legal Dependent" | "Son" | "Daughter" | "Child" | "Spouse/Partner";
+        }
+        /**
+         * example:
+         * {
+         *   "firstName": "John",
+         *   "lastName": "Doe",
+         *   "email": "john.doe@example.com"
+         * }
+         */
+        export interface PatientDetails {
+            /**
+             * Patient's first name
+             *
+             */
+            firstName?: string;
+            /**
+             * Patient's last name
+             *
+             */
+            lastName?: string;
+            /**
+             * Patient's email address
+             *
+             */
+            email?: string;
+        }
         /**
          * example:
          * {
@@ -1673,6 +2377,125 @@
             }[];
         }
         /**
+         * example:
+         * {
+         *   "mailOrderRequestKey": "FILL13SEP2024013624221",
+         *   "orderNumber": "“7537084”,",
+         *   "timestamp": "2024-09-13T15:00:44.051716Z",
+         *   "status": "Shipped",
+         *   "statusMessage": "The Rx has been shipped",
+         *   "shipmentCarrier": "“UPS”",
+         *   "shipmentDate": "“2024-09-06T06:00:02Z”",
+         *   "trackingNumber": "12344567",
+         *   "trackingUrl": "https://upstrackingurl?id=12345"
+         * }
+         */
+        export interface PatientMailOrderRequest {
+            /**
+             * Identifier of mail order request from 3rd party prescription mail fulfillment service
+             */
+            mailOrderRequestKey?: string;
+            /**
+             * User friendly order number the fulfillment service associated with mail order request
+             */
+            orderNumber?: string | null;
+            /**
+             * Timestamp representing the latest time something changed with mail order request
+             */
+            timestamp?: string;
+            /**
+             * Status code of mail order request
+             */
+            status?: "Placed" | "Processing" | "Shipped";
+            /**
+             * User friendly message relaying status code
+             */
+            statusMessage?: string | null;
+            /**
+             * Code that reflects what shipping carrier is handling the mail order request
+             */
+            shipmentCarrier?: string | null;
+            /**
+             * Date mail order was shipped to customer
+             */
+            shipmentDate?: string | null;
+            /**
+             * Identifier of shipment from 3rd party mail carrier service
+             */
+            trackingNumber?: string | null;
+            /**
+             * A url that directs users to the 3rd party mail carrier site to check the latest tracking information
+             */
+            trackingUrl?: string | null;
+        }
+        export type PatientMedications = /**
+         * example:
+         * {
+         *   "id": 5006,
+         *   "medicationId": "6171233",
+         *   "name": "Briviact oral",
+         *   "state": "active",
+         *   "externalMedicationId": null,
+         *   "externalCode": null
+         * }
+         */
+        Medication;
+        /**
+         * example:
+         * {
+         *   "firstName": "John",
+         *   "lastName": "Doe",
+         *   "birthDate": "2010-01-01",
+         *   "gender": "male",
+         *   "id": 44366,
+         *   "dependent": true,
+         *   "relationship": "Child",
+         *   "primaryPatientId": 99999
+         * }
+         */
+        export interface PatientRecord {
+            /**
+             * The unique identifier of the patient.
+             *
+             */
+            id: number;
+            /**
+             * Whether the patient is a dependent or not.
+             *
+             */
+            dependent: boolean;
+            /**
+             * The relationship of the patient to the primary patient account, including the primary patient account itself.
+             *
+             */
+            relationship: "Primary" | "Legal Dependent" | "Son" | "Daughter" | "Child" | "Spouse/Partner";
+            primaryPatientId: /**
+             * The unique identifier of the patient.
+             *
+             */
+            Id;
+            /**
+             * The first name of the patient.
+             *
+             */
+            firstName: string;
+            /**
+             * The last name of the patient.
+             *
+             */
+            lastName: string;
+            /**
+             * The date of birth of the patient.
+             *
+             */
+            birthDate: string; // date
+            /**
+             * The gender of the patient.
+             *
+             */
+            gender: "male" | "female";
+        }
+        /**
          * Patient Visit History using to list Visit History
          *
          * example:
@@ -1683,7 +2506,16 @@
          *       "createdAt": "2024-05-20T19:08:56.000Z",
          *       "finishedAt": "2024-06-20T19:08:56.000Z",
          *       "reasonForVisit": "acne",
-         *       "state": "prescriptions_expired"
+         *       "state": "prescriptions_expired",
+         *       "headerText": "Action required",
+         *       "readableState": "Complete your visit",
+         *       "subState": "active",
+         *       "pending": true,
+         *       "prescriptions": [
+         *         "triamcinolone acetonide (Oralone) 0.1 % dental paste",
+         *         "valacyclovir (Valtrex) 1 gram oral tablet",
+         *         "Mupirocin calcium 2 % topical cream"
+         *       ]
          *     }
          *   ],
          *   "currentCount": 1,
@@ -1702,7 +2534,16 @@
              *   "createdAt": "2024-05-20T19:08:56.000Z",
              *   "finishedAt": "2024-06-20T19:08:56.000Z",
              *   "reasonForVisit": "acne",
-             *   "state": "prescriptions_expired"
+             *   "state": "prescriptions_expired",
+             *   "headerText": "Action required",
+             *   "readableState": "Complete your visit",
+             *   "subState": "active",
+             *   "pending": true,
+             *   "prescriptions": [
+             *     "triamcinolone acetonide (Oralone) 0.1 % dental paste",
+             *     "valacyclovir (Valtrex) 1 gram oral tablet",
+             *     "Mupirocin calcium 2 % topical cream"
+             *   ]
              * }
              */
             PatientVisitSummary[];
@@ -1720,7 +2561,16 @@
          *   "createdAt": "2024-05-20T19:08:56.000Z",
          *   "finishedAt": "2024-06-20T19:08:56.000Z",
          *   "reasonForVisit": "acne",
-         *   "state": "prescriptions_expired"
+         *   "state": "prescriptions_expired",
+         *   "headerText": "Action required",
+         *   "readableState": "Complete your visit",
+         *   "subState": "active",
+         *   "pending": true,
+         *   "prescriptions": [
+         *     "triamcinolone acetonide (Oralone) 0.1 % dental paste",
+         *     "valacyclovir (Valtrex) 1 gram oral tablet",
+         *     "Mupirocin calcium 2 % topical cream"
+         *   ]
          * }
          */
         export interface PatientVisitSummary {
@@ -1729,6 +2579,11 @@
             finishedAt?: string; // date-time
             reasonForVisit?: string;
             state?: string;
+            headerText?: string;
+            readableState?: string;
+            subState?: string;
+            pending?: boolean;
+            prescriptions?: string[];
         }
         /**
          * See https://docs.stripe.com/api/promotion_codes/list
@@ -1826,7 +2681,9 @@
          *   "amountReceived": 1500,
          *   "created": "2018-11-13T20:20:39+00:00",
          *   "piClientSecret": "pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH",
-         *   "invoiceId": "in_1MtHbELkdIwHu7ixl4OzzPMv"
+         *   "invoiceId": "in_1MtHbELkdIwHu7ixl4OzzPMv",
+         *   "status": "succeeded",
+         *   "lastPaymentError": null
          * }
          */
         export interface PaymentIntentDetail {
@@ -1860,6 +2717,18 @@
              *
              */
             invoiceId?: string;
+            /**
+             * Maps to PaymentIntents.data[].status in Stripe.
+             *
+             */
+            status?: string;
+            /**
+             * Maps to PaymentIntents.data[].last_payment_error in Stripe.
+             *
+             */
+            lastPaymentError?: null | {
+                [key: string]: any;
+            };
         }
         /**
          * See https://docs.stripe.com/api/payment_intents/create
@@ -1926,7 +2795,9 @@
              *   "amountReceived": 1500,
              *   "created": "2018-11-13T20:20:39+00:00",
              *   "piClientSecret": "pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH",
-             *   "invoiceId": "in_1MtHbELkdIwHu7ixl4OzzPMv"
+             *   "invoiceId": "in_1MtHbELkdIwHu7ixl4OzzPMv",
+             *   "status": "succeeded",
+             *   "lastPaymentError": null
              * }
              */
             PaymentIntentDetail[];
@@ -2007,7 +2878,9 @@
         /**
          * example:
          * {
+         *   "isDelivery": true,
          *   "isPickup": true,
+         *   "isPricingLowest": true,
          *   "perksId": "00605",
          *   "name": "Apci Choice (Hma 605)",
          *   "location": {
@@ -2053,10 +2926,20 @@
          */
         export interface Pharmacy {
             /**
+             * Indicates that the pharmacy perform mail orders or not.
+             *
+             */
+            isDelivery?: boolean;
+            /**
              * Implicit from whether the pharmacy comes from Perks XAPI or Healthdyne.
              *
              */
             isPickup?: boolean;
+            /**
+             * True if and only if the pharmacy has the lowest price available.
+             *
+             */
+            isPricingLowest?: boolean;
             /**
              * Source Perks XAPI prices.data[].retailer.id or internal id for Healthdyne.
              *
@@ -2141,6 +3024,7 @@
          * example:
          * {
          *   "searchParameters": {
+         *     "deliveryType": "MailOrder",
          *     "ndc": "0169-4307-30",
          *     "patientId": "187",
          *     "pharmacyName": "CSV",
@@ -2163,6 +3047,8 @@
          *   "pharmacies": [
          *     {
          *       "isPickup": true,
+         *       "isPricingLowest": true,
+         *       "isDelivery": true,
          *       "perksId": "00605",
          *       "name": "Apci Choice (Hma 605)",
          *       "location": {
@@ -2214,10 +3100,12 @@
              *
              * example:
              * {
+             *   "deliveryType": "MailOrder",
              *   "ndc": "0169430730",
              *   "patientId": "187",
              *   "pharmacyName": "CSV",
-             *   "zipCode": "12345"
+             *   "zipCode": "12345",
+             *   "radiusMiles": 10
              * }
              */
             PharmacyListSearchParameters;
@@ -2247,7 +3135,9 @@
             pharmacies?: /**
              * example:
              * {
+             *   "isDelivery": true,
              *   "isPickup": true,
+             *   "isPricingLowest": true,
              *   "perksId": "00605",
              *   "name": "Apci Choice (Hma 605)",
              *   "location": {
@@ -2298,13 +3188,20 @@
          *
          * example:
          * {
+         *   "deliveryType": "MailOrder",
          *   "ndc": "0169430730",
          *   "patientId": "187",
          *   "pharmacyName": "CSV",
-         *   "zipCode": "12345"
+         *   "zipCode": "12345",
+         *   "radiusMiles": 10
          * }
          */
         export interface PharmacyListSearchParameters {
+            /**
+             * Type of delivery service (e.g., retail or mail order). Defaults to mail order. (Optional)
+             *
+             */
+            deliveryType?: "Retail" | "MailOrder";
             ndc?: string;
             /**
              * Source Fabric patient.id
@@ -2321,6 +3218,11 @@
              *
              */
             zipCode?: string;
+            /**
+             * Source query parameter (optional)
+             *
+             */
+            radiusMiles?: number;
         }
         /**
          * example:
@@ -2531,6 +3433,139 @@
             name: string;
         }
         /**
+         * The report receipt is the result of a completed consult.
+         * It includes the business information, the stripe payment invoice information.
+         * It includes the items purchased, the total amount, subtotal amount, taxes and the payment method.
+         *
+         * example:
+         * {
+         *   "business": {
+         *     "name": "Business Name",
+         *     "logo": "https://business.com/logo.png",
+         *     "phone": "+1234567890",
+         *     "email": "test@email.net",
+         *     "website": "https://business.com"
+         *   },
+         *   "invoice": "invoice_id",
+         *   "datePurchased": "2021-09-01T00:00:00Z",
+         *   "paymentMethod": {
+         *     "type": "card",
+         *     "card": {
+         *       "brand": "Visa",
+         *       "last4": "4242"
+         *     }
+         *   },
+         *   "items": [
+         *     {
+         *       "description": "Consultation",
+         *       "quantity": 1,
+         *       "price": {
+         *         "currency": "USD",
+         *         "amount": 100
+         *       },
+         *       "subtotal": {
+         *         "currency": "USD",
+         *         "amount": 100
+         *       },
+         *       "discount": [
+         *         {
+         *           "coupon": {
+         *             "amountOff": 10,
+         *             "created": "2021-09-01T00:00:00Z",
+         *             "currency": "USD",
+         *             "duration": "forever",
+         *             "durationInMonths": null,
+         *             "name": "10% off",
+         *             "percentOff": null,
+         *             "valid": true
+         *           },
+         *           "customer": "customer_id",
+         *           "promotionCode": null,
+         *           "startDate": 1630454400
+         *         }
+         *       ]
+         *     }
+         *   ],
+         *   "subtotal": {
+         *     "currency": "USD",
+         *     "amount": 100
+         *   },
+         *   "taxes": {
+         *     "currency": "USD",
+         *     "amount": 10
+         *   },
+         *   "totalAmount": {
+         *     "currency": "USD",
+         *     "amount": 110
+         *   }
+         * }
+         */
+        export interface ReportReceipt {
+            business?: {
+                name?: string;
+                logo?: string;
+                phone?: string;
+                email?: string;
+                website?: string;
+            };
+            invoice?: string;
+            datePurchased?: string; // date-time
+            paymentMethod?: {
+                type?: string;
+                card?: {
+                    brand?: string;
+                    last4?: string;
+                } | null;
+            };
+            items?: /**
+             * The invoice item contains the description, quantity, price, subtotal and discount applied to each item.
+             *
+             * example:
+             * {
+             *   "description": "Consultation",
+             *   "quantity": 1,
+             *   "price": {
+             *     "currency": "USD",
+             *     "amount": 100
+             *   },
+             *   "subtotal": {
+             *     "currency": "USD",
+             *     "amount": 100
+             *   },
+             *   "discount": [
+             *     {
+             *       "coupon": {
+             *         "amountOff": 10,
+             *         "created": "2021-09-01T00:00:00Z",
+             *         "currency": "USD",
+             *         "duration": "forever",
+             *         "durationInMonths": null,
+             *         "name": "10% off",
+             *         "percentOff": null,
+             *         "valid": true
+             *       },
+             *       "customer": "customer_id",
+             *       "promotionCode": null,
+             *       "startDate": 1630454400
+             *     }
+             *   ]
+             * }
+             */
+            InvoiceItem[];
+            subtotal?: {
+                currency?: string;
+                amount?: number;
+            };
+            taxes?: {
+                currency?: string;
+                amount?: number;
+            };
+            totalAmount?: {
+                currency?: string;
+                amount?: number;
+            };
+        }
+        /**
          * example:
          * {
          *   "clinicSerial": [
@@ -2560,6 +3595,25 @@
             sessionId?: string;
             sessionInvalidates?: number;
             tokenExpires?: string;
+        }
+        /**
+         * example:
+         * {
+         *   "line1": "TEST MAIN",
+         *   "line2": "Bldg 3",
+         *   "line3": "Suite 102",
+         *   "city": "MINNEAPOLIS",
+         *   "state": "MN",
+         *   "zipCode": "55401"
+         * }
+         */
+        export interface ShippingAddress {
+            line1: string;
+            line2?: string;
+            line3?: string;
+            city: string;
+            state: string;
+            zipCode: string;
         }
         /**
          * The token is used to authenticate the user for the duration of the tokenExpires time.
@@ -2833,7 +3887,8 @@
          *         "promoCodeAmount": null,
          *         "refundAmount": null,
          *         "transactionType": "Visit",
-         *         "zipGroupDiscountAmount": null
+         *         "zipGroupDiscountAmount": null,
+         *         "stripePaymentAmount": 2500
          *       }
          *     ],
          *     "prescriptions": [
@@ -2895,6 +3950,7 @@
                     refundAmount?: null | number;
                     transactionType?: string;
                     zipGroupDiscountAmount?: null | number;
+                    stripePaymentAmount?: null | number;
                 }[];
                 prescriptions?: /**
                  * example:
@@ -3056,6 +4112,19 @@ declare namespace Paths {
              *   "accountContent": {
              *     "profilePersonalInformation": "Personal information",
              *     "accountInsuranceInformation": "Insurance information"
+             *   },
+             *   "address": {
+             *     "id": 2910336,
+             *     "address1": "1049 Moore Grove",
+             *     "address2": null,
+             *     "city": "Minneapolis",
+             *     "country": null,
+             *     "phone": "(202)345-6789",
+             *     "state": "MN",
+             *     "zip": "55401",
+             *     "fullAddress": "1049 Moore Grove,  Minneapolis, MN 55401",
+             *     "latitude": 44.9836543,
+             *     "longitude": -93.2693572
              *   }
              * }
              */
@@ -3634,18 +4703,6 @@ declare namespace Paths {
             }
         }
     }
-    namespace GetHSID {
-        namespace Parameters {
-            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
-            export type $1 = OCApi.Parameters.WildCard;
-        }
-        namespace Responses {
-            export interface $200 {
-            }
-            export interface $400 {
-            }
-        }
-    }
     namespace GetHealthCheck {
         namespace Parameters {
             export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
@@ -3695,6 +4752,246 @@ declare namespace Paths {
              * }
              */
             OCApi.Schemas.HealthCheck;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetOrderStatus {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.VisitId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * The prescription ordered for home delivery and its fulfillment status
+             *
+             * example:
+             * {
+             *   "id": "CLAIMCR",
+             *   "createdDate": "2025-01-08",
+             *   "shippedDate": "2025-01-10",
+             *   "shippingAddress": {
+             *     "line1": "123 Willow Way",
+             *     "city": "Somewheresville",
+             *     "state": "FL",
+             *     "zipCode": "11111"
+             *   },
+             *   "prescription": {
+             *     "drugName": "Tylenol",
+             *     "strength": "500",
+             *     "strengthQualifier": "mg",
+             *     "quantityQualifier": "tablet",
+             *     "status": "processing"
+             *   }
+             * }
+             */
+            OCApi.Schemas.HomeDeliveryOrderStatus;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetPatientAllergies {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.PatientId;
+        }
+        namespace Responses {
+            export interface $200 {
+                results?: /**
+                 * example:
+                 * {
+                 *   "id": 3075,
+                 *   "state": "active",
+                 *   "allergyId": "2006808",
+                 *   "name": "Tylenol",
+                 *   "externalAllergyId": null,
+                 *   "externalCode": null
+                 * }
+                 */
+                OCApi.Schemas.Allergy[];
+            }
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetPatientAllergiesMedications {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.PatientId;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * List of allergies and medications for the given patient
+             * example:
+             * {
+             *   "allergies": [
+             *     {
+             *       "id": 3075,
+             *       "state": "active",
+             *       "allergyId": "2006808",
+             *       "name": "Tylenol",
+             *       "externalAllergyId": null,
+             *       "externalCode": null
+             *     }
+             *   ],
+             *   "medications": [
+             *     {
+             *       "id": 5006,
+             *       "medicationId": "6171233",
+             *       "name": "Briviact oral",
+             *       "state": "active",
+             *       "externalMedicationId": null,
+             *       "externalCode": null
+             *     }
+             *   ]
+             * }
+             */
+            OCApi.Schemas.AllergyMedicationPayload;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetPatientDetails {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+            export type $1 = OCApi.Parameters.PatientId;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * example:
+             * {
+             *   "firstName": "John",
+             *   "lastName": "Doe",
+             *   "email": "john.doe@example.com"
+             * }
+             */
+            OCApi.Schemas.PatientDetails;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $403 = OCApi.Responses.Error403Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetPatientMailOrderRequests {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.PatientId;
+            export type $1 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * example:
+             * {
+             *   "mailOrderRequestKey": "FILL13SEP2024013624221",
+             *   "orderNumber": "“7537084”,",
+             *   "timestamp": "2024-09-13T15:00:44.051716Z",
+             *   "status": "Shipped",
+             *   "statusMessage": "The Rx has been shipped",
+             *   "shipmentCarrier": "“UPS”",
+             *   "shipmentDate": "“2024-09-06T06:00:02Z”",
+             *   "trackingNumber": "12344567",
+             *   "trackingUrl": "https://upstrackingurl?id=12345"
+             * }
+             */
+            OCApi.Schemas.PatientMailOrderRequest;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $403 = OCApi.Responses.Error403Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetPatientMedications {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.PatientId;
+        }
+        namespace Responses {
+            export interface $200 {
+                results?: /**
+                 * example:
+                 * {
+                 *   "id": 5006,
+                 *   "medicationId": "6171233",
+                 *   "name": "Briviact oral",
+                 *   "state": "active",
+                 *   "externalMedicationId": null,
+                 *   "externalCode": null
+                 * }
+                 */
+                OCApi.Schemas.Medication[];
+            }
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetPatientNotifications {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * Get the user's current notifications
+             *
+             * example:
+             * {
+             *   "notifications": [
+             *     {
+             *       "id": 123,
+             *       "title": "You have a provider response available",
+             *       "message": "Thank you for using Optum Perks Online Care! Your provider has reviewed your symptoms and created a treatment plan.",
+             *       "messageType": null,
+             *       "category": "treatment_plan",
+             *       "force": true,
+             *       "viewedAt": "2025-01-03T22:06:29Z",
+             *       "createdAt": "2025-01-03T22:06:29Z",
+             *       "updatedAt": "2025-01-03T22:06:29Z",
+             *       "notificationLinks": [
+             *         {
+             *           "id": 123,
+             *           "href": "/visits/195020/report",
+             *           "label": "View Treatment Plan"
+             *         }
+             *       ]
+             *     }
+             *   ]
+             * }
+             */
+            OCApi.Schemas.Notification;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetPatientVisits {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.PatientId;
+            export type $1 = OCApi.Parameters.Page;
+            export type $2 = OCApi.Parameters.Limit;
+            export type $3 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * Patient Visit History using to list Visit History
+             *
+             * example:
+             * {
+             *   "visits": [
+             *     {
+             *       "id": 123,
+             *       "createdAt": "2024-05-20T19:08:56.000Z",
+             *       "finishedAt": "2024-06-20T19:08:56.000Z",
+             *       "reasonForVisit": "acne",
+             *       "state": "prescriptions_expired",
+             *       "headerText": "Action required",
+             *       "readableState": "Complete your visit",
+             *       "subState": "active",
+             *       "pending": true,
+             *       "prescriptions": [
+             *         "triamcinolone acetonide (Oralone) 0.1 % dental paste",
+             *         "valacyclovir (Valtrex) 1 gram oral tablet",
+             *         "Mupirocin calcium 2 % topical cream"
+             *       ]
+             *     }
+             *   ],
+             *   "currentCount": 1,
+             *   "currentPage": 1,
+             *   "totalCount": 1,
+             *   "totalPages": 1
+             * }
+             */
+            OCApi.Schemas.PatientVisitHistory;
             export type $401 = OCApi.Responses.Error401Response;
             export type $404 = OCApi.Responses.Error404Response;
         }
@@ -3758,7 +5055,9 @@ declare namespace Paths {
              *   "amountReceived": 1500,
              *   "created": "2018-11-13T20:20:39+00:00",
              *   "piClientSecret": "pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_YrKJUKribcBjcG8HVhfZluoGH",
-             *   "invoiceId": "in_1MtHbELkdIwHu7ixl4OzzPMv"
+             *   "invoiceId": "in_1MtHbELkdIwHu7ixl4OzzPMv",
+             *   "status": "succeeded",
+             *   "lastPaymentError": null
              * }
              */
             OCApi.Schemas.PaymentIntentDetail;
@@ -3861,13 +5160,52 @@ declare namespace Paths {
             export type $404 = OCApi.Responses.Error404Response;
         }
     }
+    namespace GetPerformanceMetrics {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+            export type $1 = OCApi.Parameters.XAdminKey;
+            export type $2 = OCApi.Parameters.Reset;
+        }
+        namespace Responses {
+            export interface $200 {
+            }
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetPharmacyCouponsDiscountCard {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.PharmacyId;
+            export type $1 = OCApi.Parameters.CouponId;
+            export type $2 = OCApi.Parameters.UserAgent;
+            export type $3 = OCApi.Parameters.AcceptLanguage;
+            export type $4 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * It includes the discount coupons details.
+             *
+             * example:
+             * {
+             *   "pcn": "CLAIMCR",
+             *   "bin": "005947",
+             *   "uid": "APD1066745",
+             *   "grp": "1858CCC"
+             * }
+             */
+            OCApi.Schemas.DiscountCard;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
     namespace GetPharmacyListByVisitId {
         namespace Parameters {
-            export type $0 = OCApi.Parameters.VisitId /* uuid */;
-            export type $1 = OCApi.Parameters.ZipCode;
-            export type $2 = OCApi.Parameters.PharmacyName;
-            export type $3 = OCApi.Parameters.Ndc;
-            export type $4 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+            export type $0 = OCApi.Parameters.DeliveryType;
+            export type $1 = OCApi.Parameters.VisitId /* uuid */;
+            export type $2 = OCApi.Parameters.ZipCode;
+            export type $3 = OCApi.Parameters.PharmacyName;
+            export type $4 = OCApi.Parameters.Ndc;
+            export type $5 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
         }
         namespace Responses {
             export type $200 = /**
@@ -3876,6 +5214,7 @@ declare namespace Paths {
              * example:
              * {
              *   "searchParameters": {
+             *     "deliveryType": "MailOrder",
              *     "ndc": "0169-4307-30",
              *     "patientId": "187",
              *     "pharmacyName": "CSV",
@@ -3898,6 +5237,8 @@ declare namespace Paths {
              *   "pharmacies": [
              *     {
              *       "isPickup": true,
+             *       "isPricingLowest": true,
+             *       "isDelivery": true,
              *       "perksId": "00605",
              *       "name": "Apci Choice (Hma 605)",
              *       "location": {
@@ -3990,7 +5331,9 @@ declare namespace Paths {
             export type $200 = /**
              * example:
              * {
+             *   "isDelivery": true,
              *   "isPickup": true,
+             *   "isPricingLowest": true,
              *   "perksId": "00605",
              *   "name": "Apci Choice (Hma 605)",
              *   "location": {
@@ -4193,7 +5536,8 @@ declare namespace Paths {
              *         "promoCodeAmount": null,
              *         "refundAmount": null,
              *         "transactionType": "Visit",
-             *         "zipGroupDiscountAmount": null
+             *         "zipGroupDiscountAmount": null,
+             *         "stripePaymentAmount": 2500
              *       }
              *     ],
              *     "prescriptions": [
@@ -4230,6 +5574,87 @@ declare namespace Paths {
              * }
              */
             OCApi.Schemas.TreatmentPlanReport;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace GetTreatmentPlanReportReceipt {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.VisitId /* uuid */;
+            export type $1 = OCApi.Parameters.UserAgent;
+            export type $2 = OCApi.Parameters.AcceptLanguage;
+            export type $3 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * The report receipt is the result of a completed consult.
+             * It includes the business information, the stripe payment invoice information.
+             * It includes the items purchased, the total amount, subtotal amount, taxes and the payment method.
+             *
+             * example:
+             * {
+             *   "business": {
+             *     "name": "Business Name",
+             *     "logo": "https://business.com/logo.png",
+             *     "phone": "+1234567890",
+             *     "email": "test@email.net",
+             *     "website": "https://business.com"
+             *   },
+             *   "invoice": "invoice_id",
+             *   "datePurchased": "2021-09-01T00:00:00Z",
+             *   "paymentMethod": {
+             *     "type": "card",
+             *     "card": {
+             *       "brand": "Visa",
+             *       "last4": "4242"
+             *     }
+             *   },
+             *   "items": [
+             *     {
+             *       "description": "Consultation",
+             *       "quantity": 1,
+             *       "price": {
+             *         "currency": "USD",
+             *         "amount": 100
+             *       },
+             *       "subtotal": {
+             *         "currency": "USD",
+             *         "amount": 100
+             *       },
+             *       "discount": [
+             *         {
+             *           "coupon": {
+             *             "amountOff": 10,
+             *             "created": "2021-09-01T00:00:00Z",
+             *             "currency": "USD",
+             *             "duration": "forever",
+             *             "durationInMonths": null,
+             *             "name": "10% off",
+             *             "percentOff": null,
+             *             "valid": true
+             *           },
+             *           "customer": "customer_id",
+             *           "promotionCode": null,
+             *           "startDate": 1630454400
+             *         }
+             *       ]
+             *     }
+             *   ],
+             *   "subtotal": {
+             *     "currency": "USD",
+             *     "amount": 100
+             *   },
+             *   "taxes": {
+             *     "currency": "USD",
+             *     "amount": 10
+             *   },
+             *   "totalAmount": {
+             *     "currency": "USD",
+             *     "amount": 110
+             *   }
+             * }
+             */
+            OCApi.Schemas.ReportReceipt;
             export type $401 = OCApi.Responses.Error401Response;
             export type $404 = OCApi.Responses.Error404Response;
         }
@@ -4364,7 +5789,16 @@ declare namespace Paths {
              *       "createdAt": "2024-05-20T19:08:56.000Z",
              *       "finishedAt": "2024-06-20T19:08:56.000Z",
              *       "reasonForVisit": "acne",
-             *       "state": "prescriptions_expired"
+             *       "state": "prescriptions_expired",
+             *       "headerText": "Action required",
+             *       "readableState": "Complete your visit",
+             *       "subState": "active",
+             *       "pending": true,
+             *       "prescriptions": [
+             *         "triamcinolone acetonide (Oralone) 0.1 % dental paste",
+             *         "valacyclovir (Valtrex) 1 gram oral tablet",
+             *         "Mupirocin calcium 2 % topical cream"
+             *       ]
              *     }
              *   ],
              *   "currentCount": 1,
@@ -4375,6 +5809,35 @@ declare namespace Paths {
              */
             OCApi.Schemas.PatientVisitHistory;
             export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace PatchPatientDetails {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+            export type $1 = OCApi.Parameters.PatientId;
+        }
+        export type RequestBody = /**
+         * example:
+         * {
+         *   "firstName": "John",
+         *   "lastName": "Doe",
+         *   "email": "john.doe@example.com"
+         * }
+         */
+        OCApi.Schemas.PatientDetails;
+        namespace Responses {
+            export type $200 = /**
+             * example:
+             * {
+             *   "firstName": "John",
+             *   "lastName": "Doe",
+             *   "email": "john.doe@example.com"
+             * }
+             */
+            OCApi.Schemas.PatientDetails;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $403 = OCApi.Responses.Error403Response;
             export type $404 = OCApi.Responses.Error404Response;
         }
     }
@@ -4720,20 +6183,6 @@ declare namespace Paths {
             }
         }
     }
-    namespace PostHSID {
-        namespace Parameters {
-            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
-            export type $1 = OCApi.Parameters.WildCard;
-        }
-        export interface RequestBody {
-        }
-        namespace Responses {
-            export interface $200 {
-            }
-            export interface $400 {
-            }
-        }
-    }
     namespace PostLogin {
         namespace Parameters {
             export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
@@ -4764,6 +6213,38 @@ declare namespace Paths {
             }
             export type $401 = OCApi.Responses.Error401Response;
             export type $403 = OCApi.Responses.Error403Response;
+        }
+    }
+    namespace PostPatient {
+        export type RequestBody = /**
+         * example:
+         * {
+         *   "firstName": "John",
+         *   "lastName": "Doe",
+         *   "birthDate": "2010-01-01",
+         *   "gender": "male",
+         *   "relationship": "Child"
+         * }
+         */
+        OCApi.Schemas.PatientCreatePayload;
+        namespace Responses {
+            export type $200 = /**
+             * example:
+             * {
+             *   "firstName": "John",
+             *   "lastName": "Doe",
+             *   "birthDate": "2010-01-01",
+             *   "gender": "male",
+             *   "id": 44366,
+             *   "dependent": true,
+             *   "relationship": "Child",
+             *   "primaryPatientId": 99999
+             * }
+             */
+            OCApi.Schemas.PatientRecord;
+            export type $400 = OCApi.Responses.Error400Response;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
         }
     }
     namespace PostStripeWebhook {
@@ -5122,6 +6603,30 @@ declare namespace Paths {
             export type $0 = OCApi.Parameters.AccountId;
             export type $1 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
         }
+        export type RequestBody = /**
+         * The is used to update the account profile.
+         *
+         * example:
+         * {
+         *   "fullName": "Muhammad Rehman",
+         *   "phone": "(509)530-1766",
+         *   "email": "mrehman+1@rvohaealth.com",
+         *   "address": {
+         *     "id": 2910336,
+         *     "address1": "1049 Moore Grove",
+         *     "address2": null,
+         *     "city": "Minneapolis",
+         *     "country": null,
+         *     "phone": "(202)345-6789",
+         *     "state": "MN",
+         *     "zip": "55401",
+         *     "fullAddress": "1049 Moore Grove,  Minneapolis, MN 55401",
+         *     "latitude": 44.9836543,
+         *     "longitude": -93.2693572
+         *   }
+         * }
+         */
+        OCApi.Schemas.AccountUpdate;
         namespace Responses {
             export type $200 = /**
              * example:
@@ -5147,10 +6652,60 @@ declare namespace Paths {
              *   "accountContent": {
              *     "profilePersonalInformation": "Personal information",
              *     "accountInsuranceInformation": "Insurance information"
+             *   },
+             *   "address": {
+             *     "id": 2910336,
+             *     "address1": "1049 Moore Grove",
+             *     "address2": null,
+             *     "city": "Minneapolis",
+             *     "country": null,
+             *     "phone": "(202)345-6789",
+             *     "state": "MN",
+             *     "zip": "55401",
+             *     "fullAddress": "1049 Moore Grove,  Minneapolis, MN 55401",
+             *     "latitude": 44.9836543,
+             *     "longitude": -93.2693572
              *   }
              * }
              */
             OCApi.Schemas.Account;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace PutPatientNotification {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.OcpApimSubscriptionKey /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /**
+             * Get the user's current notifications
+             *
+             * example:
+             * {
+             *   "notifications": [
+             *     {
+             *       "id": 123,
+             *       "title": "You have a provider response available",
+             *       "message": "Thank you for using Optum Perks Online Care! Your provider has reviewed your symptoms and created a treatment plan.",
+             *       "messageType": null,
+             *       "category": "treatment_plan",
+             *       "force": true,
+             *       "viewedAt": "2025-01-03T22:06:29Z",
+             *       "createdAt": "2025-01-03T22:06:29Z",
+             *       "updatedAt": "2025-01-03T22:06:29Z",
+             *       "notificationLinks": [
+             *         {
+             *           "id": 123,
+             *           "href": "/visits/195020/report",
+             *           "label": "View Treatment Plan"
+             *         }
+             *       ]
+             *     }
+             *   ]
+             * }
+             */
+            OCApi.Schemas.Notification;
             export type $401 = OCApi.Responses.Error401Response;
             export type $404 = OCApi.Responses.Error404Response;
         }
@@ -5174,7 +6729,9 @@ declare namespace Paths {
             export type $200 = /**
              * example:
              * {
+             *   "isDelivery": true,
              *   "isPickup": true,
+             *   "isPricingLowest": true,
              *   "perksId": "00605",
              *   "name": "Apci Choice (Hma 605)",
              *   "location": {
@@ -5289,6 +6846,30 @@ declare namespace Paths {
              * }
              */
             OCApi.Schemas.PaymentMethod;
+            export type $401 = OCApi.Responses.Error401Response;
+            export type $404 = OCApi.Responses.Error404Response;
+        }
+    }
+    namespace PutVisitSendPrescription {
+        namespace Parameters {
+            export type $0 = OCApi.Parameters.VisitId /* uuid */;
+            export type $1 = OCApi.Parameters.PharmacyId;
+        }
+        export type RequestBody = /**
+         * It includes the discount coupons details.
+         *
+         * example:
+         * {
+         *   "pcn": "CLAIMCR",
+         *   "bin": "005947",
+         *   "uid": "APD1066745",
+         *   "grp": "1858CCC"
+         * }
+         */
+        OCApi.Schemas.DiscountCard;
+        namespace Responses {
+            export interface $204 {
+            }
             export type $401 = OCApi.Responses.Error401Response;
             export type $404 = OCApi.Responses.Error404Response;
         }
